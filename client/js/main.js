@@ -42,9 +42,9 @@ function loadGUI() {
                 width: 300,
                 height: 50,
                 font: {
-                    size: '25px',
+                    size: '15px',
                     family: 'Exocet',
-                    color: '#9aff97'
+                    color: '#3a000f'
                 }
             },
             {
@@ -55,9 +55,9 @@ function loadGUI() {
                 width: 200,
                 height: 100,
                 font: {
-                    size: '25px',
+                    size: '15px',
                     family: 'Exocet',
-                    color: '#6ba1ff'
+                    color: '#070014'
                 }
             }
         ]
