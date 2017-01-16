@@ -47,7 +47,7 @@ function loadGUI() {
         width: 500,
         height: 550,
 
-        layout: [null, 10],
+        layout: [2, 10],
         children: [
             {
                 text: 'Mammon Online v0.1',
@@ -246,18 +246,41 @@ function loadGUI() {
             null,
             null,
             {
-                id: 'cancelButton',
-                text: 'Cancel',
-                component: 'Button',
-                position: 'left',
-                width: 80,
-                height: 50,
-                font: {
-                    size: '15px',
-                    family: 'Georgia',
-                    color: '#ffffff'
-                }
+                id: 'buttonFrame',
+                position: 'center',
+                component: 'Layout_No_Border',
+                width: 800,
+                height: 60,
+                children: [
+                    {
+                        id: 'cancelButton',
+                        text: 'Cancel',
+                        component: 'Button',
+                        position: 'left',
+                        width: 80,
+                        height: 50,
+                        font: {
+                            size: '15px',
+                            family: 'Georgia',
+                            color: '#000000'
+                        }
+                    },
+                    {
+                        id: 'continueButton',
+                        text: 'Continue',
+                        component: 'Button',
+                        position: 'right',
+                        width: 80,
+                        height: 50,
+                        font: {
+                            size: '15px',
+                            family: 'Georgia',
+                            color: '#000000'
+                        }
+                    }
+                ]
             }
+
         ]
     };
 
@@ -299,7 +322,7 @@ function loadGUI() {
 
         var oneTime = true;
 
-        EZGUI.components.classDescription.text = 'Select a class and click OK';
+        EZGUI.components.classDescription.text = 'Select a class and click Continue';
         EZGUI.components.classDescription.y = 300;
 
         EZGUI.components.loginButton.on('click', function (event) {
