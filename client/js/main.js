@@ -178,8 +178,8 @@ function loadGUI() {
         ]
     };
 
-    var characterCreateWindow = {
-        id: 'characterCreateWindow',
+    var classSelectWindow = {
+        id: 'classSelectWindow',
         component: 'Window',
         draggable: false,
 
@@ -218,12 +218,12 @@ function loadGUI() {
                 height: 200,
                 layout: [3, 2],
                 children: [
-                    { id: 'warriorIcon', component: 'Window', group: 'classSelect', position: 'center', width: 128, height: 128, image: 'assets/gui/themes/metalworks-theme/images/warrior-up.png'},
-                    { id: 'rogueIcon', component: 'Window', group: 'classSelect', position: 'center', width: 128, height: 128, image: 'assets/gui/themes/metalworks-theme/images/rogue-up.png'},
-                    { id: 'sorcererIcon', component: 'Window', group: 'classSelect', position: 'center', width: 128, height: 128, image: 'assets/gui/themes/metalworks-theme/images/sorcerer-up.png'},
-                    { id: 'warriorRadio', text: 'Warrior', component: 'Radio', position: 'left', width: 32, height: 32, image: 'assets/gui/themes/metalworks-theme/images/radio-empty.png', checkmark: 'assets/gui/themes/metalworks-theme/images/radio-filled.png'},
-                    { id: 'rogueRadio', text: 'Rogue', component: 'Radio', position: 'left', width: 32, height: 32, image: 'assets/gui/themes/metalworks-theme/images/radio-empty.png', checkmark: 'assets/gui/themes/metalworks-theme/images/radio-filled.png'},
-                    { id: 'sorcererRadio', text: 'Sorcerer', component: 'Radio', position: 'left', width: 32, height: 32, image: 'assets/gui/themes/metalworks-theme/images/radio-empty.png', checkmark: 'assets/gui/themes/metalworks-theme/images/radio-filled.png'}
+                    { id: 'warriorIcon', component: 'Window', position: 'center', width: 128, height: 128, image: 'assets/gui/themes/metalworks-theme/images/warrior-up.png'},
+                    { id: 'rogueIcon', component: 'Window', position: 'center', width: 128, height: 128, image: 'assets/gui/themes/metalworks-theme/images/rogue-up.png'},
+                    { id: 'sorcererIcon', component: 'Window', position: 'center', width: 128, height: 128, image: 'assets/gui/themes/metalworks-theme/images/sorcerer-up.png'},
+                    { id: 'warriorRadio', text: 'Warrior', component: 'Radio', group: 'classSelect', position: 'left', width: 32, height: 32, image: 'assets/gui/themes/metalworks-theme/images/radio-empty.png', checkmark: 'assets/gui/themes/metalworks-theme/images/radio-filled.png'},
+                    { id: 'rogueRadio', text: 'Rogue', component: 'Radio', group: 'classSelect', position: 'left', width: 32, height: 32, image: 'assets/gui/themes/metalworks-theme/images/radio-empty.png', checkmark: 'assets/gui/themes/metalworks-theme/images/radio-filled.png'},
+                    { id: 'sorcererRadio', text: 'Sorcerer', component: 'Radio', group: 'classSelect', position: 'left', width: 32, height: 32, image: 'assets/gui/themes/metalworks-theme/images/radio-empty.png', checkmark: 'assets/gui/themes/metalworks-theme/images/radio-filled.png'}
                 ]
             },
             null,
@@ -253,7 +253,7 @@ function loadGUI() {
                 height: 60,
                 children: [
                     {
-                        id: 'cancelButton',
+                        id: 'classCancelButton',
                         text: 'Cancel',
                         component: 'Button',
                         position: 'left',
@@ -266,7 +266,7 @@ function loadGUI() {
                         }
                     },
                     {
-                        id: 'continueButton',
+                        id: 'classContinueButton',
                         text: 'Continue',
                         component: 'Button',
                         position: 'right',
@@ -280,7 +280,6 @@ function loadGUI() {
                     }
                 ]
             }
-
         ]
     };
 
@@ -303,7 +302,7 @@ function loadGUI() {
         'Sorcerers excel in Alchemy, the art of crafting potions.' +
         'Class Skills: \n' +
         'Evasion, Alchemy, Herbalism, Magery, Magic Penetration, Meditation, \n' +
-        'Magic Resistance, Concentration';
+        'Magic Resistance, Concentration, Athletics, Barter';
 
     //load EZGUI themes
     //here you can pass multiple themes
@@ -317,22 +316,35 @@ function loadGUI() {
         var characterSelectElement = EZGUI.create(characterSelectWindow, 'metalworks');
         characterSelectElement.visible = false;
 
-        var characterCreateElement = EZGUI.create(characterCreateWindow, 'metalworks');
-        characterCreateElement.visible = true;
+        var classSelectElement = EZGUI.create(classSelectWindow, 'metalworks');
+        classSelectElement.visible = true;
+
+        var skillSelectElement = EZGUI.create(skillSelectWindow, 'metalworks');
+        skillSelectElement.visible = false;
 
         var oneTime = true;
 
         EZGUI.components.classDescription.text = 'Select a class and click Continue';
         EZGUI.components.classDescription.y = 300;
 
-        EZGUI.components.loginButton.on('click', function (event) {
+        function runOnce(f) {
             if (oneTime) {
-                console.log(EZGUI.components.username.text, EZGUI.components.password.text);
+                f();
                 oneTime = !oneTime;
                 setTimeout(function () {
                     oneTime = true;
                 }, 1);
             }
+        }
+
+        function setSkillList(skills) {
+
+        }
+
+        EZGUI.components.loginButton.on('click', function (event) {
+            runOnce(function () {
+                console.log(EZGUI.components.username.text, EZGUI.components.password.text);
+            });
             loginElement.visible = false;
             characterSelectElement.visible = true;
         });
@@ -347,19 +359,87 @@ function loadGUI() {
             EZGUI.components.classDescription.text = sorcererDescription;
         });
 
+        EZGUI.components.classCancelButton.on('click', function (event) {
+            characterSelectElement.visible = true;
+            classSelectElement.visible = false;
+        });
+        EZGUI.components.classContinueButton.on('click', function (event) {
+            runOnce(function () {
+                var selectedClass = EZGUI.radioGroups['classSelect'].selected;
+                if (selectedClass) {
+                    console.log(selectedClass.text);
+                    switch (selectedClass.text) {
+                        case 'Warrior':
+                            setSkillList([
+                                'Athletics',
+                                'Barter',
+                                'Blacksmithy',
+                                'Carpentry',
+                                'Evasion',
+                                'Healing',
+                                'Lumberjacking',
+                                'Mace Fighting',
+                                'Magic Resistance',
+                                'Mining',
+                                'Parrying',
+                                'Swordsmanship',
+                                'Tactics',
+                                'Unarmed Fighting'
+                            ]);
+                            break;
+                        case 'Rogue':
+                            setSkillList([
+                                'Archery',
+                                'Athletics',
+                                'Barter',
+                                'Detecting Hidden',
+                                'Evasion',
+                                'Hiding',
+                                'Mace Fighting',
+                                'Magic Resistance',
+                                'Swordsmanship',
+                                'Tactics',
+                                'Unarmed Fighting',
+                                'Snooping',
+                                'Stealing',
+                                'Stealth'
+                            ]);
+                            break;
+                        case 'Sorcerer':
+                            setSkillList([
+                                'Alchemy',
+                                'Athletics',
+                                'Barter',
+                                'Concentration',
+                                'Evasion',
+                                'Herbalism',
+                                'Magery',
+                                'Magic Penetration',
+                                'Magic Resistance',
+                                'Meditation'
+                            ]);
+                            break;
+                    }
+                    classSelectElement.visible = false;
+                    skillSelectElement.visible = true;
+
+                }
+            });
+        });
+
         EZGUI.components.char1.on('click', function (event) {
             characterSelectElement.visible = false;
-            characterCreateElement.visible = true;
+            classSelectElement.visible = true;
         });
 
         EZGUI.components.char2.on('click', function (event) {
             characterSelectElement.visible = false;
-            characterCreateElement.visible = true;
+            classSelectElement.visible = true;
         });
 
         EZGUI.components.char3.on('click', function (event) {
             characterSelectElement.visible = false;
-            characterCreateElement.visible = true;
+            classSelectElement.visible = true;
         });
 
 
