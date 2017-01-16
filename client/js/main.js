@@ -439,6 +439,11 @@ function loadGUI() {
                         padding: 20,
                         width: 80,
                         height: 20,
+                        font: {
+                            size: '18px',
+                            family: 'Georgia',
+                            color: '#ffffff'
+                        }
                     },
                     {
                         id: 'dexSlider',
@@ -456,6 +461,11 @@ function loadGUI() {
                         padding: 20,
                         width: 80,
                         height: 20,
+                        font: {
+                            size: '18px',
+                            family: 'Georgia',
+                            color: '#ffffff'
+                        }
                     },
                     {
                         id: 'intSlider',
@@ -473,6 +483,11 @@ function loadGUI() {
                         padding: 20,
                         width: 80,
                         height: 20,
+                        font: {
+                            size: '18px',
+                            family: 'Georgia',
+                            color: '#ffffff'
+                        }
                     },
                 ]
             },
@@ -482,20 +497,7 @@ function loadGUI() {
             null,
             null,
             null,
-            {
-                id: 'skillSelectMessage',
-                text: 'Tip: Click and drag checkboxes to scroll this list',
-                component: 'Label',
-                position: 'center',
-                padding: 20,
-                width: 80,
-                height: 20,
-                font: {
-                    size: '18px',
-                    family: 'Georgia',
-                    color: '#ffffff'
-                }
-            },
+            null,
             {
                 position: 'center',
                 component: 'Layout_No_Border',
@@ -503,7 +505,7 @@ function loadGUI() {
                 height: 60,
                 children: [
                     {
-                        id: 'skillCancelButton',
+                        id: 'statCancelButton',
                         text: 'Cancel',
                         component: 'Button',
                         position: 'left',
@@ -516,7 +518,7 @@ function loadGUI() {
                         }
                     },
                     {
-                        id: 'skillContinueButton',
+                        id: 'statContinueButton',
                         text: 'Continue',
                         component: 'Button',
                         position: 'right',
@@ -565,9 +567,6 @@ function loadGUI() {
     //load EZGUI themes
     //here you can pass multiple themes
     EZGUI.Theme.load(['assets/gui/themes/metalworks-theme/metalworks-theme.json'], function () {
-
-        //create the gui
-        //the second parameter is the theme name, see metalworks-theme.json, the name is defined under __config__ field
         var loginElement = EZGUI.create(loginWindow, 'metalworks');
         loginElement.visible = false;
 
@@ -579,14 +578,7 @@ function loadGUI() {
 
         var skillSelectElement; //dynamically generated
 
-        var statSelectElement = EZGUI.create(statSelectWindow, 'metalworks');
-        statSelectElement.visible = true;
-
         var oneTime = true;
-
-        EZGUI.components.classDescription.text = 'Select a class and click Continue';
-        EZGUI.components.classDescription.y = 300;
-
         function runOnce(f) {
             if (oneTime) {
                 f();
@@ -596,6 +588,55 @@ function loadGUI() {
                 }, 1);
             }
         }
+        function getStat(percent) {
+            return Math.ceil(10 + percent * 50);
+        }
+
+        function setStatLabels() {
+            EZGUI.components.strLabel.text = "Strength:     "+getStat(EZGUI.components.strSlider.value);
+            EZGUI.components.dexLabel.text = "Dexterity:    "+getStat(EZGUI.components.dexSlider.value);
+            EZGUI.components.intLabel.text = "Intelligence: "+getStat(EZGUI.components.intSlider.value);
+        }
+
+        function balanceStats(stat) {
+            var stat1, stat2;
+            switch (stat) {
+                case 'str':
+                    stat1 = 'dex';
+                    stat2 = 'int';
+                    break;
+                case 'dex':
+                    stat1 = 'int';
+                    stat2 = 'str';
+                    break;
+                case 'int':
+                    stat1 = 'str';
+                    stat2 = 'dex';
+                    break;
+            }
+            var val1 = EZGUI.components[stat1+'Slider'].value;
+            var val2 = EZGUI.components[stat2+'Slider'].value;
+            var remaining = 1.5 - EZGUI.components[stat+'Slider'].value - val1 - val2;
+            // console.log(getStat(remaining));
+            val1 += remaining/2;
+            val2 += remaining/2;
+            EZGUI.components[stat1+'Slider'].value = val1;
+            EZGUI.components[stat2+'Slider'].value = val2;
+            console.log(105 - (getStat(EZGUI.components[stat+'Slider'].value) +
+            getStat(EZGUI.components[stat1+'Slider'].value) +
+            getStat(EZGUI.components[stat2+'Slider'].value)));
+            setStatLabels();
+        }
+
+        var statSelectElement = EZGUI.create(statSelectWindow, 'metalworks');
+        statSelectElement.visible = true;
+        EZGUI.components.strSlider.value = 0.5;
+        EZGUI.components.dexSlider.value = 0.5;
+        EZGUI.components.intSlider.value = 0.5;
+        balanceStats('str');
+
+        EZGUI.components.classDescription.text = 'Select a class and click Continue';
+        EZGUI.components.classDescription.y = 300;
 
         //player selections
         var selectedClass;
@@ -614,7 +655,7 @@ function loadGUI() {
             //set up button handlers
             EZGUI.components.bugFixCheckbox.visible = false;
 
-                EZGUI.components.skillCancelButton.on('click', function (event) {
+            EZGUI.components.skillCancelButton.on('click', function (event) {
                 location.reload();
             });
             EZGUI.components.skillContinueButton.on('click', function (event) {
@@ -639,6 +680,23 @@ function loadGUI() {
                 });
             });
         }
+
+
+        EZGUI.components.strSlider.on('mouseup', function (event) {
+            runOnce(function () {
+                balanceStats('str');
+            });
+        });
+        EZGUI.components.dexSlider.on('mouseup', function (event) {
+            runOnce(function () {
+                balanceStats('dex');
+            });
+        });
+        EZGUI.components.intSlider.on('mouseup', function (event) {
+            runOnce(function () {
+                balanceStats('int');
+            });
+        });
 
         EZGUI.components.loginButton.on('click', function (event) {
             runOnce(function () {
@@ -723,6 +781,18 @@ function loadGUI() {
                 }
             });
         });
+
+        EZGUI.components.statCancelButton.on('click', function (event) {
+            location.reload();
+        });
+        EZGUI.components.statContinueButton.on('click', function (event) {
+            runOnce(function () {
+                selectedClass = EZGUI.radioGroups['classSelect'].selected;
+                statSelectElement.visible = false;
+                // skillSelectElement.visible = true;
+            });
+        });
+
 
         EZGUI.components.char1.on('click', function (event) {
             characterSelectElement.visible = false;
