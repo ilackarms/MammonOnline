@@ -1,0 +1,10 @@
+{
+  "sprites": {
+    "rogue": {
+      "heavy_armor_with_staff": {
+        "atlas": "sprites/Rogue/Rogue_in_Heavy_Armor_with_Staff.json",
+        "spritesheet": "sprites/Rogue/Rogue_in_Heavy_Armor_with_Staff.png",
+      }
+    }
+  }
+}

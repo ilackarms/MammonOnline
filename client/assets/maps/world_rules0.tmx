@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="isometric" renderorder="right-down" width="20" height="20" tilewidth="128" tileheight="64" nextobjectid="1">
+ <tileset firstgid="1" name="cave" tilewidth="128" tileheight="256" tilecount="240" columns="16">
+  <image source="world/tilesets/tiled_cave.png" width="2048" height="3840"/>
+  <terraintypes>
+   <terrain name="floor" tile="-1"/>
+  </terraintypes>
+  <tile id="0" terrain="0,0,0,0"/>
+  <tile id="1" terrain="0,0,0,0"/>
+  <tile id="2" terrain="0,0,0,0"/>
+  <tile id="3" terrain="0,0,0,0"/>
+  <tile id="4" terrain="0,0,0,0"/>
+  <tile id="5" terrain="0,0,0,0"/>
+  <tile id="6" terrain="0,0,0,0"/>
+  <tile id="7" terrain="0,0,0,0"/>
+  <tile id="8" terrain="0,0,0,0"/>
+  <tile id="9" terrain="0,0,0,0"/>
+  <tile id="10" terrain="0,0,0,0"/>
+  <tile id="11" terrain="0,0,0,0"/>
+  <tile id="12" terrain="0,0,0,0"/>
+  <tile id="13" terrain="0,0,0,0"/>
+  <tile id="14" terrain="0,0,0,0"/>
+  <tile id="15" terrain="0,0,0,0"/>
+  <tile id="32" terrain="0,0,0,0"/>
+  <tile id="33" terrain="0,0,0,0"/>
+  <tile id="34" terrain="0,0,0,0"/>
+  <tile id="35" terrain="0,0,0,0"/>
+  <tile id="36" terrain="0,0,0,0"/>
+  <tile id="37" terrain="0,0,0,0"/>
+  <tile id="38" terrain="0,0,0,0"/>
+  <tile id="39" terrain="0,0,0,0"/>
+  <tile id="48" terrain=",0,,0"/>
+  <tile id="49" terrain=",,0,0"/>
+  <tile id="50" terrain="0,,0,"/>
+  <tile id="51" terrain="0,0,,"/>
+  <tile id="52" terrain=",0,,0"/>
+  <tile id="53" terrain=",,0,0"/>
+  <tile id="54" terrain="0,,0,"/>
+  <tile id="55" terrain="0,0,,"/>
+  <tile id="56" terrain=",,,0"/>
+  <tile id="57" terrain=",,0,"/>
+  <tile id="58" terrain="0,,,"/>
+  <tile id="59" terrain=",0,,"/>
+  <tile id="60" terrain=",,,0"/>
+  <tile id="61" terrain=",,0,"/>
+  <tile id="62" terrain="0,,,"/>
+  <tile id="63" terrain=",0,,"/>
+  <tile id="64" terrain=",0,0,0"/>
+  <tile id="65" terrain="0,,0,0"/>
+  <tile id="66" terrain="0,0,0,"/>
+  <tile id="67" terrain="0,0,,0"/>
+  <tile id="68" terrain=",0,0,0"/>
+  <tile id="69" terrain="0,,0,0"/>
+  <tile id="70" terrain="0,0,0,"/>
+  <tile id="71" terrain="0,0,,0"/>
+  <tile id="80" terrain=",0,,0"/>
+  <tile id="81" terrain=",,0,0"/>
+  <tile id="82" terrain=",,,0"/>
+  <tile id="83" terrain=",0,0,0"/>
+  <tile id="84" terrain=",0,,0"/>
+  <tile id="85" terrain=",,0,0"/>
+  <tile id="86" terrain=",,,0"/>
+  <tile id="87" terrain=",0,0,0"/>
+  <tile id="88" terrain=",0,,0"/>
+  <tile id="89" terrain=",,0,0"/>
+  <tile id="90" terrain="0,,0,"/>
+  <tile id="91" terrain="0,0,,"/>
+  <tile id="92" terrain=",0,,0"/>
+  <tile id="93" terrain=",,0,0"/>
+  <tile id="96" terrain=",0,,0"/>
+  <tile id="97" terrain=",,0,0"/>
+  <tile id="98" terrain=",,,0"/>
+  <tile id="99" terrain=",0,0,0"/>
+  <tile id="100" terrain="0,0,,0"/>
+  <tile id="101" terrain="0,,0,0"/>
+  <tile id="102" terrain="0,0,,0"/>
+  <tile id="103" terrain="0,,0,0"/>
+  <tile id="104" terrain="0,0,,0"/>
+  <tile id="105" terrain="0,,0,0"/>
+ </tileset>
+ <tileset firstgid="241" name="desert" tilewidth="128" tileheight="256" tilecount="128" columns="16">
+  <image source="world/tilesets/desert.png" width="2048" height="2048"/>
+  <terraintypes>
+   <terrain name="floor" tile="-1"/>
+  </terraintypes>
+  <tile id="0" terrain="0,0,0,0"/>
+  <tile id="1" terrain="0,0,0,0"/>
+  <tile id="2" terrain="0,0,0,0"/>
+  <tile id="3" terrain="0,0,0,0"/>
+  <tile id="4" terrain="0,0,0,0"/>
+  <tile id="5" terrain="0,0,0,0"/>
+  <tile id="6" terrain="0,0,0,0"/>
+  <tile id="7" terrain="0,0,0,0"/>
+  <tile id="8" terrain="0,0,0,0"/>
+  <tile id="9" terrain="0,0,0,0"/>
+  <tile id="10" terrain="0,0,0,0"/>
+  <tile id="11" terrain="0,0,0,0"/>
+  <tile id="12" terrain="0,0,0,0"/>
+  <tile id="13" terrain="0,0,0,0"/>
+  <tile id="14" terrain="0,0,0,0"/>
+  <tile id="15" terrain="0,0,0,0"/>
+  <tile id="16" terrain="0,0,0,0"/>
+  <tile id="17" terrain="0,0,0,0"/>
+  <tile id="18" terrain="0,0,0,0"/>
+  <tile id="19" terrain="0,0,0,0"/>
+  <tile id="20" terrain="0,0,0,0"/>
+  <tile id="21" terrain="0,0,0,0"/>
+  <tile id="22" terrain="0,0,0,0"/>
+  <tile id="23" terrain="0,0,0,0"/>
+  <tile id="24" terrain="0,0,0,0"/>
+  <tile id="25" terrain="0,0,0,0"/>
+  <tile id="26" terrain="0,0,0,0"/>
+  <tile id="27" terrain="0,0,0,0"/>
+  <tile id="28" terrain="0,0,0,0"/>
+  <tile id="29" terrain="0,0,0,0"/>
+  <tile id="30" terrain="0,0,0,0"/>
+  <tile id="31" terrain="0,0,0,0"/>
+  <tile id="32" terrain=",0,,0"/>
+  <tile id="33" terrain=",,0,0"/>
+  <tile id="34" terrain="0,,0,"/>
+  <tile id="35" terrain="0,0,,"/>
+  <tile id="36" terrain=",0,,0"/>
+  <tile id="37" terrain=",,0,0"/>
+  <tile id="38" terrain="0,,0,"/>
+  <tile id="39" terrain="0,0,,"/>
+  <tile id="40" terrain=",,,0"/>
+  <tile id="41" terrain=",,0,"/>
+  <tile id="42" terrain="0,,,"/>
+  <tile id="43" terrain=",0,,"/>
+  <tile id="44" terrain=",,,0"/>
+  <tile id="45" terrain=",,0,"/>
+  <tile id="46" terrain="0,,,"/>
+  <tile id="47" terrain=",0,,"/>
+  <tile id="48" terrain=",0,0,0"/>
+  <tile id="49" terrain="0,,0,0"/>
+  <tile id="50" terrain="0,0,0,"/>
+  <tile id="51" terrain="0,0,,0"/>
+  <tile id="52" terrain=",0,0,0"/>
+  <tile id="53" terrain="0,,0,0"/>
+  <tile id="54" terrain="0,0,0,"/>
+  <tile id="55" terrain="0,0,,0"/>
+ </tileset>
+ <tileset firstgid="369" name="grassland" tilewidth="128" tileheight="256" tilecount="128" columns="16">
+  <image source="world/tilesets/grassland.png" width="2048" height="2048"/>
+  <terraintypes>
+   <terrain name="floor" tile="-1"/>
+   <terrain name="wall" tile="-1"/>
+  </terraintypes>
+  <tile id="0" terrain="0,0,0,0"/>
+  <tile id="1" terrain="0,0,0,0"/>
+  <tile id="2" terrain="0,0,0,0"/>
+  <tile id="3" terrain="0,0,0,0"/>
+  <tile id="4" terrain="0,0,0,0"/>
+  <tile id="5" terrain="0,0,0,0"/>
+  <tile id="6" terrain="0,0,0,0"/>
+  <tile id="7" terrain="0,0,0,0"/>
+  <tile id="8" terrain="0,0,0,0"/>
+  <tile id="9" terrain="0,0,0,0"/>
+  <tile id="10" terrain="0,0,0,0"/>
+  <tile id="11" terrain="0,0,0,0"/>
+  <tile id="12" terrain="0,0,0,0"/>
+  <tile id="13" terrain="0,0,0,0"/>
+  <tile id="14" terrain="0,0,0,0"/>
+  <tile id="15" terrain="0,0,0,0"/>
+  <tile id="16" terrain="0,0,0,0"/>
+  <tile id="17" terrain="0,0,0,0"/>
+  <tile id="18" terrain="0,0,0,0"/>
+  <tile id="19" terrain="0,0,0,0"/>
+  <tile id="20" terrain="0,0,0,0"/>
+  <tile id="21" terrain="0,0,0,0"/>
+  <tile id="22" terrain="0,0,0,0"/>
+  <tile id="23" terrain="0,0,0,0"/>
+  <tile id="24" terrain="0,0,0,0"/>
+  <tile id="25" terrain="0,0,0,0"/>
+  <tile id="26" terrain="0,0,0,0"/>
+  <tile id="27" terrain="0,0,0,0"/>
+  <tile id="28" terrain="0,0,0,0"/>
+  <tile id="29" terrain="0,0,0,0"/>
+  <tile id="30" terrain="0,0,0,0"/>
+  <tile id="31" terrain="0,0,0,0"/>
+  <tile id="32" terrain="1,0,1,0"/>
+  <tile id="33" terrain="1,1,0,0"/>
+  <tile id="34" terrain="0,1,0,1"/>
+  <tile id="35" terrain="0,0,1,1"/>
+  <tile id="36" terrain="1,0,1,0"/>
+  <tile id="37" terrain="1,1,0,0"/>
+  <tile id="38" terrain="0,1,0,1"/>
+  <tile id="39" terrain="0,0,1,1"/>
+  <tile id="40" terrain="1,1,1,0"/>
+  <tile id="41" terrain="1,1,0,1"/>
+  <tile id="42" terrain="0,1,1,1"/>
+  <tile id="43" terrain="1,0,1,1"/>
+  <tile id="44" terrain="1,1,1,0"/>
+  <tile id="45" terrain="1,1,0,1"/>
+  <tile id="46" terrain="0,1,1,1"/>
+  <tile id="47" terrain="1,0,1,1"/>
+  <tile id="48" terrain="1,0,0,0"/>
+  <tile id="49" terrain="0,1,0,0"/>
+  <tile id="50" terrain="0,0,0,1"/>
+  <tile id="51" terrain="0,0,1,0"/>
+  <tile id="52" terrain="1,0,0,0"/>
+  <tile id="53" terrain="0,1,0,0"/>
+  <tile id="54" terrain="0,0,0,1"/>
+  <tile id="55" terrain="0,0,1,0"/>
+ </tileset>
+ <tileset firstgid="497" name="snowplains" tilewidth="128" tileheight="256" tilecount="128" columns="16">
+  <image source="world/tilesets/snowplains.png" width="2048" height="2048"/>
+  <terraintypes>
+   <terrain name="floor" tile="-1"/>
+  </terraintypes>
+  <tile id="0" terrain="0,0,0,0"/>
+  <tile id="1" terrain="0,0,0,0"/>
+  <tile id="2" terrain="0,0,0,0"/>
+  <tile id="3" terrain="0,0,0,0"/>
+  <tile id="4" terrain="0,0,0,0"/>
+  <tile id="5" terrain="0,0,0,0"/>
+  <tile id="6" terrain="0,0,0,0"/>
+  <tile id="7" terrain="0,0,0,0"/>
+  <tile id="16" terrain="0,0,0,0"/>
+  <tile id="17" terrain="0,0,0,0"/>
+  <tile id="18" terrain="0,0,0,0"/>
+  <tile id="19" terrain="0,0,0,0"/>
+  <tile id="20" terrain="0,0,0,0"/>
+  <tile id="21" terrain="0,0,0,0"/>
+  <tile id="22" terrain="0,0,0,0"/>
+  <tile id="23" terrain="0,0,0,0"/>
+  <tile id="32" terrain=",0,,0"/>
+  <tile id="33" terrain=",,0,0"/>
+  <tile id="34" terrain="0,,0,"/>
+  <tile id="35" terrain="0,0,,"/>
+  <tile id="36" terrain=",0,,0"/>
+  <tile id="37" terrain=",,0,0"/>
+  <tile id="38" terrain="0,,0,"/>
+  <tile id="39" terrain="0,0,,"/>
+  <tile id="48" terrain=",0,0,0"/>
+  <tile id="49" terrain="0,,0,0"/>
+  <tile id="50" terrain="0,0,0,"/>
+  <tile id="51" terrain="0,0,,0"/>
+  <tile id="52" terrain=",0,0,0"/>
+  <tile id="53" terrain="0,,0,0"/>
+  <tile id="54" terrain="0,0,0,"/>
+  <tile id="55" terrain="0,0,,0"/>
+ </tileset>
+ <tileset firstgid="625" name="grassland_water" tilewidth="128" tileheight="256" tilecount="64" columns="16">
+  <tileoffset x="0" y="64"/>
+  <image source="world/tilesets/grassland_water.png" width="2048" height="1024"/>
+  <terraintypes>
+   <terrain name="water" tile="-1"/>
+  </terraintypes>
+  <tile id="0" terrain=",0,,0"/>
+  <tile id="1" terrain=",,0,0"/>
+  <tile id="2" terrain="0,,0,"/>
+  <tile id="3" terrain="0,0,,"/>
+  <tile id="4" terrain=",0,,0"/>
+  <tile id="5" terrain=",,0,0"/>
+  <tile id="6" terrain="0,,0,"/>
+  <tile id="7" terrain="0,0,,"/>
+  <tile id="8" terrain=",,,0"/>
+  <tile id="9" terrain=",,0,"/>
+  <tile id="10" terrain="0,,,"/>
+  <tile id="11" terrain=",0,,"/>
+  <tile id="12" terrain=",,,0"/>
+  <tile id="13" terrain=",,0,"/>
+  <tile id="14" terrain="0,,,"/>
+  <tile id="15" terrain=",0,,"/>
+  <tile id="16" terrain=",0,0,0"/>
+  <tile id="17" terrain="0,,0,0"/>
+  <tile id="18" terrain="0,0,0,"/>
+  <tile id="19" terrain="0,0,,0"/>
+  <tile id="20" terrain=",0,0,0"/>
+  <tile id="21" terrain="0,,0,0"/>
+  <tile id="22" terrain="0,0,0,"/>
+  <tile id="23" terrain="0,0,,0"/>
+  <tile id="32" terrain="0,0,0,0"/>
+  <tile id="33" terrain="0,0,0,0"/>
+  <tile id="34" terrain="0,0,0,0"/>
+  <tile id="35" terrain="0,0,0,0"/>
+  <tile id="36" terrain="0,0,0,0"/>
+  <tile id="37" terrain="0,0,0,0"/>
+  <tile id="38" terrain="0,0,0,0"/>
+  <tile id="39" terrain="0,0,0,0"/>
+  <tile id="40" terrain="0,0,0,0"/>
+  <tile id="41" terrain="0,0,0,0"/>
+  <tile id="42" terrain="0,0,0,0"/>
+  <tile id="43" terrain="0,0,0,0"/>
+  <tile id="44" terrain="0,0,0,0"/>
+  <tile id="45" terrain="0,0,0,0"/>
+  <tile id="46" terrain="0,0,0,0"/>
+  <tile id="47" terrain="0,0,0,0"/>
+ </tileset>
+ <tileset firstgid="689" name="desert_water" tilewidth="128" tileheight="256" tilecount="64" columns="16">
+  <tileoffset x="0" y="64"/>
+  <image source="world/tilesets/desert_water.png" width="2048" height="1024"/>
+  <terraintypes>
+   <terrain name="water" tile="-1"/>
+  </terraintypes>
+  <tile id="0" terrain=",0,,0"/>
+  <tile id="1" terrain=",,0,0"/>
+  <tile id="2" terrain="0,,0,"/>
+  <tile id="3" terrain="0,0,,"/>
+  <tile id="8" terrain=",,,0"/>
+  <tile id="9" terrain=",,0,"/>
+  <tile id="10" terrain="0,,,"/>
+  <tile id="11" terrain=",0,,"/>
+  <tile id="16" terrain=",0,0,0"/>
+  <tile id="17" terrain="0,,0,0"/>
+  <tile id="18" terrain="0,0,0,"/>
+  <tile id="19" terrain="0,0,,0"/>
+  <tile id="32" terrain="0,0,0,0"/>
+ </tileset>
+ <tileset firstgid="753" name="set_rules_2" tilewidth="128" tileheight="64" tilecount="18" columns="2">
+  <image source="world/tilesets/set_rules.png" width="256" height="576"/>
+ </tileset>
+ <tileset firstgid="771" name="tiled_collision" tilewidth="128" tileheight="64" tilecount="15" columns="15">
+  <image source="world/tilesets/tiled_collision.png" width="1920" height="64"/>
+ </tileset>
+ <tileset firstgid="786" name="forest" tilewidth="128" tileheight="256" tilecount="512" columns="16">
+  <image source="world/tilesets/forest.png" width="2048" height="2048"/>
+ </tileset>
+ <tileset firstgid="1298" name="forest_water" tilewidth="128" tileheight="128" tilecount="64" columns="16">
+  <tileoffset x="0" y="64"/>
+  <image source="world/tilesets/forest_water.png" width="2048" height="512"/>
+ </tileset>
+ <tileset firstgid="1362" name="snowplains_water" tilewidth="128" tileheight="128" tilecount="64" columns="16">
+  <tileoffset x="0" y="64"/>
+  <image source="world/tilesets/snowplains_water.png" width="2048" height="512"/>
+ </tileset>
+ <layer name="regions" width="20" height="20">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,753,0,753,0,753,0,753,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,753,0,753,0,753,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,753,0,753,0,753,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,753,0,753,0,753,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,753,0,753,0,753,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer name="input_template" width="20" height="20">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,760,0,755,0,754,0,759,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,756,0,757,0,758,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,761,0,762,0,765,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,763,0,764,0,767,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,766,0,768,0,769,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer name="output_floor" width="20" height="20">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,657,0,369,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,497,0,241,0,1,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,1394,0,201,0,721,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,787,0,0,0,1330,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer name="output_wall" width="20" height="20" visible="0">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer name="output_collision" width="20" height="20" visible="0">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,772,0,0,0,773,0,771,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,772,0,772,0,772,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,771,0,771,0,771,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,771,0,772,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+</map>
