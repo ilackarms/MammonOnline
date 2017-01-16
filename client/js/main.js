@@ -23,6 +23,8 @@ function loadGUI() {
 
         component: 'Window',
 
+        draggable: true,
+
         padding: 4,
 
         //component position relative to parent
@@ -31,22 +33,50 @@ function loadGUI() {
         width: 500,
         height: 500,
 
-        layout: [1, 3],
+        layout: [null, 10],
         children: [
+            {
+                text: 'Mammon Online v0.1',
+                font: {
+                    size: '20px',
+                    family: 'Arial',
+                    color: '#fff'
+                },
+                component: 'Header',
+
+                position: 'center',
+
+                width: 400,
+                height: 40
+            },
             null,
             {
-                id: 'myInput',
-                text: '',
+                id: 'username',
+                text: 'username',
                 component: 'Input',
                 position: 'center',
                 width: 300,
                 height: 50,
                 font: {
-                    size: '15px',
-                    family: 'Exocet',
-                    color: '#3a000f'
+                    size: '18px',
+                    family: 'Arial',
+                    color: '#fbfff8'
                 }
             },
+            {
+                id: 'password',
+                text: 'password',
+                component: 'Input',
+                position: 'center',
+                width: 300,
+                height: 50,
+                font: {
+                    size: '18px',
+                    family: 'Arial',
+                    color: '#fbfff8'
+                }
+            },
+            null, null, null, null,
             {
                 id: 'btn1',
                 text: 'Get Text Value',

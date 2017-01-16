@@ -3610,6 +3610,9 @@ var EZGUI;
                         else {
                             this.textObj.position.x = this._settings.width;
                             this.textObj.position.y = (this._settings.height) / 2 - this.textObj.height / 2.5;
+                            if (!this.textObj.anchor) {
+                                this.textObj.anchor = {};
+                            }
                             this.textObj.anchor.x = 0;
                             this.textObj.anchor.y = 0;
                         }
