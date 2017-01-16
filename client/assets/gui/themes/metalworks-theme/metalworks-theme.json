@@ -14,6 +14,7 @@
             "./images/corner.png",
             "./images/line.png",
             "./images/chk-checkmark.png",
+            "./images/chk-empty.png",
             "./images/radio-checkmark.png",
             "./images/radio-empty.png",
             "./images/radio-filled.png",
@@ -103,14 +104,14 @@
         "line": "./images/btn-line.png"
     },
    "Checkbox": {
-        "bg": "./images/darkcnt-line.png",
-        "corner": "./images/darkcnt-corner.png",
-        "line": "./images/darkcnt-line.png",
+        "bg": "",
+        "corner": "./images/chk-empty.png",
+        "line": "",
       "checkmark": "./images/chk-checkmark.png"
    },
    "Radio": {
-        "bg": "",
-        "corner": "./images/radio-empty.png",
+        "bg": "./images/radio-empty.png",
+        "corner": "",
         "line": "",
       "checkmark": "./images/radio-filled.png"
    }

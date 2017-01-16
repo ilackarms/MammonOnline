@@ -283,6 +283,74 @@ function loadGUI() {
         ]
     };
 
+    var skillSelectWindow = {
+        id: 'skillSelectWindow',
+        component: 'Window',
+        draggable: false,
+
+        padding: 4,
+
+        //component position relative to parent
+        position: {x: 200, y: 10},
+
+        width: 800,
+        height: 550,
+
+        layout: [null, 10],
+        children: [
+            {
+                text: 'Select Starting Skills',
+                font: {
+                    size: '20px',
+                    family: 'Georgia',
+                    color: '#fff'
+                },
+                component: 'Header',
+
+                position: 'center',
+
+                width: 500,
+                height: 40
+            },
+            {
+                id: 'startingSkillsList',
+                component: 'List',
+                padding: 20,
+                position: 'top center',
+                width: 600,
+                height: 400,
+                layout: [null, 10],
+                children: []
+            },
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            {
+                text: 'Tip: Click and drag checkboxes to scroll this list',
+                component: 'Label',
+                position: 'center',
+                padding: 20,
+                width: 80,
+                height: 20,
+                font: {
+                    size: '18px',
+                    family: 'Georgia',
+                    color: '#ffffff'
+                }
+            }
+        ],
+        getListElement: function () {
+            for (var i = 0; this.children.length; i++) {
+                if (this.children[i].id === 'startingSkillsList') {
+                    return this.children[i];
+                }
+            }
+        }
+    };
+
     var warriorDescription = 'Warriors are experts in melee combat. They excel at tanking and dealing large amounts of \n' +
         'physical damage. Warriors are the only class capable of using shields.\n' +
         'Warriors excel in crafting skills.\n'+
@@ -319,8 +387,7 @@ function loadGUI() {
         var classSelectElement = EZGUI.create(classSelectWindow, 'metalworks');
         classSelectElement.visible = true;
 
-        var skillSelectElement = EZGUI.create(skillSelectWindow, 'metalworks');
-        skillSelectElement.visible = false;
+        var skillSelectElement; //dynamically generated
 
         var oneTime = true;
 
@@ -338,7 +405,13 @@ function loadGUI() {
         }
 
         function setSkillList(skills) {
-
+            var list = skillSelectWindow.getListElement();
+            for (var i = 0; i < skills.length; i++) {
+                var skill = skills[i];
+                list.children.push({ id: skill+'Checkbox', text: skill, component: 'Checkbox', position: 'center left', width: 40, height: 40});
+            }
+            skillSelectElement = EZGUI.create(skillSelectWindow, 'metalworks');
+            skillSelectElement.visible = false;
         }
 
         EZGUI.components.loginButton.on('click', function (event) {
