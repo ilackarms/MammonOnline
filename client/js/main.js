@@ -7,7 +7,7 @@ function main(){
         socket.emit('asdf', 'hihi');
     });
 
-    var game = new Phaser.Game(1200, 600, Phaser.AUTO, '', {
+    var game = new Phaser.Game(1200, 600, Phaser.AUTO, 'game', {
         preload: function () {},
         create: function () {
             loadGUI();
@@ -20,15 +20,13 @@ function main(){
 function loadGUI() {
     var guiObj = {
         id: 'myWindow',
-
         component: 'Window',
-
         draggable: true,
 
         padding: 4,
 
         //component position relative to parent
-        position: {x: 10, y: 10},
+        position: {x: 350, y: 10},
 
         width: 500,
         height: 500,
@@ -76,7 +74,21 @@ function loadGUI() {
                     color: '#fbfff8'
                 }
             },
-            null, null, null, null,
+            null, null,
+            {
+                id: 'errTxt',
+                text: '[Error Msg]',
+                component: 'Label',
+                position: 'center',
+                width: 200,
+                height: 25,
+                font: {
+                    size: '25px',
+                    family: 'Arial',
+                    color: '#b82730'
+                }
+            },
+            null,
             {
                 id: 'btn1',
                 text: 'Get Text Value',
@@ -102,7 +114,7 @@ function loadGUI() {
         var guiElt = EZGUI.create(guiObj, 'metalworks');
 
         EZGUI.components.btn1.on('click', function (event) {
-            alert(EZGUI.components.myInput.text);
+            console.log(EZGUI.components.username.text, EZGUI.components.password.text);
         });
     });
 }
