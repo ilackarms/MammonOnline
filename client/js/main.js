@@ -18,10 +18,10 @@ function main(){
 }
 
 function loadGUI() {
-    var guiObj = {
-        id: 'myWindow',
+    var loginWindow = {
+        id: 'loginWindow',
         component: 'Window',
-        draggable: true,
+        draggable: false,
 
         padding: 4,
 
@@ -105,16 +105,77 @@ function loadGUI() {
         ]
     };
 
+    var characterSelectWindow = {
+        id: 'characterSelectWindow',
+        component: 'Window',
+        draggable: false,
+
+        padding: 4,
+
+        //component position relative to parent
+        position: {x: 350, y: 10},
+
+        width: 500,
+        height: 500,
+
+        layout: [null, 10],
+        children: [
+            {
+                text: 'Character Select',
+                font: {
+                    size: '20px',
+                    family: 'Arial',
+                    color: '#fff'
+                },
+                component: 'Header',
+
+                position: 'center',
+
+                width: 400,
+                height: 40
+            },
+            null,
+            {
+                id: 'char1',
+                text: 'NEW',
+                component: 'Button',
+                position: 'center',
+                width: 300,
+                height: 50
+            },
+            {
+                id: 'char2',
+                text: 'NEW',
+                component: 'Button',
+                position: 'center',
+                width: 300,
+                height: 50
+            },
+            {
+                id: 'char3',
+                text: 'NEW',
+                component: 'Button',
+                position: 'center',
+                width: 300,
+                height: 50
+            }
+        ]
+    };
+
     //load EZGUI themes
     //here you can pass multiple themes
     EZGUI.Theme.load(['assets/gui/themes/metalworks-theme/metalworks-theme.json'], function () {
 
         //create the gui
         //the second parameter is the theme name, see metalworks-theme.json, the name is defined under __config__ field
-        var guiElt = EZGUI.create(guiObj, 'metalworks');
+        var loginElement = EZGUI.create(loginWindow, 'metalworks');
+        var characterSelectElement = EZGUI.create(characterSelectWindow, 'metalworks');
+        characterSelectElement.visible = false;
 
         EZGUI.components.btn1.on('click', function (event) {
             console.log(EZGUI.components.username.text, EZGUI.components.password.text);
+            loginElement.visible = false;
+            characterSelectElement.visible = true;
         });
     });
 }
