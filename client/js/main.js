@@ -15,7 +15,9 @@ function main(){
                 'assets/gui/themes/metalworks-theme/images/rogue-up.png',
                 'assets/gui/themes/metalworks-theme/images/rogue-down.png',
                 'assets/gui/themes/metalworks-theme/images/sorcerer-up.png',
-                'assets/gui/themes/metalworks-theme/images/sorcerer-down.png'
+                'assets/gui/themes/metalworks-theme/images/sorcerer-down.png',
+                'assets/gui/themes/metalworks-theme/images/radio-empty.png',
+                'assets/gui/themes/metalworks-theme/images/radio-filled.png'
             ];
             for (var i = 0; i < resources.length; i++) {
                 game.load.image(resources[i], resources[i]);
@@ -216,12 +218,12 @@ function loadGUI() {
                 height: 200,
                 layout: [3, 2],
                 children: [
-                    { id: 'warrior', component: 'Window', group: 'classSelect', position: 'center', width: 128, height: 128, image: 'assets/gui/themes/metalworks-theme/images/warrior-up.png', checkmark: 'assets/gui/themes/metalworks-theme/images/warrior-down.png', checked: true },
-                    { id: 'rogue', component: 'Window', group: 'classSelect', position: 'center', width: 128, height: 128, image: 'assets/gui/themes/metalworks-theme/images/rogue-up.png', checkmark: 'assets/gui/themes/metalworks-theme/images/rogue-down.png' },
-                    { id: 'sorcerer', component: 'Window', group: 'classSelect', position: 'center', width: 128, height: 128, image: 'assets/gui/themes/metalworks-theme/images/sorcerer-up.png', checkmark: 'assets/gui/themes/metalworks-theme/images/sorcerer-down.png' },
-                    { text: 'Warrior', component: 'Label', position: 'center', width: 128, height: 128},
-                    { text: 'Rogue', component: 'Label', position: 'center', width: 128, height: 128, font: {size: '20px', family: 'Exocet', color: '#ffffff'}},
-                    { text: 'Sorcerer', component: 'Label', position: 'center', width: 128, height: 128}
+                    { id: 'warriorIcon', component: 'Window', group: 'classSelect', position: 'center', width: 128, height: 128},
+                    { id: 'rogueIcon', component: 'Window', group: 'classSelect', position: 'center', width: 128, height: 128},
+                    { id: 'sorcererIcon', component: 'Window', group: 'classSelect', position: 'center', width: 128, height: 128},
+                    { id: 'warriorRadio', text: 'Warrior', component: 'Radio', position: 'center', width: 128, height: 128},
+                    { id: 'rogueRadio', text: 'Rogue', component: 'Radio', position: 'center', width: 128, height: 128},
+                    { id: 'sorcererRadio', text: 'Sorcerer', component: 'Radio', position: 'center', width: 128, height: 128}
                 ]
             },
             null,
