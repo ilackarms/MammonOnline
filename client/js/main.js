@@ -329,6 +329,7 @@ function loadGUI() {
             null,
             null,
             {
+                id: 'skillSelectMessage',
                 text: 'Tip: Click and drag checkboxes to scroll this list',
                 component: 'Label',
                 position: 'center',
@@ -340,6 +341,40 @@ function loadGUI() {
                     family: 'Georgia',
                     color: '#ffffff'
                 }
+            },
+            {
+                position: 'center',
+                component: 'Layout_No_Border',
+                width: 800,
+                height: 60,
+                children: [
+                    {
+                        id: 'skillCancelButton',
+                        text: 'Cancel',
+                        component: 'Button',
+                        position: 'left',
+                        width: 80,
+                        height: 50,
+                        font: {
+                            size: '15px',
+                            family: 'Georgia',
+                            color: '#000000'
+                        }
+                    },
+                    {
+                        id: 'skillContinueButton',
+                        text: 'Continue',
+                        component: 'Button',
+                        position: 'right',
+                        width: 80,
+                        height: 50,
+                        font: {
+                            size: '15px',
+                            family: 'Georgia',
+                            color: '#000000'
+                        }
+                    }
+                ]
             }
         ],
         getListElement: function () {
@@ -390,6 +425,7 @@ function loadGUI() {
         var skillSelectElement; //dynamically generated
 
         var oneTime = true;
+        var oneTimePermanently = true;
 
         EZGUI.components.classDescription.text = 'Select a class and click Continue';
         EZGUI.components.classDescription.y = 300;
@@ -404,14 +440,47 @@ function loadGUI() {
             }
         }
 
-        function setSkillList(skills) {
+        //player selections
+        var selectedClass;
+        var selectedSkills;
+
+        function displaySkillListWindow(skills) {
             var list = skillSelectWindow.getListElement();
             for (var i = 0; i < skills.length; i++) {
                 var skill = skills[i];
                 list.children.push({ id: skill+'Checkbox', text: skill, component: 'Checkbox', position: 'center left', width: 40, height: 40});
             }
+            //for some reason last xbox is not clickable, so make an extra one
+            list.children.push({ id: 'bugFixCheckbox', text: 'DO_NOT_DISPLAY', component: 'Checkbox', position: 'center left', width: 40, height: 40, visible: false});
             skillSelectElement = EZGUI.create(skillSelectWindow, 'metalworks');
             skillSelectElement.visible = false;
+            //set up button handlers
+            EZGUI.components.bugFixCheckbox.visible = false;
+
+                EZGUI.components.skillCancelButton.on('click', function (event) {
+                location.reload();
+            });
+            EZGUI.components.skillContinueButton.on('click', function (event) {
+                runOnce(function () {
+                    var checkedSkills = [];
+                    for (var i = 0; i < skills.length; i++) {
+                        var skill = skills[i];
+                        var checkboxID = skill+'Checkbox';
+                        if (EZGUI.components[checkboxID].checked) {
+                            console.log(skill);
+                            checkedSkills.push(skill);
+                        }
+                    }
+
+                    if (checkedSkills.length != 3) {
+                        EZGUI.components.skillSelectMessage.text = 'You must select exactly 3 starting skills';
+                        return;
+                    }
+                    selectedSkills = checkedSkills;
+                    classSelectElement.visible = true;
+                    skillSelectElement.visible = false;
+                });
+            });
         }
 
         EZGUI.components.loginButton.on('click', function (event) {
@@ -433,17 +502,15 @@ function loadGUI() {
         });
 
         EZGUI.components.classCancelButton.on('click', function (event) {
-            characterSelectElement.visible = true;
-            classSelectElement.visible = false;
+            location.reload();
         });
         EZGUI.components.classContinueButton.on('click', function (event) {
             runOnce(function () {
-                var selectedClass = EZGUI.radioGroups['classSelect'].selected;
+                selectedClass = EZGUI.radioGroups['classSelect'].selected;
                 if (selectedClass) {
-                    console.log(selectedClass.text);
                     switch (selectedClass.text) {
                         case 'Warrior':
-                            setSkillList([
+                            displaySkillListWindow([
                                 'Athletics',
                                 'Barter',
                                 'Blacksmithy',
@@ -461,7 +528,7 @@ function loadGUI() {
                             ]);
                             break;
                         case 'Rogue':
-                            setSkillList([
+                            displaySkillListWindow([
                                 'Archery',
                                 'Athletics',
                                 'Barter',
@@ -479,7 +546,7 @@ function loadGUI() {
                             ]);
                             break;
                         case 'Sorcerer':
-                            setSkillList([
+                            displaySkillListWindow([
                                 'Alchemy',
                                 'Athletics',
                                 'Barter',
