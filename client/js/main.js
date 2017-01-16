@@ -386,6 +386,161 @@ function loadGUI() {
         }
     };
 
+    var statSelectWindow = {
+        id: 'statSelectWindow',
+        component: 'Window',
+        draggable: false,
+
+        padding: 4,
+
+        //component position relative to parent
+        position: {x: 200, y: 10},
+
+        width: 800,
+        height: 550,
+
+        layout: [null, 10],
+        children: [
+            {
+                text: 'Select Starting Stats',
+                font: {
+                    size: '20px',
+                    family: 'Georgia',
+                    color: '#fff'
+                },
+                component: 'Header',
+
+                position: 'center',
+
+                width: 500,
+                height: 40
+            },
+            {
+                component: 'Layout',
+                position: 'top center',
+                padding: 10,
+                width: 500,
+                height: 200,
+                layout: [2, 3],
+                children: [
+                    {
+                        id: 'strSlider',
+                        component: 'Slider',
+                        slide: { width: 30, height: 40 },
+                        position: 'center',
+                        width: 240,
+                        height: 40
+                    },
+                    {
+                        id: 'strLabel',
+                        text: 'Strength: ',
+                        component: 'Label',
+                        position: 'center',
+                        padding: 20,
+                        width: 80,
+                        height: 20,
+                    },
+                    {
+                        id: 'dexSlider',
+                        component: 'Slider',
+                        slide: { width: 30, height: 40 },
+                        position: 'center',
+                        width: 240,
+                        height: 40
+                    },
+                    {
+                        id: 'dexLabel',
+                        text: 'Dexterity: ',
+                        component: 'Label',
+                        position: 'center',
+                        padding: 20,
+                        width: 80,
+                        height: 20,
+                    },
+                    {
+                        id: 'intSlider',
+                        component: 'Slider',
+                        slide: { width: 30, height: 40 },
+                        position: 'center',
+                        width: 240,
+                        height: 40
+                    },
+                    {
+                        id: 'intLabel',
+                        text: 'Intelligence: ',
+                        component: 'Label',
+                        position: 'center',
+                        padding: 20,
+                        width: 80,
+                        height: 20,
+                    },
+                ]
+            },
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            {
+                id: 'skillSelectMessage',
+                text: 'Tip: Click and drag checkboxes to scroll this list',
+                component: 'Label',
+                position: 'center',
+                padding: 20,
+                width: 80,
+                height: 20,
+                font: {
+                    size: '18px',
+                    family: 'Georgia',
+                    color: '#ffffff'
+                }
+            },
+            {
+                position: 'center',
+                component: 'Layout_No_Border',
+                width: 800,
+                height: 60,
+                children: [
+                    {
+                        id: 'skillCancelButton',
+                        text: 'Cancel',
+                        component: 'Button',
+                        position: 'left',
+                        width: 80,
+                        height: 50,
+                        font: {
+                            size: '15px',
+                            family: 'Georgia',
+                            color: '#000000'
+                        }
+                    },
+                    {
+                        id: 'skillContinueButton',
+                        text: 'Continue',
+                        component: 'Button',
+                        position: 'right',
+                        width: 80,
+                        height: 50,
+                        font: {
+                            size: '15px',
+                            family: 'Georgia',
+                            color: '#000000'
+                        }
+                    }
+                ]
+            }
+        ],
+        getListElement: function () {
+            for (var i = 0; this.children.length; i++) {
+                if (this.children[i].id === 'startingSkillsList') {
+                    return this.children[i];
+                }
+            }
+        }
+    };
+
+
     var warriorDescription = 'Warriors are experts in melee combat. They excel at tanking and dealing large amounts of \n' +
         'physical damage. Warriors are the only class capable of using shields.\n' +
         'Warriors excel in crafting skills.\n'+
@@ -420,12 +575,14 @@ function loadGUI() {
         characterSelectElement.visible = false;
 
         var classSelectElement = EZGUI.create(classSelectWindow, 'metalworks');
-        classSelectElement.visible = true;
+        classSelectElement.visible = false;
 
         var skillSelectElement; //dynamically generated
 
+        var statSelectElement = EZGUI.create(statSelectWindow, 'metalworks');
+        statSelectElement.visible = true;
+
         var oneTime = true;
-        var oneTimePermanently = true;
 
         EZGUI.components.classDescription.text = 'Select a class and click Continue';
         EZGUI.components.classDescription.y = 300;
@@ -477,8 +634,8 @@ function loadGUI() {
                         return;
                     }
                     selectedSkills = checkedSkills;
-                    classSelectElement.visible = true;
                     skillSelectElement.visible = false;
+                    statSelectElement.visible = true;
                 });
             });
         }
