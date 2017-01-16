@@ -45,7 +45,7 @@ function loadGUI() {
         position: {x: 350, y: 10},
 
         width: 500,
-        height: 500,
+        height: 550,
 
         layout: [null, 10],
         children: [
@@ -53,7 +53,7 @@ function loadGUI() {
                 text: 'Mammon Online v0.1',
                 font: {
                     size: '20px',
-                    family: 'Arial',
+                    family: 'Georgia',
                     color: '#fff'
                 },
                 component: 'Header',
@@ -73,7 +73,7 @@ function loadGUI() {
                 height: 50,
                 font: {
                     size: '18px',
-                    family: 'Arial',
+                    family: 'Georgia',
                     color: '#fbfff8'
                 }
             },
@@ -86,7 +86,7 @@ function loadGUI() {
                 height: 50,
                 font: {
                     size: '18px',
-                    family: 'Arial',
+                    family: 'Georgia',
                     color: '#fbfff8'
                 }
             },
@@ -100,7 +100,7 @@ function loadGUI() {
                 height: 25,
                 font: {
                     size: '25px',
-                    family: 'Arial',
+                    family: 'Georgia',
                     color: '#b82730'
                 }
             },
@@ -132,7 +132,7 @@ function loadGUI() {
         position: {x: 350, y: 10},
 
         width: 500,
-        height: 500,
+        height: 550,
 
         layout: [null, 10],
         children: [
@@ -140,7 +140,7 @@ function loadGUI() {
                 text: 'Character Select',
                 font: {
                     size: '20px',
-                    family: 'Arial',
+                    family: 'Georgia',
                     color: '#fff'
                 },
                 component: 'Header',
@@ -189,15 +189,15 @@ function loadGUI() {
         position: {x: 200, y: 10},
 
         width: 800,
-        height: 500,
+        height: 550,
 
         layout: [null, 10],
         children: [
             {
-                text: 'Class',
+                text: 'Select Class',
                 font: {
                     size: '20px',
-                    family: 'Arial',
+                    family: 'Georgia',
                     color: '#fff'
                 },
                 component: 'Header',
@@ -212,18 +212,18 @@ function loadGUI() {
             {
                 id: 'classSelect',
                 component: 'List',
-                padding: 20,
+                padding: 50,
                 position: 'center',
-                width: 770,
+                width: 790,
                 height: 200,
                 layout: [3, 2],
                 children: [
-                    { id: 'warriorIcon', component: 'Window', group: 'classSelect', position: 'center', width: 128, height: 128},
-                    { id: 'rogueIcon', component: 'Window', group: 'classSelect', position: 'center', width: 128, height: 128},
-                    { id: 'sorcererIcon', component: 'Window', group: 'classSelect', position: 'center', width: 128, height: 128},
-                    { id: 'warriorRadio', text: 'Warrior', component: 'Radio', position: 'center', width: 128, height: 128},
-                    { id: 'rogueRadio', text: 'Rogue', component: 'Radio', position: 'center', width: 128, height: 128},
-                    { id: 'sorcererRadio', text: 'Sorcerer', component: 'Radio', position: 'center', width: 128, height: 128}
+                    { id: 'warriorIcon', component: 'Window', group: 'classSelect', position: 'center', width: 128, height: 128, image: 'assets/gui/themes/metalworks-theme/images/warrior-up.png'},
+                    { id: 'rogueIcon', component: 'Window', group: 'classSelect', position: 'center', width: 128, height: 128, image: 'assets/gui/themes/metalworks-theme/images/rogue-up.png'},
+                    { id: 'sorcererIcon', component: 'Window', group: 'classSelect', position: 'center', width: 128, height: 128, image: 'assets/gui/themes/metalworks-theme/images/sorcerer-up.png'},
+                    { id: 'warriorRadio', text: 'Warrior', component: 'Radio', position: 'left', width: 32, height: 32, image: 'assets/gui/themes/metalworks-theme/images/radio-empty.png', checkmark: 'assets/gui/themes/metalworks-theme/images/radio-filled.png'},
+                    { id: 'rogueRadio', text: 'Rogue', component: 'Radio', position: 'left', width: 32, height: 32, image: 'assets/gui/themes/metalworks-theme/images/radio-empty.png', checkmark: 'assets/gui/themes/metalworks-theme/images/radio-filled.png'},
+                    { id: 'sorcererRadio', text: 'Sorcerer', component: 'Radio', position: 'left', width: 32, height: 32, image: 'assets/gui/themes/metalworks-theme/images/radio-empty.png', checkmark: 'assets/gui/themes/metalworks-theme/images/radio-filled.png'}
                 ]
             },
             null,
@@ -231,11 +231,17 @@ function loadGUI() {
             {
                 id: 'classDescription',
                 component: 'Label',
-                width: 770,
+                width: 790,
                 height: 200,
-                padding: 25,
-                text: 'class description here\n and here',
-                position: 'center'
+                padding: 0,
+                // text: 'Select a class to read its description.\nClick OK to continue',
+                text: '',
+                position: 'top left',
+                font: {
+                    size: '20px',
+                    family: 'Georgia',
+                    color: '#ffffff'
+                }
             },
             null,
             null,
@@ -247,14 +253,34 @@ function loadGUI() {
                 width: 80,
                 height: 50,
                 font: {
-                    size: '20px',
-                    family: 'Arial',
+                    size: '15px',
+                    family: 'Georgia',
                     color: '#ffffff'
                 }
             }
         ]
     };
 
+    var warriorDescription = 'Warriors are experts in melee combat. They excel at tanking and dealing large amounts of \n' +
+        'physical damage. Warriors are the only class capable of using shields.\n' +
+        'Warriors excel in crafting skills.\n'+
+        'Class Skills:\n'+
+        'Mace Fighting, Parrying, Swordsmanship, Tactics, Unarmed Fighting, Evasion, Healing, \n' +
+        'Mining, Blacksmithy, Lumberjacking, Carpentry, Athletics, Barter, Magic Resistance';
+
+    var rogueDescription = 'Rogues are skilled in ranged combat, as well as techniques of subterfuge and thievery. \n' +
+        'Rogues have access to the Sneak Attack technique, which grants damage \n' +
+        'bonuses when attacking from stealth. Rogues are the only class capable of using bows. \n' +
+        'Class Skills: \n' +
+        'Archery, Mace Fighting, Swordsmanship, Tactics, Unarmed Fighting, \n' +
+        'Evasion, Detecting Hidden, Hiding, Snooping, Stealing, Stealth, \n' +
+        'Athletics, Barter, Magic Resistance';
+
+    var sorcererDescription = 'Sorcerers are skilled in magical arts, but lack combat skills.\n' +
+        'Sorcerers excel in Alchemy, the art of crafting potions.' +
+        'Class Skills: \n' +
+        'Evasion, Alchemy, Herbalism, Magery, Magic Penetration, Meditation, \n' +
+        'Magic Resistance, Concentration';
 
     //load EZGUI themes
     //here you can pass multiple themes
@@ -273,6 +299,9 @@ function loadGUI() {
 
         var oneTime = true;
 
+        EZGUI.components.classDescription.text = 'Select a class and click OK';
+        EZGUI.components.classDescription.y = 300;
+
         EZGUI.components.loginButton.on('click', function (event) {
             if (oneTime) {
                 console.log(EZGUI.components.username.text, EZGUI.components.password.text);
@@ -283,6 +312,16 @@ function loadGUI() {
             }
             loginElement.visible = false;
             characterSelectElement.visible = true;
+        });
+
+        EZGUI.components.warriorRadio.on('click', function (event) {
+            EZGUI.components.classDescription.text = warriorDescription;
+        });
+        EZGUI.components.rogueRadio.on('click', function (event) {
+            EZGUI.components.classDescription.text = rogueDescription;
+        });
+        EZGUI.components.sorcererRadio.on('click', function (event) {
+            EZGUI.components.classDescription.text = sorcererDescription;
         });
 
         EZGUI.components.char1.on('click', function (event) {
@@ -299,6 +338,8 @@ function loadGUI() {
             characterSelectElement.visible = false;
             characterCreateElement.visible = true;
         });
+
+
 
     });
 }
