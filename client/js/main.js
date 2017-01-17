@@ -1,4 +1,5 @@
 window.onload = main;
+var game;
 
 function main(){
     var socket = io();
@@ -7,7 +8,7 @@ function main(){
         socket.emit('asdf', 'hihi');
     });
 
-    var game = new Phaser.Game(1200, 600, Phaser.AUTO, 'game', {
+    game = new Phaser.Game(1200, 600, Phaser.AUTO, 'game', {
         preload: function () {
             var resources = [
                 'assets/gui/themes/metalworks-theme/images/warrior-up.png',
@@ -17,8 +18,14 @@ function main(){
                 'assets/gui/themes/metalworks-theme/images/sorcerer-up.png',
                 'assets/gui/themes/metalworks-theme/images/sorcerer-down.png',
                 'assets/gui/themes/metalworks-theme/images/radio-empty.png',
-                'assets/gui/themes/metalworks-theme/images/radio-filled.png'
+                'assets/gui/themes/metalworks-theme/images/radio-filled.png',
+                'assets/gui/portraits/checkbox.bmp'
             ];
+            for (var i = 1; i < 40; i++) {
+              resources.push('assets/gui/portraits/Rogue'+i+'.bmp');
+              resources.push('assets/gui/portraits/Sorc'+i+'.bmp');
+              resources.push('assets/gui/portraits/War'+i+'.bmp');
+            }
             for (var i = 0; i < resources.length; i++) {
                 game.load.image(resources[i], resources[i]);
             }
@@ -215,15 +222,18 @@ function loadGUI() {
                 padding: 50,
                 position: 'center',
                 width: 790,
-                height: 200,
-                layout: [3, 2],
+                height: 300,
+                layout: [3, 3],
                 children: [
-                    { id: 'warriorIcon', component: 'Window', position: 'center', width: 128, height: 128, image: 'assets/gui/themes/metalworks-theme/images/warrior-up.png'},
-                    { id: 'rogueIcon', component: 'Window', position: 'center', width: 128, height: 128, image: 'assets/gui/themes/metalworks-theme/images/rogue-up.png'},
-                    { id: 'sorcererIcon', component: 'Window', position: 'center', width: 128, height: 128, image: 'assets/gui/themes/metalworks-theme/images/sorcerer-up.png'},
-                    { id: 'warriorRadio', text: 'Warrior', component: 'Radio', group: 'classSelect', position: 'left', width: 32, height: 32, image: 'assets/gui/themes/metalworks-theme/images/radio-empty.png', checkmark: 'assets/gui/themes/metalworks-theme/images/radio-filled.png'},
-                    { id: 'rogueRadio', text: 'Rogue', component: 'Radio', group: 'classSelect', position: 'left', width: 32, height: 32, image: 'assets/gui/themes/metalworks-theme/images/radio-empty.png', checkmark: 'assets/gui/themes/metalworks-theme/images/radio-filled.png'},
-                    { id: 'sorcererRadio', text: 'Sorcerer', component: 'Radio', group: 'classSelect', position: 'left', width: 32, height: 32, image: 'assets/gui/themes/metalworks-theme/images/radio-empty.png', checkmark: 'assets/gui/themes/metalworks-theme/images/radio-filled.png'}
+                    { id: 'warriorRadio', component: 'Radio', text: 'Warrior', group: 'classSelect', position: 'center', width: 128, height: 128, image: 'assets/gui/themes/metalworks-theme/images/warrior-up.png', checkmark: 'assets/gui/portraits/checkbox.bmp'},
+                    { id: 'rogueRadio', component: 'Radio', text: 'Rogue', group: 'classSelect', position: 'center', width: 128, height: 128, image: 'assets/gui/themes/metalworks-theme/images/rogue-up.png', checkmark: 'assets/gui/portraits/checkbox.bmp'},
+                    { id: 'sorcererRadio', component: 'Radio', text: 'Sorcerer', group: 'classSelect', position: 'center', width: 128, height: 128, image: 'assets/gui/themes/metalworks-theme/images/sorcerer-up.png', checkmark: 'assets/gui/portraits/checkbox.bmp'},
+                    null,
+                    null,
+                    null,
+                    { id: 'warriorLabel', text: 'Warrior', component: 'Label', position: 'left', width: 240, height: 15},
+                    { id: 'rogueLabel', text: 'Rogue', component: 'Label', position: 'left', width: 240, height: 15},
+                    { id: 'sorcererLabel', text: 'Sorcerer', component: 'Label', position: 'left', width: 240, height: 15}
                 ]
             },
             null,
@@ -533,15 +543,96 @@ function loadGUI() {
                 ]
             }
         ],
+    };
+
+    var portraitSelectWindow = {
+        id: 'portraitSelectWindow',
+        component: 'Window',
+        draggable: false,
+
+        padding: 4,
+
+        //component position relative to parent
+        position: {x: 200, y: 10},
+
+        width: 800,
+        height: 550,
+
+        layout: [null, 10],
+        children: [
+            {
+                text: 'Select Portrait',
+                font: {
+                    size: '20px',
+                    family: 'Georgia',
+                    color: '#fff'
+                },
+                component: 'Header',
+
+                position: 'center',
+
+                width: 500,
+                height: 40
+            },
+            {
+                id: 'portraitList',
+                component: 'List',
+                position: 'top center',
+                width: 800,
+                height: 240,
+                layout: [6, null],
+                children: []
+            },
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            {
+                position: 'center',
+                component: 'Layout_No_Border',
+                width: 800,
+                height: 60,
+                children: [
+                    {
+                        id: 'portraitCancelButton',
+                        text: 'Cancel',
+                        component: 'Button',
+                        position: 'left',
+                        width: 80,
+                        height: 50,
+                        font: {
+                            size: '15px',
+                            family: 'Georgia',
+                            color: '#000000'
+                        }
+                    },
+                    {
+                        id: 'portraitContinueButton',
+                        text: 'Continue',
+                        component: 'Button',
+                        position: 'right',
+                        width: 80,
+                        height: 50,
+                        font: {
+                            size: '15px',
+                            family: 'Georgia',
+                            color: '#000000'
+                        }
+                    }
+                ]
+            }
+        ],
         getListElement: function () {
             for (var i = 0; this.children.length; i++) {
-                if (this.children[i].id === 'startingSkillsList') {
+                if (this.children[i].id === 'portraitList') {
                     return this.children[i];
                 }
             }
         }
     };
-
 
     var warriorDescription = 'Warriors are experts in melee combat. They excel at tanking and dealing large amounts of \n' +
         'physical damage. Warriors are the only class capable of using shields.\n' +
@@ -558,26 +649,13 @@ function loadGUI() {
         'Evasion, Detecting Hidden, Hiding, Snooping, Stealing, Stealth, \n' +
         'Athletics, Barter, Magic Resistance';
 
-    var sorcererDescription = 'Sorcerers are skilled in magical arts, but lack combat skills.\n' +
+    var sorcererDescription = 'Sorcerers are skilled in magical arts, but have weaker combat skills.\n' +
         'Sorcerers excel in Alchemy, the art of crafting potions.' +
         'Class Skills: \n' +
         'Evasion, Alchemy, Herbalism, Magery, Magic Penetration, Meditation, \n' +
         'Magic Resistance, Concentration, Athletics, Barter';
 
-    //load EZGUI themes
-    //here you can pass multiple themes
     EZGUI.Theme.load(['assets/gui/themes/metalworks-theme/metalworks-theme.json'], function () {
-        var loginElement = EZGUI.create(loginWindow, 'metalworks');
-        loginElement.visible = false;
-
-        var characterSelectElement = EZGUI.create(characterSelectWindow, 'metalworks');
-        characterSelectElement.visible = false;
-
-        var classSelectElement = EZGUI.create(classSelectWindow, 'metalworks');
-        classSelectElement.visible = false;
-
-        var skillSelectElement; //dynamically generated
-
         var oneTime = true;
         function runOnce(f) {
             if (oneTime) {
@@ -588,6 +666,7 @@ function loadGUI() {
                 }, 1);
             }
         }
+
         function getStat(percent) {
             return Math.ceil(10 + percent * 50);
         }
@@ -623,20 +702,32 @@ function loadGUI() {
             EZGUI.components[stat1+'Slider'].value = val1;
             EZGUI.components[stat2+'Slider'].value = val2;
             console.log(105 - (getStat(EZGUI.components[stat+'Slider'].value) +
-            getStat(EZGUI.components[stat1+'Slider'].value) +
-            getStat(EZGUI.components[stat2+'Slider'].value)));
+                getStat(EZGUI.components[stat1+'Slider'].value) +
+                getStat(EZGUI.components[stat2+'Slider'].value)));
             setStatLabels();
         }
 
+        var loginElement = EZGUI.create(loginWindow, 'metalworks');
+        loginElement.visible = false;
+
+        var characterSelectElement = EZGUI.create(characterSelectWindow, 'metalworks');
+        characterSelectElement.visible = false;
+
+        var classSelectElement = EZGUI.create(classSelectWindow, 'metalworks');
+        classSelectElement.visible = true;
+        EZGUI.components.classDescription.text = 'Select a class and click Continue';
+        EZGUI.components.classDescription.y = 300;
+
+        var skillSelectElement; //dynamically generated
+
         var statSelectElement = EZGUI.create(statSelectWindow, 'metalworks');
-        statSelectElement.visible = true;
+        statSelectElement.visible = false;
         EZGUI.components.strSlider.value = 0.5;
         EZGUI.components.dexSlider.value = 0.5;
         EZGUI.components.intSlider.value = 0.5;
         balanceStats('str');
 
-        EZGUI.components.classDescription.text = 'Select a class and click Continue';
-        EZGUI.components.classDescription.y = 300;
+        var portraitSelectElement; //dynamically generated
 
         //player selections
         var selectedClass;
@@ -651,7 +742,6 @@ function loadGUI() {
             //for some reason last xbox is not clickable, so make an extra one
             list.children.push({ id: 'bugFixCheckbox', text: 'DO_NOT_DISPLAY', component: 'Checkbox', position: 'center left', width: 40, height: 40, visible: false});
             skillSelectElement = EZGUI.create(skillSelectWindow, 'metalworks');
-            skillSelectElement.visible = false;
             //set up button handlers
             EZGUI.components.bugFixCheckbox.visible = false;
 
@@ -681,6 +771,37 @@ function loadGUI() {
             });
         }
 
+        function displayPortraitSelectWindow() {
+            var imagePrefix;
+            console.log(selectedClass);
+            switch(selectedClass.text){
+                    case 'Rogue':
+                        imagePrefix = 'Rogue';
+                        break;
+                    case 'Warrior':
+                        imagePrefix = 'War';
+                        break;
+                    case 'Sorcerer':
+                        imagePrefix = 'Sorc';
+                        break;
+            }
+            var list = portraitSelectWindow.getListElement();
+            for (var i = 1; i < 40; i++) {
+                var portraitImage = {
+                    id: 'portraitImage'+i,
+                    component: 'Radio',
+                    position: 'center',
+                    // padding: 20,
+                    width: 110,
+                    height: 170,
+                    image: 'assets/gui/portraits/'+imagePrefix+i+'.bmp',
+                    checkmark: 'assets/gui/portraits/checkbox.bmp',
+                };
+                list.children.push(portraitImage);
+            }
+            portraitSelectElement = EZGUI.create(portraitSelectWindow, 'metalworks');
+            portraitSelectElement.visible = true;
+        }
 
         EZGUI.components.strSlider.on('mouseup', function (event) {
             runOnce(function () {
@@ -777,7 +898,6 @@ function loadGUI() {
                     }
                     classSelectElement.visible = false;
                     skillSelectElement.visible = true;
-
                 }
             });
         });
@@ -789,10 +909,9 @@ function loadGUI() {
             runOnce(function () {
                 selectedClass = EZGUI.radioGroups['classSelect'].selected;
                 statSelectElement.visible = false;
-                // skillSelectElement.visible = true;
+                displayPortraitSelectWindow();
             });
         });
-
 
         EZGUI.components.char1.on('click', function (event) {
             characterSelectElement.visible = false;
@@ -808,8 +927,6 @@ function loadGUI() {
             characterSelectElement.visible = false;
             classSelectElement.visible = true;
         });
-
-
 
     });
 }
