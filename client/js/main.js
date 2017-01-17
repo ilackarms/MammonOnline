@@ -225,9 +225,9 @@ function loadGUI() {
                 height: 300,
                 layout: [3, 3],
                 children: [
-                    { id: 'warriorRadio', component: 'Radio', text: 'Warrior', group: 'classSelect', position: 'center', width: 128, height: 128, image: 'assets/gui/themes/metalworks-theme/images/warrior-up.png', checkmark: 'assets/gui/portraits/checkbox.bmp'},
-                    { id: 'rogueRadio', component: 'Radio', text: 'Rogue', group: 'classSelect', position: 'center', width: 128, height: 128, image: 'assets/gui/themes/metalworks-theme/images/rogue-up.png', checkmark: 'assets/gui/portraits/checkbox.bmp'},
-                    { id: 'sorcererRadio', component: 'Radio', text: 'Sorcerer', group: 'classSelect', position: 'center', width: 128, height: 128, image: 'assets/gui/themes/metalworks-theme/images/sorcerer-up.png', checkmark: 'assets/gui/portraits/checkbox.bmp'},
+                    { id: 'warriorRadio', component: 'Radio', group: 'classSelect', position: 'center', width: 128, height: 128, image: 'assets/gui/themes/metalworks-theme/images/warrior-up.png', checkmark: 'assets/gui/portraits/checkbox.bmp'},
+                    { id: 'rogueRadio', component: 'Radio', group: 'classSelect', position: 'center', width: 128, height: 128, image: 'assets/gui/themes/metalworks-theme/images/rogue-up.png', checkmark: 'assets/gui/portraits/checkbox.bmp'},
+                    { id: 'sorcererRadio', component: 'Radio', group: 'classSelect', position: 'center', width: 128, height: 128, image: 'assets/gui/themes/metalworks-theme/images/sorcerer-up.png', checkmark: 'assets/gui/portraits/checkbox.bmp'},
                     null,
                     null,
                     null,
@@ -732,6 +732,8 @@ function loadGUI() {
         //player selections
         var selectedClass;
         var selectedSkills;
+        var selectedPortrait;
+        var characterName;
 
         function displaySkillListWindow(skills) {
             var list = skillSelectWindow.getListElement();
@@ -773,15 +775,14 @@ function loadGUI() {
 
         function displayPortraitSelectWindow() {
             var imagePrefix;
-            console.log(selectedClass);
-            switch(selectedClass.text){
-                    case 'Rogue':
+            switch(selectedClass.Id){
+                    case 'rogueRadio':
                         imagePrefix = 'Rogue';
                         break;
-                    case 'Warrior':
+                    case 'warriorRadio':
                         imagePrefix = 'War';
                         break;
-                    case 'Sorcerer':
+                    case 'sorcererRadio':
                         imagePrefix = 'Sorc';
                         break;
             }
@@ -796,11 +797,26 @@ function loadGUI() {
                     height: 170,
                     image: 'assets/gui/portraits/'+imagePrefix+i+'.bmp',
                     checkmark: 'assets/gui/portraits/checkbox.bmp',
+                    group: 'portraitGroup',
                 };
                 list.children.push(portraitImage);
             }
             portraitSelectElement = EZGUI.create(portraitSelectWindow, 'metalworks');
             portraitSelectElement.visible = true;
+
+            EZGUI.components.portraitCancelButton.on('click', function (event) {
+                location.reload();
+            });
+            EZGUI.components.portraitContinueButton.on('click', function (event) {
+                runOnce(function () {
+                    var portrait = EZGUI.radioGroups['portraitGroup'].selected;
+                    if (portrait) {
+                        selectedPortrait = portrait.image;
+                        classSelectElement.visible = false;
+                        skillSelectElement.visible = true;
+                    }
+                });
+            });
         }
 
         EZGUI.components.strSlider.on('mouseup', function (event) {
@@ -844,8 +860,8 @@ function loadGUI() {
             runOnce(function () {
                 selectedClass = EZGUI.radioGroups['classSelect'].selected;
                 if (selectedClass) {
-                    switch (selectedClass.text) {
-                        case 'Warrior':
+                    switch (selectedClass.Id) {
+                        case 'warriorRogue':
                             displaySkillListWindow([
                                 'Athletics',
                                 'Barter',
@@ -863,7 +879,7 @@ function loadGUI() {
                                 'Unarmed Fighting'
                             ]);
                             break;
-                        case 'Rogue':
+                        case 'rogueRadio':
                             displaySkillListWindow([
                                 'Archery',
                                 'Athletics',
@@ -881,7 +897,7 @@ function loadGUI() {
                                 'Stealth'
                             ]);
                             break;
-                        case 'Sorcerer':
+                        case 'sorcererRadio':
                             displaySkillListWindow([
                                 'Alchemy',
                                 'Athletics',
