@@ -31,7 +31,7 @@ type skills struct {
 	UNARMED_FIGHTING  Skill
 }
 
-var Skills skills = skills{
+var SKILLS skills = skills{
 	ALCHEMY:           0,
 	ARCHERY:           1,
 	ATHLETICS:         2,

@@ -8,7 +8,7 @@ type stats struct {
 	INTELLIGENCE Stat
 }
 
-var Stats stats = stats{
+var STATS stats = stats{
 	STRENGTH:     0,
 	DEXTERITY:    1,
 	INTELLIGENCE: 2,

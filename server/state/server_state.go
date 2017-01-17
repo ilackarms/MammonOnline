@@ -11,6 +11,10 @@ type Account struct {
 	Characters []Character `json:"characters"`
 }
 
-type State struct {
+type PersistentState struct {
 	Accounts []Account `json:"accounts"`
+}
+
+type EphemeralState struct {
+	Sessions []Session
 }

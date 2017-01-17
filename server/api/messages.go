@@ -8,7 +8,11 @@ type LoginRequest struct {
 }
 
 type LoginResponse struct {
-	Result         enums.Result `json:"result"`
-	Error          string       `json:"error"`
-	CharacterNames []string     `json:"character_names"`
+	SessionToken   string   `json:"session_token"`
+	CharacterNames []string `json:"character_names"`
+}
+
+type ErrorResponse struct {
+	Msg  string          `json:"msg"`
+	Code enums.ErrorCode `json:"code"`
 }

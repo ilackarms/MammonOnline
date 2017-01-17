@@ -8,7 +8,7 @@ type classes struct {
 	WARRIOR  Class
 }
 
-var Classes classes = classes{
+var CLASSES classes = classes{
 	ROGUE:    0,
 	SORCERER: 1,
 	WARRIOR:  2,

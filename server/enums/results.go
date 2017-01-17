@@ -4,10 +4,10 @@ type Result int
 
 type results struct {
 	SUCCESS Result
-	ERROR   Result
+	FAILURE Result
 }
 
-var Results = results{
+var RESULTS = results{
 	SUCCESS: 0,
-	ERROR:   1,
+	FAILURE: 1,
 }
