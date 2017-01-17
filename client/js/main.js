@@ -1,8 +1,8 @@
 window.onload = main;
-var game;
+var game, socket;
 
 function main(){
-    var socket = io();
+    socket = io();
     socket.on('connected', function (data) {
         console.log('welcome to the server bro: ', data);
         socket.emit('asdf', 'hihi');
@@ -39,6 +39,7 @@ function main(){
         },
         create: function () {
             loadGUI();
+            game.canvas.oncontextmenu = function (e) { e.preventDefault(); }
         },
         update: function () {},
         render: function () {}
@@ -59,7 +60,7 @@ function loadGUI() {
         width: 500,
         height: 550,
 
-        layout: [2, 10],
+        layout: [1, 10],
         children: [
             {
                 text: 'Mammon Online v0.1',
@@ -105,7 +106,7 @@ function loadGUI() {
             null, null,
             {
                 id: 'errTxt',
-                text: '[Error Msg]',
+                text: '',
                 component: 'Label',
                 position: 'center',
                 width: 200,
@@ -119,7 +120,7 @@ function loadGUI() {
             null,
             {
                 id: 'loginButton',
-                text: 'Get Text Value',
+                text: 'Login',
                 component: 'Button',
                 position: 'center',
                 width: 200,
@@ -804,27 +805,29 @@ function loadGUI() {
 
         function displayPortraitSelectWindow() {
             var imagePrefix;
-            switch(selectedClass.Id){
-                case 'rogueRadio':
+            switch(selectedClass){
+                case 'Rogue':
                     imagePrefix = 'Rogue';
                     break;
-                case 'warriorRadio':
+                case 'Warrior':
                     imagePrefix = 'War';
                     break;
-                case 'sorcererRadio':
+                case 'Sorcerer':
                     imagePrefix = 'Sorc';
                     break;
             }
             var list = portraitSelectWindow.getListElement();
             for (var i = 1; i < 40; i++) {
+                var img = 'assets/gui/portraits/'+imagePrefix+i+'.bmp';
+                console.log(img);
                 var portraitImage = {
-                    id: 'portraitImage'+i,
+                    id: img,
                     component: 'Radio',
                     position: 'center',
                     // padding: 20,
                     width: 110,
                     height: 170,
-                    image: 'assets/gui/portraits/'+imagePrefix+i+'.bmp',
+                    image: img,
                     checkmark: 'assets/gui/portraits/checkbox.bmp',
                     group: 'portraitGroup',
                 };
@@ -840,8 +843,9 @@ function loadGUI() {
                 runOnce(function () {
                     var portrait = EZGUI.radioGroups['portraitGroup'].selected;
                     characterName = EZGUI.components.characterName.text;
+                    console.log(portrait);
                     if (portrait && characterName.length > 4 && characterName.length < 40) {
-                        selectedPortrait = portrait.image;
+                        selectedPortrait = portrait.Id;
                         displaySummaryWindow();
                     }
                 });
@@ -904,18 +908,7 @@ function loadGUI() {
                                     color: '#fbfff8'
                                 }
                             },
-                            {
-                                text: 'Strength: '+selectedStats.str,
-                                position: 'center',
-                                component: 'Label',
-                                width: 100,
-                                height: 50,
-                                font: {
-                                    size: '18px',
-                                    family: 'Georgia',
-                                    color: '#fbfff8'
-                                }
-                            },
+                            null,
                             {
                                 text: 'Class: '+selectedClass,
                                 position: 'center',
@@ -929,8 +922,10 @@ function loadGUI() {
                                 }
                             },
                             {
-                                text: 'Dexterity: '+selectedStats.dex,
-                                position: 'center',
+                                text: 'Strength: '+selectedStats.str+'\n' +
+                                'Dexterity: '+selectedStats.dex+'\n'+
+                                'Intelligence: '+selectedStats.int,
+                                position: 'bottom center',
                                 component: 'Label',
                                 width: 100,
                                 height: 50,
@@ -940,6 +935,8 @@ function loadGUI() {
                                     color: '#fbfff8'
                                 }
                             },
+                            null,
+                            null,
                             {
                                 image: selectedPortrait,
                                 position: 'center',
@@ -947,21 +944,6 @@ function loadGUI() {
                                 width: 110,
                                 height: 170,
                             },
-                            {
-                                text: 'Intelligence: '+selectedStats.int,
-                                position: 'center',
-                                component: 'Label',
-                                width: 100,
-                                height: 50,
-                                font: {
-                                    size: '18px',
-                                    family: 'Georgia',
-                                    color: '#fbfff8'
-                                }
-                            },
-                            null,
-                            null,
-                            null,
                             {
                                 text: 'Starting Skills: \n'+selectedSkills.join('\n'),
                                 position: 'center',
@@ -974,6 +956,8 @@ function loadGUI() {
                                     color: '#fbfff8'
                                 }
                             },
+                            null,
+                            null,
                         ],
                     },
                     null,
@@ -1093,10 +1077,11 @@ function loadGUI() {
         });
         EZGUI.components.classContinueButton.on('click', function (event) {
             runOnce(function () {
-                selectedClass = EZGUI.radioGroups['classSelect'].selected;
-                if (selectedClass) {
-                    switch (selectedClass.Id) {
-                        case 'warriorRogue':
+                var selectedClassObj = EZGUI.radioGroups['classSelect'].selected;
+                if (selectedClassObj) {
+                    switch (selectedClassObj.Id) {
+                        case 'warriorRadio':
+                            selectedClass = 'Warrior';
                             displaySkillListWindow([
                                 'Athletics',
                                 'Barter',
@@ -1115,6 +1100,7 @@ function loadGUI() {
                             ]);
                             break;
                         case 'rogueRadio':
+                            selectedClass = 'Rogue';
                             displaySkillListWindow([
                                 'Archery',
                                 'Athletics',
@@ -1133,6 +1119,7 @@ function loadGUI() {
                             ]);
                             break;
                         case 'sorcererRadio':
+                            selectedClass = 'Sorcerer';
                             displaySkillListWindow([
                                 'Alchemy',
                                 'Athletics',
