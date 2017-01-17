@@ -587,8 +587,31 @@ function loadGUI() {
             null,
             null,
             null,
-            null,
-            null,
+            {
+                text: 'Name:',
+                position: 'center',
+                component: 'Label',
+                width: 100,
+                height: 50,
+                font: {
+                    size: '18px',
+                    family: 'Georgia',
+                    color: '#fbfff8'
+                }
+            },
+            {
+                id: 'characterName',
+                text: '',
+                component: 'Input',
+                position: 'center',
+                width: 300,
+                height: 50,
+                font: {
+                    size: '18px',
+                    family: 'Georgia',
+                    color: '#fbfff8'
+                }
+            },
             null,
             {
                 position: 'center',
@@ -810,10 +833,10 @@ function loadGUI() {
             EZGUI.components.portraitContinueButton.on('click', function (event) {
                 runOnce(function () {
                     var portrait = EZGUI.radioGroups['portraitGroup'].selected;
-                    if (portrait) {
+                    characterName = EZGUI.components.characterName.text;
+                    if (portrait && characterName.length > 4 && characterName.length < 40) {
                         selectedPortrait = portrait.image;
-                        classSelectElement.visible = false;
-                        skillSelectElement.visible = true;
+                        portraitSelectElement.visible = false;
                     }
                 });
             });
