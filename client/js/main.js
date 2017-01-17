@@ -8,6 +8,11 @@ function main(){
         socket.emit('asdf', 'hihi');
     });
 
+    socket.on('characterCreationSuccessful', function (data) {
+        game.destroy();
+        alert('DESTROY OLD GAME START NEW HERE :d '+ data);
+    });
+
     game = new Phaser.Game(1200, 600, Phaser.AUTO, 'game', {
         preload: function () {
             var resources = [
@@ -22,9 +27,9 @@ function main(){
                 'assets/gui/portraits/checkbox.bmp'
             ];
             for (var i = 1; i < 40; i++) {
-              resources.push('assets/gui/portraits/Rogue'+i+'.bmp');
-              resources.push('assets/gui/portraits/Sorc'+i+'.bmp');
-              resources.push('assets/gui/portraits/War'+i+'.bmp');
+                resources.push('assets/gui/portraits/Rogue'+i+'.bmp');
+                resources.push('assets/gui/portraits/Sorc'+i+'.bmp');
+                resources.push('assets/gui/portraits/War'+i+'.bmp');
             }
             for (var i = 0; i < resources.length; i++) {
                 game.load.image(resources[i], resources[i]);
@@ -731,13 +736,13 @@ function loadGUI() {
         }
 
         var loginElement = EZGUI.create(loginWindow, 'metalworks');
-        loginElement.visible = false;
+        loginElement.visible = true;
 
         var characterSelectElement = EZGUI.create(characterSelectWindow, 'metalworks');
         characterSelectElement.visible = false;
 
         var classSelectElement = EZGUI.create(classSelectWindow, 'metalworks');
-        classSelectElement.visible = true;
+        classSelectElement.visible = false;
         EZGUI.components.classDescription.text = 'Select a class and click Continue';
         EZGUI.components.classDescription.y = 300;
 
@@ -755,6 +760,7 @@ function loadGUI() {
         //player selections
         var selectedClass;
         var selectedSkills;
+        var selectedStats;
         var selectedPortrait;
         var characterName;
 
@@ -799,15 +805,15 @@ function loadGUI() {
         function displayPortraitSelectWindow() {
             var imagePrefix;
             switch(selectedClass.Id){
-                    case 'rogueRadio':
-                        imagePrefix = 'Rogue';
-                        break;
-                    case 'warriorRadio':
-                        imagePrefix = 'War';
-                        break;
-                    case 'sorcererRadio':
-                        imagePrefix = 'Sorc';
-                        break;
+                case 'rogueRadio':
+                    imagePrefix = 'Rogue';
+                    break;
+                case 'warriorRadio':
+                    imagePrefix = 'War';
+                    break;
+                case 'sorcererRadio':
+                    imagePrefix = 'Sorc';
+                    break;
             }
             var list = portraitSelectWindow.getListElement();
             for (var i = 1; i < 40; i++) {
@@ -836,11 +842,217 @@ function loadGUI() {
                     characterName = EZGUI.components.characterName.text;
                     if (portrait && characterName.length > 4 && characterName.length < 40) {
                         selectedPortrait = portrait.image;
-                        portraitSelectElement.visible = false;
+                        displaySummaryWindow();
                     }
+                });
+                portraitSelectElement.visible = false;
+            });
+        }
+
+        function displaySummaryWindow() {
+            // characterName = 'fooboo';
+            // selectedClass = 'Rogue';
+            // selectedStats = {str: 35, dex: 35, int: 35};
+            // selectedSkills = ['Evasion', 'Athletics', 'Something'];
+            // selectedPortrait = 'assets/gui/portraits/Rogue2.bmp';
+
+            var summaryWindow = {
+                id: 'summaryWindow',
+                component: 'Window',
+                draggable: false,
+
+                padding: 4,
+
+                //component position relative to parent
+                position: {x: 200, y: 10},
+
+                width: 800,
+                height: 550,
+
+                layout: [null, 10],
+                children: [
+                    {
+                        text: 'Character Summary',
+                        font: {
+                            size: '20px',
+                            family: 'Georgia',
+                            color: '#fff'
+                        },
+                        component: 'Header',
+
+                        position: 'center',
+
+                        width: 500,
+                        height: 40
+                    },
+                    {
+                        component: 'Layout',
+                        position: 'top center',
+                        width: 600,
+                        height: 400,
+                        layout: [2, 6],
+                        children: [
+                            {
+                                text: 'Name: '+characterName,
+                                position: 'center',
+                                component: 'Label',
+                                width: 100,
+                                height: 50,
+                                font: {
+                                    size: '18px',
+                                    family: 'Georgia',
+                                    color: '#fbfff8'
+                                }
+                            },
+                            {
+                                text: 'Strength: '+selectedStats.str,
+                                position: 'center',
+                                component: 'Label',
+                                width: 100,
+                                height: 50,
+                                font: {
+                                    size: '18px',
+                                    family: 'Georgia',
+                                    color: '#fbfff8'
+                                }
+                            },
+                            {
+                                text: 'Class: '+selectedClass,
+                                position: 'center',
+                                component: 'Label',
+                                width: 100,
+                                height: 50,
+                                font: {
+                                    size: '18px',
+                                    family: 'Georgia',
+                                    color: '#fbfff8'
+                                }
+                            },
+                            {
+                                text: 'Dexterity: '+selectedStats.dex,
+                                position: 'center',
+                                component: 'Label',
+                                width: 100,
+                                height: 50,
+                                font: {
+                                    size: '18px',
+                                    family: 'Georgia',
+                                    color: '#fbfff8'
+                                }
+                            },
+                            {
+                                image: selectedPortrait,
+                                position: 'center',
+                                component: 'Window',
+                                width: 110,
+                                height: 170,
+                            },
+                            {
+                                text: 'Intelligence: '+selectedStats.int,
+                                position: 'center',
+                                component: 'Label',
+                                width: 100,
+                                height: 50,
+                                font: {
+                                    size: '18px',
+                                    family: 'Georgia',
+                                    color: '#fbfff8'
+                                }
+                            },
+                            null,
+                            null,
+                            null,
+                            {
+                                text: 'Starting Skills: \n'+selectedSkills.join('\n'),
+                                position: 'center',
+                                component: 'Label',
+                                width: 100,
+                                height: 50,
+                                font: {
+                                    size: '18px',
+                                    family: 'Georgia',
+                                    color: '#fbfff8'
+                                }
+                            },
+                        ],
+                    },
+                    null,
+                    null,
+                    null,
+                    {
+                        id: 'summaryErrText',
+                        text: '',
+                        position: 'center',
+                        component: 'Label',
+                        width: 100,
+                        height: 50,
+                        font: {
+                            size: '18px',
+                            family: 'Georgia',
+                            color: '#b82730'
+                        }
+                    },
+                    null,
+                    null,
+                    null,
+                    {
+                        position: 'center',
+                        component: 'Layout_No_Border',
+                        width: 800,
+                        height: 60,
+                        children: [
+                            {
+                                id: 'summaryCancelButton',
+                                text: 'Cancel',
+                                component: 'Button',
+                                position: 'left',
+                                width: 80,
+                                height: 50,
+                                font: {
+                                    size: '15px',
+                                    family: 'Georgia',
+                                    color: '#000000'
+                                }
+                            },
+                            {
+                                id: 'summaryConfirmButton',
+                                text: 'Confirm',
+                                component: 'Button',
+                                position: 'right',
+                                width: 80,
+                                height: 50,
+                                font: {
+                                    size: '15px',
+                                    family: 'Georgia',
+                                    color: '#000000'
+                                }
+                            }
+                        ]
+                    }
+                ],
+            };
+            var summaryElement = EZGUI.create(summaryWindow, 'metalworks');
+            summaryElement.visible = true;
+            EZGUI.components.summaryCancelButton.on('click', function (event) {
+                location.reload();
+            });
+            socket.on('createNewCharacterError', function (data) {
+                EZGUI.components.summaryErrText.text = data;
+            });
+            EZGUI.components.summaryConfirmButton.on('click', function (event) {
+                runOnce(function () {
+                    var newCharacterInfo = {
+                        characterName: characterName,
+                        selectedClass: selectedClass,
+                        selectedStats: selectedStats,
+                        selectedSkills: selectedSkills,
+                        selectedPortrait: selectedPortrait,
+                    };
+                    socket.emit('createNewCharacter', JSON.stringify(newCharacterInfo));
                 });
             });
         }
+
 
         EZGUI.components.strSlider.on('mouseup', function (event) {
             runOnce(function () {
@@ -946,8 +1158,12 @@ function loadGUI() {
         });
         EZGUI.components.statContinueButton.on('click', function (event) {
             runOnce(function () {
-                selectedClass = EZGUI.radioGroups['classSelect'].selected;
                 statSelectElement.visible = false;
+                selectedStats = {
+                    str: getStat(EZGUI.components.strSlider.value),
+                    dex: getStat(EZGUI.components.dexSlider.value),
+                    int: getStat(EZGUI.components.intSlider.value)
+                };
                 displayPortraitSelectWindow();
             });
         });
