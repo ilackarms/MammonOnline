@@ -14,8 +14,8 @@ func Reply(so socketio.Socket, event enums.ClientEvent, response interface{}) er
 	if err != nil {
 		return errors.New("error marshalling "+fmt.Sprintf("%v", response)+" to json", err)
 	}
-	if err := so.Emit(event, string(data)); err != nil {
-		return errors.New("emitting data "+string(data)+" on event "+event, err)
+	if err := so.Emit(event.String(), string(data)); err != nil {
+		return errors.New("emitting data "+string(data)+" on event "+event.String(), err)
 	}
 	return nil
 }

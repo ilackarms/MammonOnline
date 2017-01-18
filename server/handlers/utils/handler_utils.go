@@ -9,21 +9,21 @@ import (
 type HandleFunc func(msg string) (result interface{}, err error, code enums.ErrorCode)
 
 func AddHandler(so socketio.Socket,
-	request enums.ServerEvent,
-	response enums.ClientEvent,
+	serverEevent enums.ServerEvent,
+	clientEvent enums.ClientEvent,
 	handler HandleFunc) {
-	so.On(request, func(msg string) {
+	so.On(serverEevent.String(), func(msg string) {
 		log.Debug("received request: ", msg, " from client", so.Id())
 		result, err, code := handler(msg)
 		if err != nil {
-			log.Error("error handling "+request+" from"+so.Id()+": ", err)
+			log.Error("error handling "+serverEevent.String()+" from"+so.Id()+": ", err)
 			ReplyWithError(
 				so,
-				response,
+				clientEvent,
 				code,
 				err,
 			)
 		}
-		Reply(so, response, result)
+		Reply(so, clientEvent, result)
 	})
 }

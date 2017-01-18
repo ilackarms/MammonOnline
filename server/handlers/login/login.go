@@ -3,15 +3,14 @@ package login
 import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/emc-advanced-dev/pkg/errors"
-	"github.com/googollee/go-socket.io"
 	"github.com/ilackarms/MammonOnline/server/api"
 	"github.com/ilackarms/MammonOnline/server/enums"
 	"github.com/ilackarms/MammonOnline/server/handlers/utils"
 	"github.com/ilackarms/MammonOnline/server/stateful"
 )
 
-func loginHandler(state *stateful.State, sessionID string) utils.HandleFunc {
-	return func(msg string) (*api.LoginResponse, error, enums.ErrorCode) {
+func LoginHandler(state *stateful.State, sessionID string) utils.HandleFunc {
+	return func(msg string) (interface{}, error, enums.ErrorCode) {
 		var loginRequest api.LoginRequest
 		if err := utils.ParseRequest(msg, &loginRequest); err != nil {
 			return nil, err, enums.ERROR_CODES.INVALID_REQUEST
@@ -38,14 +37,4 @@ func loginHandler(state *stateful.State, sessionID string) utils.HandleFunc {
 			CharacterNames: []string{},
 		}, nil, enums.ERROR_CODES.NIL
 	}
-}
-
-// register handlers for this socket
-func RegisterHandlers(state *stateful.State, so socketio.Socket) {
-	utils.AddHandler(
-		so,
-		enums.SERVER_EVENTS.LOGIN_REQUEST,
-		enums.CLIENT_EVENTS.LOGIN_RESPONSE,
-		loginHandler(state, so.Id()),
-	)
 }
