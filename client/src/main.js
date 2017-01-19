@@ -1,48 +1,58 @@
-window.onload = main;
-var game, socket;
+//Globals
+window.socket;
+window.game;
 
-function main(){
+function main() {
+    var handlers = require('./handlers/handlers');
+    window.socket = io();
+    handlers.registerHandlers();
+    window.game =  new Phaser.Game(800, 480, Phaser.CANVAS, 'game');
+    window.game.state.add('boot', require('./states/boot'));
+
+    window.game.state.start('boot');
+}
+
+main();
+
+function main_old(){
     socket = io();
     socket.on('connected', function (data) {
-        console.log('welcome to the server bro: ', data);
-        socket.emit('asdf', 'hihi');
+        game = new Phaser.Game(1200, 600, Phaser.AUTO, 'game', {
+            preload: function () {
+                var resources = [
+                    'assets/gui/themes/metalworks-theme/images/warrior-up.png',
+                    'assets/gui/themes/metalworks-theme/images/warrior-down.png',
+                    'assets/gui/themes/metalworks-theme/images/rogue-up.png',
+                    'assets/gui/themes/metalworks-theme/images/rogue-down.png',
+                    'assets/gui/themes/metalworks-theme/images/sorcerer-up.png',
+                    'assets/gui/themes/metalworks-theme/images/sorcerer-down.png',
+                    'assets/gui/themes/metalworks-theme/images/radio-empty.png',
+                    'assets/gui/themes/metalworks-theme/images/radio-filled.png',
+                    'assets/gui/portraits/checkbox.bmp'
+                ];
+                for (var i = 1; i < 40; i++) {
+                    resources.push('assets/gui/portraits/Rogue'+i+'.bmp');
+                    resources.push('assets/gui/portraits/Sorc'+i+'.bmp');
+                    resources.push('assets/gui/portraits/War'+i+'.bmp');
+                }
+                for (var i = 0; i < resources.length; i++) {
+                    game.load.image(resources[i], resources[i]);
+                }
+
+                game.load.onLoadComplete.add(EZGUI.Compatibility.fixCache, game.load, null, resources);
+            },
+            create: function () {
+                loadGUI();
+                game.canvas.oncontextmenu = function (e) { e.preventDefault(); }
+            },
+            update: function () {},
+            render: function () {}
+        });
     });
 
     socket.on('characterCreationSuccessful', function (data) {
         game.destroy();
         alert('DESTROY OLD GAME START NEW HERE :d '+ data);
-    });
-
-    game = new Phaser.Game(1200, 600, Phaser.AUTO, 'game', {
-        preload: function () {
-            var resources = [
-                'assets/gui/themes/metalworks-theme/images/warrior-up.png',
-                'assets/gui/themes/metalworks-theme/images/warrior-down.png',
-                'assets/gui/themes/metalworks-theme/images/rogue-up.png',
-                'assets/gui/themes/metalworks-theme/images/rogue-down.png',
-                'assets/gui/themes/metalworks-theme/images/sorcerer-up.png',
-                'assets/gui/themes/metalworks-theme/images/sorcerer-down.png',
-                'assets/gui/themes/metalworks-theme/images/radio-empty.png',
-                'assets/gui/themes/metalworks-theme/images/radio-filled.png',
-                'assets/gui/portraits/checkbox.bmp'
-            ];
-            for (var i = 1; i < 40; i++) {
-                resources.push('assets/gui/portraits/Rogue'+i+'.bmp');
-                resources.push('assets/gui/portraits/Sorc'+i+'.bmp');
-                resources.push('assets/gui/portraits/War'+i+'.bmp');
-            }
-            for (var i = 0; i < resources.length; i++) {
-                game.load.image(resources[i], resources[i]);
-            }
-
-            game.load.onLoadComplete.add(EZGUI.Compatibility.fixCache, game.load, null, resources);
-        },
-        create: function () {
-            loadGUI();
-            game.canvas.oncontextmenu = function (e) { e.preventDefault(); }
-        },
-        update: function () {},
-        render: function () {}
     });
 }
 
@@ -1172,3 +1182,62 @@ function loadGUI() {
 
     });
 }
+
+//tryinig with slick instead
+var slickUI;
+function main2(){
+    socket = io();
+
+    game = new Phaser.Game(1200, 600, Phaser.AUTO, 'game', {
+        preload: function () {
+            // You can use your own methods of making the plugin publicly available. Setting it as a global variable is the easiest solution.
+            slickUI = game.plugins.add(Phaser.Plugin.SlickUI);
+            slickUI.load('assets/gui/themes/kenney/kenney.json'); // Use the path to your kenney.json. This is the file that defines your theme.
+            game.add.plugin(PhaserInput.Plugin);
+        },
+        create: function () {
+            loadSlickGUI();
+            // game.canvas.oncontextmenu = function (e) { e.preventDefault(); }
+        },
+        update: function () {},
+        render: function () {}
+    });
+}
+
+function loadSlickGUI(){
+    var panel;
+    slickUI.add(panel = new SlickUI.Element.Panel(8, 8, 150, game.height - 16));
+    var button;
+    panel.add(button = new SlickUI.Element.Button(0,0, 140, 80));
+    button.events.onInputUp.add(function () {console.log('Clicked button');});
+    button.add(new SlickUI.Element.Text(0,0, "My button")).center();
+    var password = game.add.inputField(10, 90, {
+        font: '18px Arial',
+        fill: '#212121',
+        fontWeight: 'bold',
+        width: 150,
+        padding: 8,
+        borderWidth: 1,
+        borderColor: '#000',
+        borderRadius: 6,
+        placeHolder: 'Password',
+        type: PhaserInput.InputType.password
+    });
+    setTimeout(function () {
+        panel.destroy();
+    }, 3000)
+}
+
+var MenuState = function () {
+    function loadLoginMenu() {
+
+    }
+
+    function loadCharacterSelectMenu(characters) {
+
+    }
+
+    function loadCharacterCreateMenu() {
+
+    }
+};
