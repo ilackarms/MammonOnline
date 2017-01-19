@@ -12,7 +12,7 @@ func AddHandler(so socketio.Socket,
 	serverEevent enums.ServerEvent,
 	clientEvent enums.ClientEvent,
 	handler HandleFunc) {
-	so.On(serverEevent.String(), func(msg string) {
+	if err := so.On(serverEevent.String(), func(msg string) {
 		log.Debug("received request: ", msg, " from client", so.Id())
 		result, err, code := handler(msg)
 		if err != nil {
@@ -25,5 +25,7 @@ func AddHandler(so socketio.Socket,
 			)
 		}
 		Reply(so, clientEvent, result)
-	})
+	}); err != nil {
+		log.Fatalf("INVALID HANDLER: %+v", handler)
+	}
 }
