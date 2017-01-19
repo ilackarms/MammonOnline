@@ -3,13 +3,14 @@ package login
 import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/emc-advanced-dev/pkg/errors"
+	"github.com/googollee/go-socket.io"
 	"github.com/ilackarms/MammonOnline/server/api"
 	"github.com/ilackarms/MammonOnline/server/enums"
 	"github.com/ilackarms/MammonOnline/server/handlers/utils"
 	"github.com/ilackarms/MammonOnline/server/stateful"
 )
 
-func LoginHandler(state *stateful.State, sessionID string) utils.HandleFunc {
+func LoginHandler(state *stateful.State, so socketio.Socket) utils.HandleFunc {
 	return func(msg string) (interface{}, error, enums.ErrorCode) {
 		var loginRequest api.LoginRequest
 		if err := utils.ParseRequest(msg, &loginRequest); err != nil {
@@ -17,14 +18,19 @@ func LoginHandler(state *stateful.State, sessionID string) utils.HandleFunc {
 		}
 		if state.AccountExists(loginRequest.Username) {
 			if state.VerifyAccount(loginRequest.Username, loginRequest.Password) {
-				log.Infof("account %v logged in", loginRequest.Username)
+				if state.SessionExists(loginRequest.Username) {
+					log.Warnf("account %v already logged in, request rejected", loginRequest.Username)
+					return nil, errors.New("user already logged in", nil), enums.ERROR_CODES.INVALID_LOGIN
+				}
+				state.InitiateSession(so, loginRequest.Username)
+				log.Infof("account %v logged in; socket id: %v", loginRequest.Username, so.Id())
 				characters := state.GetCharacters(loginRequest.Username)
 				names := make([]string, len(characters))
 				for i := range characters {
 					names[i] = characters[i].Name
 				}
 				return &api.LoginResponse{
-					SessionToken:   sessionID,
+					SessionToken:   so.Id(),
 					CharacterNames: names,
 				}, nil, enums.ERROR_CODES.NIL
 			}
@@ -33,7 +39,7 @@ func LoginHandler(state *stateful.State, sessionID string) utils.HandleFunc {
 		state.CreateAccount(loginRequest.Username, loginRequest.Password)
 		log.Infof("account %v created", loginRequest.Username)
 		return &api.LoginResponse{
-			SessionToken:   sessionID,
+			SessionToken:   so.Id(),
 			CharacterNames: []string{},
 		}, nil, enums.ERROR_CODES.NIL
 	}

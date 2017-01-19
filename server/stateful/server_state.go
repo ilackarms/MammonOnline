@@ -1,5 +1,10 @@
 package stateful
 
+import (
+	"github.com/emc-advanced-dev/pkg/errors"
+	"github.com/googollee/go-socket.io"
+)
+
 type Character struct {
 	Name  string `json:"name"`
 	Class string `json:"class"`
@@ -51,6 +56,32 @@ func (s *PersistentState) GetCharacters(username string) []*Character {
 
 type EphemeralState struct {
 	Sessions []*Session
+}
+
+func (s *EphemeralState) SessionExists(username string) bool {
+	for _, session := range s.Sessions {
+		if session.Username == username {
+			return true
+		}
+	}
+	return false
+}
+
+func (s *EphemeralState) InitiateSession(so socketio.Socket, username string) {
+	s.Sessions = append(s.Sessions, &Session{
+		So:       so,
+		Username: username,
+	})
+}
+
+func (s *EphemeralState) TerminateSession(username string) error {
+	for i, session := range s.Sessions {
+		if session.Username == username {
+			s.Sessions = append(s.Sessions[:i], s.Sessions[i+1:]...)
+			return nil
+		}
+	}
+	return errors.New("session for "+username+" not found", nil)
 }
 
 type State struct {

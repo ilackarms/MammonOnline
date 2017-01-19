@@ -14,6 +14,6 @@ func RegisterHandlers(state *stateful.State, so socketio.Socket) {
 		so,
 		enums.SERVER_EVENTS.LOGIN_REQUEST,
 		enums.CLIENT_EVENTS.LOGIN_RESPONSE,
-		login.LoginHandler(state, so.Id()),
+		login.LoginHandler(state, so),
 	)
 }
