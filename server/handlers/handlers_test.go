@@ -44,7 +44,8 @@ var _ = Describe("Handlers", func() {
 	})
 	Describe("LoginHandler", func() {
 		Context("on new account creation", func() {
-			It("adds a new account to the state", func() {
+			It("responds with session token "+
+				"and adds a new account to the state", func() {
 				RegisterHandlers(state, so)
 				data, err := json.Marshal(api.LoginRequest{
 					Username: "testuser",
@@ -57,6 +58,7 @@ var _ = Describe("Handlers", func() {
 				})
 				client.Emit(enums.SERVER_EVENTS.LOGIN_REQUEST.String(), string(data))
 				Expect(<-responseChan).To(MatchRegexp(`{"session_token":".*","character_names":\[\]}`))
+				Expect(state.Accounts).To(HaveLen(1))
 			})
 		})
 	})

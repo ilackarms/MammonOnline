@@ -10,7 +10,7 @@ import (
 	"github.com/ilackarms/MammonOnline/server/stateful"
 )
 
-func LoginHandler(state *stateful.State, so socketio.Socket) utils.HandleFunc {
+func Handler(state *stateful.State, so socketio.Socket) utils.HandleFunc {
 	return func(msg string) (interface{}, error, enums.ErrorCode) {
 		var loginRequest api.LoginRequest
 		if err := utils.ParseRequest(msg, &loginRequest); err != nil {
