@@ -2,6 +2,8 @@ package api
 
 import "github.com/ilackarms/MammonOnline/server/enums"
 
+type ConnectionAcknowledgment struct{}
+
 type LoginRequest struct {
 	Username string `json:"username"`
 	Password string `json:"password"`

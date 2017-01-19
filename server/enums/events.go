@@ -16,8 +16,8 @@ type serverEvents struct {
 	LOGIN_REQUEST ServerEvent
 }
 type clientEvents struct {
-	CONNECTION_RESPONSE ClientEvent
-	LOGIN_RESPONSE      ClientEvent
+	CONNECTION_ACK ClientEvent
+	LOGIN_RESPONSE ClientEvent
 }
 
 var SERVER_EVENTS = serverEvents{
@@ -26,6 +26,6 @@ var SERVER_EVENTS = serverEvents{
 	LOGIN_REQUEST: "LOGIN_REQUEST",
 }
 var CLIENT_EVENTS = clientEvents{
-	CONNECTION_RESPONSE: "CONNECTION_RESPONSE",
-	LOGIN_RESPONSE:      "LOGIN_RESPONSE",
+	CONNECTION_ACK: "CONNECTION_ACK",
+	LOGIN_RESPONSE: "LOGIN_RESPONSE",
 }
