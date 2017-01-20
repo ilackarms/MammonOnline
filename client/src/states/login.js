@@ -86,7 +86,9 @@ module.exports = function (game, socket) {
             char0.add(new SlickUI.Element.Text(0, 0, 'NEW', 20, 'basic')).center();
             char0.events.onInputUp.add(function () {
                 utils.deleteSlickUIElement(panel);
-                login._displayNewCharacterMenu(0);
+                //choose character slot
+                this.slot = 0;
+                login._displayNewCharacterMenu();
             });
         }
         var cancel = panel.add(new SlickUI.Element.Button(0, panel.height - 40, 140, 40));
@@ -95,29 +97,30 @@ module.exports = function (game, socket) {
             location.reload();
         });
     };
-    
-    var rogueDescription = 'Rogues are skilled in ranged combat, as well as techniques of subterfuge and thievery. ' +
-        'Rogues have access to the Sneak Attack technique, which grants damage ' +
-        'bonuses when attacking from stealth. Rogues are the only class capable of using bows.\n' +
-        'Class Skills: ' +
-        'Archery, Mace Fighting, Swordsmanship, Tactics, Unarmed Fighting, ' +
-        'Evasion, Detecting Hidden, Hiding, Snooping, Stealing, Stealth, ' +
-        'Athletics, Barter, Magic Resistance';
 
-    var warriorDescription = 'Warriors are experts in melee combat. They excel at tanking and dealing large amounts of ' +
-        'physical damage. Warriors are the only class capable of using shields. ' +
-        'Warriors excel in crafting skills.\n'+
-        'Class Skills:'+
-        'Mace Fighting, Parrying, Swordsmanship, Tactics, Unarmed Fighting, Evasion, Healing, ' +
-        'Mining, Blacksmithy, Lumberjacking, Carpentry, Athletics, Barter, Magic Resistance';
+    login._displayNewCharacterMenu = function () {
+        var rogueDescription = 'Rogues are skilled in ranged combat, as well as techniques of subterfuge and thievery. ' +
+            'Rogues have access to the Sneak Attack technique, which grants damage ' +
+            'bonuses when attacking from stealth. Rogues are the only class capable of using bows.\n' +
+            'Class Skills: ' +
+            'Archery, Mace Fighting, Swordsmanship, Tactics, Unarmed Fighting, ' +
+            'Evasion, Detecting Hidden, Hiding, Snooping, Stealing, Stealth, ' +
+            'Athletics, Barter, Magic Resistance';
 
-    var sorcererDescription = 'Sorcerers are skilled in magical arts, but have weaker combat skills. ' +
-        'Sorcerers excel in Alchemy, the art of crafting potions.\n' +
-        'Class Skills: ' +
-        'Evasion, Alchemy, Herbalism, Magery, Magic Penetration, Meditation, ' +
-        'Magic Resistance, Concentration, Athletics, Barter';
+        var warriorDescription = 'Warriors are experts in melee combat. They excel at tanking and dealing large amounts of ' +
+            'physical damage. Warriors are the only class capable of using shields. ' +
+            'Warriors excel in crafting skills.\n'+
+            'Class Skills:'+
+            'Mace Fighting, Parrying, Swordsmanship, Tactics, Unarmed Fighting, Evasion, Healing, ' +
+            'Mining, Blacksmithy, Lumberjacking, Carpentry, Athletics, Barter, Magic Resistance';
 
-    login._displayNewCharacterMenu = function (slot) {
+        var sorcererDescription = 'Sorcerers are skilled in magical arts, but have weaker combat skills. ' +
+            'Sorcerers excel in Alchemy, the art of crafting potions.\n' +
+            'Class Skills: ' +
+            'Evasion, Alchemy, Herbalism, Magery, Magic Penetration, Meditation, ' +
+            'Magic Resistance, Concentration, Athletics, Barter';
+
+
         var panel = this.slickUI.add(new SlickUI.Element.Panel(20, 20, game.width - 40, game.height - 40));
         panel.add(new SlickUI.Element.Text(0, 0, 'Create a New Character', 36, 'title')).centerHorizontally();
         var selectedClassText = panel.add(new SlickUI.Element.Text(40, 60, 'Select Class:', 24, 'basic'));
@@ -159,7 +162,10 @@ module.exports = function (game, socket) {
         var cont = panel.add(new SlickUI.Element.Button(panel.width - 140, panel.height - 40, 140, 40));
         cont.add(new SlickUI.Element.Text(0,0, "Continue", 24, 'basic')).center();
         cont.events.onInputUp.add(function () {
-            console.log(this.selectedClass);
+            if (this.selectedClass) {
+                utils.deleteSlickUIElement(panel);
+                login._displayStatsMenu();
+            }
         });
 
         var cancel = panel.add(new SlickUI.Element.Button(0, panel.height - 40, 140, 40));
@@ -168,6 +174,34 @@ module.exports = function (game, socket) {
             location.reload();
         });
     };
+
+    login._displayStatsMenu = function () {
+        var strDescription = 'Strength affects accuracy and combat damage with melee weapons, ' +
+            'base hit points, and all-around toughness.';
+        var dexDescription = 'Dexterity affects accuracy and combat damage with bows, ' +
+            'attack speed (with all weapons), evasion rating, and skills related to ' +
+            'subterfuge and pickpocketing.';
+        var intDescription = 'Intelligence affects spell damage, magic resistance, and all abilities ' +
+            'related to the arcane arts. Intelligence also affects the rate at which charcters raise their ' +
+            'skills.';
+        var panel = this.slickUI.add(new SlickUI.Element.Panel(20, 20, game.width - 40, game.height - 40));
+        panel.add(new SlickUI.Element.Text(0, 0, 'Create a New Character', 36, 'title')).centerHorizontally();
+        panel.add(new SlickUI.Element.Text(40, 60, 'Select Starting Attributes:', 24, 'basic'));
+        var attributeInfo = panel.add(new SlickUI.Element.Text(20, 240, '', 18, 'basic', panel.width - 40));
+
+        var cont = panel.add(new SlickUI.Element.Button(panel.width - 140, panel.height - 40, 140, 40));
+        cont.add(new SlickUI.Element.Text(0,0, "Continue", 24, 'basic')).center();
+        cont.events.onInputUp.add(function () {
+            console.log(this.stats = {});
+        });
+
+        var cancel = panel.add(new SlickUI.Element.Button(0, panel.height - 40, 140, 40));
+        cancel.add(new SlickUI.Element.Text(0,0, "Cancel", 24, 'basic')).center();
+        cancel.events.onInputUp.add(function () {
+            location.reload();
+        });
+    };
+
 
     return login;
 };

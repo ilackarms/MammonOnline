@@ -3,6 +3,7 @@ module.exports = function () {
 
     //delete SlickUI Element, recursing over all children
     utils.deleteSlickUIElement = function(element){
+        console.log(element);
         if (element instanceof SlickUI.Element.Text) {
             element.text.destroy();
             return; //for some reason text contains itself as a child forever??
@@ -10,6 +11,9 @@ module.exports = function () {
             element.sprite.destroy();
             element.spriteOff.destroy();
             element.spriteOn.destroy();
+        } else if (element instanceof SlickUI.Element.DisplayObject) {
+            element.displayObject.destroy();
+            element.sprite.destroy();
         }
         else {
             element._sprite.destroy();
