@@ -10,7 +10,7 @@ function main() {
     //init game states
     game.state.add('boot', require('./states/boot')(game));
     game.state.add('load', require('./states/load')(game));
-    game.state.add('login', require('./states/login')(game));
+    game.state.add('login', require('./states/login')(game, socket));
 
     //enter boot state
     game.state.start('boot');
