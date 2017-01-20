@@ -1,11 +1,18 @@
 function main() {
-    var handlers = require('./handlers/handlers');
+    // init socket
     var socket = io();
+    var handlers = require('./handlers/handlers')(socket);
     handlers.registerHandlers();
+
+    //init game
     var game =  new Phaser.Game(800, 480, Phaser.CANVAS, 'game');
+
+    //init game states
     game.state.add('boot', require('./states/boot')(game));
     game.state.add('load', require('./states/load')(game));
+    game.state.add('login', require('./states/login')(game));
 
+    //enter boot state
     game.state.start('boot');
 }
 
@@ -1181,7 +1188,6 @@ function loadGUI() {
 }
 
 //tryinig with slick instead
-var slickUI;
 function main2(){
     socket = io();
 

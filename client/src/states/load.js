@@ -32,6 +32,9 @@ module.exports = function (game) {
         var centerX = game.camera.width / 2;
         var centerY = game.camera.height / 2;
 
+        this.loading = game.add.sprite(centerX, 80, 'title');
+        this.loading.anchor.setTo(0.5, 0.5);
+
         this.loading = game.add.sprite(centerX, centerY - 20, 'loading_text');
         this.loading.anchor.setTo(0.5, 0.5);
 
@@ -54,11 +57,11 @@ module.exports = function (game) {
         game.stage.disableVisibilityChange = true; // So that game doesn't stop when window loses focus.
         this._displayLoadScreen();
         this._loadAssets();
-        console.log('started');
     };
 
     load.create = function () {
-        console.log('finished');
+        game.stage.disableVisibilityChange = false;
+        game.state.start('login');
     };
 
 
