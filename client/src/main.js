@@ -1,15 +1,12 @@
-//Globals
-window.socket;
-window.game;
-
 function main() {
     var handlers = require('./handlers/handlers');
-    window.socket = io();
+    var socket = io();
     handlers.registerHandlers();
-    window.game =  new Phaser.Game(800, 480, Phaser.CANVAS, 'game');
-    window.game.state.add('boot', require('./states/boot'));
+    var game =  new Phaser.Game(800, 480, Phaser.CANVAS, 'game');
+    game.state.add('boot', require('./states/boot')(game));
+    game.state.add('load', require('./states/load')(game));
 
-    window.game.state.start('boot');
+    game.state.start('boot');
 }
 
 main();
