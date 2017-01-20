@@ -79,18 +79,90 @@ module.exports = function (game, socket) {
         var panel = this.slickUI.add(new SlickUI.Element.Panel(80, 80, game.width - 160, game.height - 160));
         console.log(panel.width-1);
         panel.add(new SlickUI.Element.Text(0, 0, 'Character Select', 36, 'title')).centerHorizontally();
-        var char1 = panel.add(char1 = new SlickUI.Element.Button(panel.width/2 - 70, panel.height/2 - 80, 140, 40));
-        // panel.add(char2 = new SlickUI.Element.Button(0, 140, 140, 40)).centerHorizontally();
-        // panel.add(char3 = new SlickUI.Element.Button(0, 180, 140, 40)).centerHorizontally();
+        var char0 = panel.add(char1 = new SlickUI.Element.Button(panel.width/2 - 70, panel.height/2 - 80, 140, 40));
         if (character_names[0]) {
-            char1.add(new SlickUI.Element.Text(0, 0, character_names[0], 20, 'basic')).center();
+            char0.add(new SlickUI.Element.Text(0, 0, character_names[0], 20, 'basic')).center();
         } else {
-            char1.add(new SlickUI.Element.Text(0, 0, 'NEW', 20, 'basic')).center();
-            char1.events.onInputUp.add(function () {
-                console.log(panel);
+            char0.add(new SlickUI.Element.Text(0, 0, 'NEW', 20, 'basic')).center();
+            char0.events.onInputUp.add(function () {
+                utils.deleteSlickUIElement(panel);
+                login._displayNewCharacterMenu(0);
             });
         }
-        var cancel = panel.add(cancel = new SlickUI.Element.Button(0, panel.height - 40, 140, 40));
+        var cancel = panel.add(new SlickUI.Element.Button(0, panel.height - 40, 140, 40));
+        cancel.add(new SlickUI.Element.Text(0,0, "Cancel", 24, 'basic')).center();
+        cancel.events.onInputUp.add(function () {
+            location.reload();
+        });
+    };
+    
+    var rogueDescription = 'Rogues are skilled in ranged combat, as well as techniques of subterfuge and thievery. ' +
+        'Rogues have access to the Sneak Attack technique, which grants damage ' +
+        'bonuses when attacking from stealth. Rogues are the only class capable of using bows.\n' +
+        'Class Skills: ' +
+        'Archery, Mace Fighting, Swordsmanship, Tactics, Unarmed Fighting, ' +
+        'Evasion, Detecting Hidden, Hiding, Snooping, Stealing, Stealth, ' +
+        'Athletics, Barter, Magic Resistance';
+
+    var warriorDescription = 'Warriors are experts in melee combat. They excel at tanking and dealing large amounts of ' +
+        'physical damage. Warriors are the only class capable of using shields. ' +
+        'Warriors excel in crafting skills.\n'+
+        'Class Skills:'+
+        'Mace Fighting, Parrying, Swordsmanship, Tactics, Unarmed Fighting, Evasion, Healing, ' +
+        'Mining, Blacksmithy, Lumberjacking, Carpentry, Athletics, Barter, Magic Resistance';
+
+    var sorcererDescription = 'Sorcerers are skilled in magical arts, but have weaker combat skills. ' +
+        'Sorcerers excel in Alchemy, the art of crafting potions.\n' +
+        'Class Skills: ' +
+        'Evasion, Alchemy, Herbalism, Magery, Magic Penetration, Meditation, ' +
+        'Magic Resistance, Concentration, Athletics, Barter';
+
+    login._displayNewCharacterMenu = function (slot) {
+        var panel = this.slickUI.add(new SlickUI.Element.Panel(20, 20, game.width - 40, game.height - 40));
+        panel.add(new SlickUI.Element.Text(0, 0, 'Create a New Character', 36, 'title')).centerHorizontally();
+        var selectedClassText = panel.add(new SlickUI.Element.Text(40, 60, 'Select Class:', 24, 'basic'));
+        var classInfo = panel.add(new SlickUI.Element.Text(20, 240, '', 18, 'basic', panel.width - 40));
+        
+        //rogue
+        var rogueIcon = game.add.sprite(0, 0, 'rogue_icon');
+        var rogueButton = panel.add(new SlickUI.Element.Button(80, 100, rogueIcon.width+10, rogueIcon.height+20));
+        rogueButton.add(new SlickUI.Element.DisplayObject(0, 0, rogueIcon));
+        rogueButton.add(new SlickUI.Element.Text(0, rogueButton.height - 16, 'Rogue', 14, 'basic')).centerHorizontally();
+        rogueButton.events.onInputUp.add(function () {
+            classInfo.value = rogueDescription;
+            selectedClassText.value = 'Selected: Rogue';
+            this.selectedClass = 'Rogue';
+        });
+        
+        //warrior
+        var warriorIcon = game.add.sprite(0, 0, 'warrior_icon');
+        var warriorButton = panel.add(new SlickUI.Element.Button(280, 100, warriorIcon.width+10, warriorIcon.height+20));
+        warriorButton.add(new SlickUI.Element.DisplayObject(0, 0, warriorIcon));
+        warriorButton.add(new SlickUI.Element.Text(0, warriorButton.height - 16, 'Warrior', 14, 'basic')).centerHorizontally();
+        warriorButton.events.onInputUp.add(function () {
+            classInfo.value = warriorDescription;
+            selectedClassText.value = 'Selected: Warrior';
+            this.selectedClass = 'Warrior';
+        });
+
+        //sorcerer
+        var sorcererIcon = game.add.sprite(0, 0, 'sorcerer_icon');
+        var sorcererButton = panel.add(new SlickUI.Element.Button(480, 100, sorcererIcon.width+10, sorcererIcon.height+20));
+        sorcererButton.add(new SlickUI.Element.DisplayObject(0, 0, sorcererIcon));
+        sorcererButton.add(new SlickUI.Element.Text(0, sorcererButton.height - 16, 'Sorcerer', 14, 'basic')).centerHorizontally();
+        sorcererButton.events.onInputUp.add(function () {
+            classInfo.value = sorcererDescription;
+            selectedClassText.value = 'Selected: Sorcerer';
+            this.selectedClass = 'Sorcerer';
+        });
+
+        var cont = panel.add(new SlickUI.Element.Button(panel.width - 140, panel.height - 40, 140, 40));
+        cont.add(new SlickUI.Element.Text(0,0, "Continue", 24, 'basic')).center();
+        cont.events.onInputUp.add(function () {
+            console.log(this.selectedClass);
+        });
+
+        var cancel = panel.add(new SlickUI.Element.Button(0, panel.height - 40, 140, 40));
         cancel.add(new SlickUI.Element.Text(0,0, "Cancel", 24, 'basic')).center();
         cancel.events.onInputUp.add(function () {
             location.reload();
