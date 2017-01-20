@@ -1,10 +1,466 @@
 {
-  "sprites": {
-    "rogue": {
-      "heavy_armor_with_staff": {
-        "atlas": "sprites/Rogue/Rogue_in_Heavy_Armor_with_Staff.json",
-        "spritesheet": "sprites/Rogue/Rogue_in_Heavy_Armor_with_Staff.png",
-      }
+  "images": {
+    "Rogue1": "gui/portraits/Rogue1.png",
+    "Rogue10": "gui/portraits/Rogue10.bmp",
+    "Rogue11": "gui/portraits/Rogue11.bmp",
+    "Rogue12": "gui/portraits/Rogue12.bmp",
+    "Rogue13": "gui/portraits/Rogue13.bmp",
+    "Rogue14": "gui/portraits/Rogue14.bmp",
+    "Rogue15": "gui/portraits/Rogue15.bmp",
+    "Rogue16": "gui/portraits/Rogue16.bmp",
+    "Rogue17": "gui/portraits/Rogue17.bmp",
+    "Rogue18": "gui/portraits/Rogue18.bmp",
+    "Rogue19": "gui/portraits/Rogue19.bmp",
+    "Rogue2": "gui/portraits/Rogue2.bmp",
+    "Rogue20": "gui/portraits/Rogue20.bmp",
+    "Rogue21": "gui/portraits/Rogue21.bmp",
+    "Rogue22": "gui/portraits/Rogue22.bmp",
+    "Rogue23": "gui/portraits/Rogue23.bmp",
+    "Rogue24": "gui/portraits/Rogue24.bmp",
+    "Rogue25": "gui/portraits/Rogue25.bmp",
+    "Rogue26": "gui/portraits/Rogue26.bmp",
+    "Rogue27": "gui/portraits/Rogue27.bmp",
+    "Rogue28": "gui/portraits/Rogue28.bmp",
+    "Rogue29": "gui/portraits/Rogue29.bmp",
+    "Rogue3": "gui/portraits/Rogue3.bmp",
+    "Rogue30": "gui/portraits/Rogue30.bmp",
+    "Rogue31": "gui/portraits/Rogue31.bmp",
+    "Rogue32": "gui/portraits/Rogue32.bmp",
+    "Rogue33": "gui/portraits/Rogue33.bmp",
+    "Rogue34": "gui/portraits/Rogue34.bmp",
+    "Rogue35": "gui/portraits/Rogue35.bmp",
+    "Rogue36": "gui/portraits/Rogue36.bmp",
+    "Rogue37": "gui/portraits/Rogue37.bmp",
+    "Rogue38": "gui/portraits/Rogue38.bmp",
+    "Rogue39": "gui/portraits/Rogue39.bmp",
+    "Rogue4": "gui/portraits/Rogue4.bmp",
+    "Rogue40": "gui/portraits/Rogue40.bmp",
+    "Rogue41": "gui/portraits/Rogue41.bmp",
+    "Rogue42": "gui/portraits/Rogue42.bmp",
+    "Rogue43": "gui/portraits/Rogue43.bmp",
+    "Rogue44": "gui/portraits/Rogue44.bmp",
+    "Rogue45": "gui/portraits/Rogue45.bmp",
+    "Rogue46": "gui/portraits/Rogue46.bmp",
+    "Rogue47": "gui/portraits/Rogue47.bmp",
+    "Rogue48": "gui/portraits/Rogue48.bmp",
+    "Rogue49": "gui/portraits/Rogue49.bmp",
+    "Rogue5": "gui/portraits/Rogue5.bmp",
+    "Rogue50": "gui/portraits/Rogue50.bmp",
+    "Rogue6": "gui/portraits/Rogue6.bmp",
+    "Rogue7": "gui/portraits/Rogue7.bmp",
+    "Rogue8": "gui/portraits/Rogue8.bmp",
+    "Rogue9": "gui/portraits/Rogue9.bmp",
+    "Sorc1": "gui/portraits/Sorc1.bmp",
+    "Sorc10": "gui/portraits/Sorc10.bmp",
+    "Sorc11": "gui/portraits/Sorc11.bmp",
+    "Sorc12": "gui/portraits/Sorc12.bmp",
+    "Sorc13": "gui/portraits/Sorc13.bmp",
+    "Sorc14": "gui/portraits/Sorc14.bmp",
+    "Sorc15": "gui/portraits/Sorc15.bmp",
+    "Sorc16": "gui/portraits/Sorc16.bmp",
+    "Sorc17": "gui/portraits/Sorc17.bmp",
+    "Sorc18": "gui/portraits/Sorc18.bmp",
+    "Sorc19": "gui/portraits/Sorc19.bmp",
+    "Sorc2": "gui/portraits/Sorc2.bmp",
+    "Sorc20": "gui/portraits/Sorc20.bmp",
+    "Sorc21": "gui/portraits/Sorc21.bmp",
+    "Sorc22": "gui/portraits/Sorc22.bmp",
+    "Sorc23": "gui/portraits/Sorc23.bmp",
+    "Sorc24": "gui/portraits/Sorc24.bmp",
+    "Sorc25": "gui/portraits/Sorc25.bmp",
+    "Sorc26": "gui/portraits/Sorc26.bmp",
+    "Sorc27": "gui/portraits/Sorc27.bmp",
+    "Sorc28": "gui/portraits/Sorc28.bmp",
+    "Sorc29": "gui/portraits/Sorc29.bmp",
+    "Sorc3": "gui/portraits/Sorc3.bmp",
+    "Sorc30": "gui/portraits/Sorc30.bmp",
+    "Sorc31": "gui/portraits/Sorc31.bmp",
+    "Sorc32": "gui/portraits/Sorc32.bmp",
+    "Sorc33": "gui/portraits/Sorc33.bmp",
+    "Sorc34": "gui/portraits/Sorc34.bmp",
+    "Sorc35": "gui/portraits/Sorc35.bmp",
+    "Sorc36": "gui/portraits/Sorc36.bmp",
+    "Sorc37": "gui/portraits/Sorc37.bmp",
+    "Sorc38": "gui/portraits/Sorc38.bmp",
+    "Sorc39": "gui/portraits/Sorc39.bmp",
+    "Sorc4": "gui/portraits/Sorc4.bmp",
+    "Sorc40": "gui/portraits/Sorc40.bmp",
+    "Sorc41": "gui/portraits/Sorc41.bmp",
+    "Sorc5": "gui/portraits/Sorc5.bmp",
+    "Sorc6": "gui/portraits/Sorc6.bmp",
+    "Sorc7": "gui/portraits/Sorc7.bmp",
+    "Sorc8": "gui/portraits/Sorc8.bmp",
+    "Sorc9": "gui/portraits/Sorc9.bmp",
+    "War1": "gui/portraits/War1.bmp",
+    "War10": "gui/portraits/War10.bmp",
+    "War11": "gui/portraits/War11.bmp",
+    "War12": "gui/portraits/War12.bmp",
+    "War13": "gui/portraits/War13.bmp",
+    "War14": "gui/portraits/War14.bmp",
+    "War15": "gui/portraits/War15.bmp",
+    "War16": "gui/portraits/War16.bmp",
+    "War17": "gui/portraits/War17.bmp",
+    "War18": "gui/portraits/War18.bmp",
+    "War19": "gui/portraits/War19.bmp",
+    "War2": "gui/portraits/War2.bmp",
+    "War20": "gui/portraits/War20.bmp",
+    "War21": "gui/portraits/War21.bmp",
+    "War22": "gui/portraits/War22.bmp",
+    "War23": "gui/portraits/War23.bmp",
+    "War24": "gui/portraits/War24.bmp",
+    "War25": "gui/portraits/War25.bmp",
+    "War26": "gui/portraits/War26.bmp",
+    "War27": "gui/portraits/War27.bmp",
+    "War28": "gui/portraits/War28.bmp",
+    "War29": "gui/portraits/War29.bmp",
+    "War3": "gui/portraits/War3.bmp",
+    "War30": "gui/portraits/War30.bmp",
+    "War31": "gui/portraits/War31.bmp",
+    "War32": "gui/portraits/War32.bmp",
+    "War33": "gui/portraits/War33.bmp",
+    "War34": "gui/portraits/War34.bmp",
+    "War35": "gui/portraits/War35.bmp",
+    "War36": "gui/portraits/War36.bmp",
+    "War37": "gui/portraits/War37.bmp",
+    "War38": "gui/portraits/War38.bmp",
+    "War39": "gui/portraits/War39.bmp",
+    "War4": "gui/portraits/War4.bmp",
+    "War40": "gui/portraits/War40.bmp",
+    "War41": "gui/portraits/War41.bmp",
+    "War42": "gui/portraits/War42.bmp",
+    "War43": "gui/portraits/War43.bmp",
+    "War44": "gui/portraits/War44.bmp",
+    "War45": "gui/portraits/War45.bmp",
+    "War5": "gui/portraits/War5.bmp",
+    "War6": "gui/portraits/War6.bmp",
+    "War7": "gui/portraits/War7.bmp",
+    "War8": "gui/portraits/War8.bmp",
+    "War9": "gui/portraits/War9.bmp",
+    "checkbox": "gui/portraits/checkbox.bmp",
+    "desert": "maps/world/tilesets/desert.png",
+    "desert_water": "maps/world/tilesets/desert_water.png",
+    "forest": "maps/world/tilesets/forest.png",
+    "forest_structures": "maps/world/tilesets/forest_structures.png",
+    "forest_water": "maps/world/tilesets/forest_water.png",
+    "grassland": "maps/world/tilesets/grassland.png",
+    "grassland_structures": "maps/world/tilesets/grassland_structures.png",
+    "grassland_trees": "maps/world/tilesets/grassland_trees.png",
+    "grassland_water": "maps/world/tilesets/grassland_water.png",
+    "health_fill": "hud/health_fill.png",
+    "jungle_buildings": "maps/world/tilesets/jungle_buildings.png",
+    "left_orb": "hud/left_orb.png",
+    "loading": "gui/preloader/loading.png",
+    "mana_fill": "hud/mana_fill.png",
+    "medieval_building_tiles": "maps/world/tilesets/medieval_building_tiles.png",
+    "progress_bar_bg": "gui/preloader/progress_bar_bg.png",
+    "progress_bar_fg": "gui/preloader/progress_bar_fg.png",
+    "right_orb": "hud/right_orb.png",
+    "rogue_heavy_axe": "sprites/pc/rogue_heavy_axe.png",
+    "rogue_heavy_bow": "sprites/pc/rogue_heavy_bow.png",
+    "rogue_heavy_mace": "sprites/pc/rogue_heavy_mace.png",
+    "rogue_heavy_staff": "sprites/pc/rogue_heavy_staff.png",
+    "rogue_heavy_sword": "sprites/pc/rogue_heavy_sword.png",
+    "rogue_heavy_weaponless": "sprites/pc/rogue_heavy_weaponless.png",
+    "rogue_light_axe": "sprites/pc/rogue_light_axe.png",
+    "rogue_light_bow": "sprites/pc/rogue_light_bow.png",
+    "rogue_light_mace": "sprites/pc/rogue_light_mace.png",
+    "rogue_light_sword": "sprites/pc/rogue_light_sword.png",
+    "rogue_light_weaponless": "sprites/pc/rogue_light_weaponless.png",
+    "rogue_medium_axe": "sprites/pc/rogue_medium_axe.png",
+    "rogue_medium_bow": "sprites/pc/rogue_medium_bow.png",
+    "rogue_medium_mace": "sprites/pc/rogue_medium_mace.png",
+    "rogue_medium_staff": "sprites/pc/rogue_medium_staff.png",
+    "rogue_medium_sword": "sprites/pc/rogue_medium_sword.png",
+    "rogue_medium_weaponless": "sprites/pc/rogue_medium_weaponless.png",
+    "set_rules": "maps/world/tilesets/set_rules.png",
+    "snowplains": "maps/world/tilesets/snowplains.png",
+    "snowplains_water": "maps/world/tilesets/snowplains_water.png",
+    "sorcerer_heavy_axe": "sprites/pc/sorcerer_heavy_axe.png",
+    "sorcerer_heavy_mace": "sprites/pc/sorcerer_heavy_mace.png",
+    "sorcerer_heavy_staff": "sprites/pc/sorcerer_heavy_staff.png",
+    "sorcerer_heavy_sword": "sprites/pc/sorcerer_heavy_sword.png",
+    "sorcerer_heavy_weaponless": "sprites/pc/sorcerer_heavy_weaponless.png",
+    "sorcerer_light_axe": "sprites/pc/sorcerer_light_axe.png",
+    "sorcerer_light_mace": "sprites/pc/sorcerer_light_mace.png",
+    "sorcerer_light_staff": "sprites/pc/sorcerer_light_staff.png",
+    "sorcerer_light_sword": "sprites/pc/sorcerer_light_sword.png",
+    "sorcerer_light_weaponless": "sprites/pc/sorcerer_light_weaponless.png",
+    "sorcerer_medium_axe": "sprites/pc/sorcerer_medium_axe.png",
+    "sorcerer_medium_mace": "sprites/pc/sorcerer_medium_mace.png",
+    "sorcerer_medium_staff": "sprites/pc/sorcerer_medium_staff.png",
+    "sorcerer_medium_sword": "sprites/pc/sorcerer_medium_sword.png",
+    "sorcerer_medium_weaponless": "sprites/pc/sorcerer_medium_weaponless.png",
+    "tiled_cave": "maps/world/tilesets/tiled_cave.png",
+    "tiled_collision": "maps/world/tilesets/tiled_collision.png",
+    "tiles_0": "maps/forest/tiles_0.png",
+    "town": "maps/town/town.png",
+    "warrior_heavy_axe": "sprites/pc/warrior_heavy_axe.png",
+    "warrior_heavy_mace_shield": "sprites/pc/warrior_heavy_mace_shield.png",
+    "warrior_heavy_shield": "sprites/pc/warrior_heavy_shield.png",
+    "warrior_heavy_staff": "sprites/pc/warrior_heavy_staff.png",
+    "warrior_heavy_sword": "sprites/pc/warrior_heavy_sword.png",
+    "warrior_heavy_sword_shield": "sprites/pc/warrior_heavy_sword_shield.png",
+    "warrior_heavy_weaponless": "sprites/pc/warrior_heavy_weaponless.png",
+    "warrior_light_shield": "sprites/pc/warrior_light_shield.png",
+    "warrior_light_sword": "sprites/pc/warrior_light_sword.png",
+    "warrior_light_sword_shield": "sprites/pc/warrior_light_sword_shield.png",
+    "warrior_light_weaponless": "sprites/pc/warrior_light_weaponless.png",
+    "warrior_medium_axe": "sprites/pc/warrior_medium_axe.png",
+    "warrior_medium_mace_shield": "sprites/pc/warrior_medium_mace_shield.png",
+    "warrior_medium_shield": "sprites/pc/warrior_medium_shield.png",
+    "warrior_medium_staff": "sprites/pc/warrior_medium_staff.png",
+    "warrior_medium_sword": "sprites/pc/warrior_medium_sword.png",
+    "warrior_medium_sword_shield": "sprites/pc/warrior_medium_sword_shield.png",
+    "warrior_medium_weaponless": "sprites/pc/warrior_medium_weaponless.png"
+  },
+  "datas": {
+    "assets": "assets.json",
+    "cave_template": "maps/town/cave_template.json",
+    "out": "maps/catacombs/out.json",
+    "rogue_axe": "sprites/pc/rogue_axe.json",
+    "rogue_bow": "sprites/pc/rogue_bow.json",
+    "rogue_mace": "sprites/pc/rogue_mace.json",
+    "rogue_staff": "sprites/pc/rogue_staff.json",
+    "rogue_sword": "sprites/pc/rogue_sword.json",
+    "rogue_weaponless": "sprites/pc/rogue_weaponless.json",
+    "sorcerer_axe": "sprites/pc/sorcerer_axe.json",
+    "sorcerer_mace": "sprites/pc/sorcerer_mace.json",
+    "sorcerer_staff": "sprites/pc/sorcerer_staff.json",
+    "sorcerer_sword": "sprites/pc/sorcerer_sword.json",
+    "warrior_axe": "sprites/pc/warrior_axe.json",
+    "warrior_mace_shield": "sprites/pc/warrior_mace_shield.json",
+    "warrior_shield": "sprites/pc/warrior_shield.json",
+    "warrior_staff": "sprites/pc/warrior_staff.json",
+    "warrior_sword": "sprites/pc/warrior_sword.json",
+    "warrior_sword_shield": "sprites/pc/warrior_sword_shield.json",
+    "warrior_weaponless": "sprites/pc/warrior_weaponless.json",
+    "world": "maps/world/world.json"
+  },
+  "audios": {},
+  "atlases": {
+    "azid": {
+      "image": "sprites/enemies/azid.png",
+      "data": "sprites/enemies/azid.json"
+    },
+    "balrog": {
+      "image": "sprites/enemies/balrog.png",
+      "data": "sprites/enemies/balrog.json"
+    },
+    "bat": {
+      "image": "sprites/enemies/bat.png",
+      "data": "sprites/enemies/bat.json"
+    },
+    "big_fallen_ones_with_mace": {
+      "image": "sprites/enemies/big_fallen_ones_with_mace.png",
+      "data": "sprites/enemies/big_fallen_ones_with_mace.json"
+    },
+    "black_knight": {
+      "image": "sprites/enemies/black_knight.png",
+      "data": "sprites/enemies/black_knight.json"
+    },
+    "catacombs": {
+      "image": "maps/catacombs/catacombs.png",
+      "data": "maps/catacombs/catacombs.json"
+    },
+    "crypt_demon": {
+      "image": "sprites/enemies/crypt_demon.png",
+      "data": "sprites/enemies/crypt_demon.json"
+    },
+    "dark_mage": {
+      "image": "sprites/enemies/dark_mage.png",
+      "data": "sprites/enemies/dark_mage.json"
+    },
+    "dark_spider": {
+      "image": "sprites/enemies/dark_spider.png",
+      "data": "sprites/enemies/dark_spider.json"
+    },
+    "defiler": {
+      "image": "sprites/enemies/defiler.png",
+      "data": "sprites/enemies/defiler.json"
+    },
+    "diablo": {
+      "image": "sprites/enemies/diablo.png",
+      "data": "sprites/enemies/diablo.json"
+    },
+    "fallen_one_with_spear": {
+      "image": "sprites/enemies/fallen_one_with_spear.png",
+      "data": "sprites/enemies/fallen_one_with_spear.json"
+    },
+    "fallen_one_with_sword": {
+      "image": "sprites/enemies/fallen_one_with_sword.png",
+      "data": "sprites/enemies/fallen_one_with_sword.json"
+    },
+    "felltwin": {
+      "image": "sprites/enemies/felltwin.png",
+      "data": "sprites/enemies/felltwin.json"
+    },
+    "firebat": {
+      "image": "sprites/enemies/firebat.png",
+      "data": "sprites/enemies/firebat.json"
+    },
+    "fireman": {
+      "image": "sprites/enemies/fireman.png",
+      "data": "sprites/enemies/fireman.json"
+    },
+    "flesh_thing": {
+      "image": "sprites/enemies/flesh_thing.png",
+      "data": "sprites/enemies/flesh_thing.json"
+    },
+    "gargoyle": {
+      "image": "sprites/enemies/gargoyle.png",
+      "data": "sprites/enemies/gargoyle.json"
+    },
+    "ghost": {
+      "image": "sprites/enemies/ghost.png",
+      "data": "sprites/enemies/ghost.json"
+    },
+    "goatman_lord": {
+      "image": "sprites/enemies/goatman_lord.png",
+      "data": "sprites/enemies/goatman_lord.json"
+    },
+    "goatman_with_bow": {
+      "image": "sprites/enemies/goatman_with_bow.png",
+      "data": "sprites/enemies/goatman_with_bow.json"
+    },
+    "goatman_with_mace": {
+      "image": "sprites/enemies/goatman_with_mace.png",
+      "data": "sprites/enemies/goatman_with_mace.json"
+    },
+    "golem": {
+      "image": "sprites/enemies/golem.png",
+      "data": "sprites/enemies/golem.json"
+    },
+    "gravedigger": {
+      "image": "sprites/enemies/gravedigger.png",
+      "data": "sprites/enemies/gravedigger.json"
+    },
+    "hellbat": {
+      "image": "sprites/enemies/hellbat.png",
+      "data": "sprites/enemies/hellbat.json"
+    },
+    "hellboar": {
+      "image": "sprites/enemies/hellboar.png",
+      "data": "sprites/enemies/hellboar.json"
+    },
+    "hidden": {
+      "image": "sprites/enemies/hidden.png",
+      "data": "sprites/enemies/hidden.json"
+    },
+    "hork_demon": {
+      "image": "sprites/enemies/hork_demon.png",
+      "data": "sprites/enemies/hork_demon.json"
+    },
+    "lich": {
+      "image": "sprites/enemies/lich.png",
+      "data": "sprites/enemies/lich.json"
+    },
+    "na-krul": {
+      "image": "sprites/enemies/na-krul.png",
+      "data": "sprites/enemies/na-krul.json"
+    },
+    "necromorb": {
+      "image": "sprites/enemies/necromorb.png",
+      "data": "sprites/enemies/necromorb.json"
+    },
+    "overlord": {
+      "image": "sprites/enemies/overlord.png",
+      "data": "sprites/enemies/overlord.json"
+    },
+    "psychorb": {
+      "image": "sprites/enemies/psychorb.png",
+      "data": "sprites/enemies/psychorb.json"
+    },
+    "reaper": {
+      "image": "sprites/enemies/reaper.png",
+      "data": "sprites/enemies/reaper.json"
+    },
+    "rogue_light_staff": {
+      "image": "sprites/pc/rogue_light_staff.png",
+      "data": "sprites/pc/rogue_light_staff.json"
+    },
+    "scavenger": {
+      "image": "sprites/enemies/scavenger.png",
+      "data": "sprites/enemies/scavenger.json"
+    },
+    "skeleton_demon": {
+      "image": "sprites/enemies/skeleton_demon.png",
+      "data": "sprites/enemies/skeleton_demon.json"
+    },
+    "skeleton_with_bow": {
+      "image": "sprites/enemies/skeleton_with_bow.png",
+      "data": "sprites/enemies/skeleton_with_bow.json"
+    },
+    "skeleton_with_sword_&_shield": {
+      "image": "sprites/enemies/skeleton_with_sword_&_shield.png",
+      "data": "sprites/enemies/skeleton_with_sword_&_shield.json"
+    },
+    "skeleton_with_two_axes": {
+      "image": "sprites/enemies/skeleton_with_two_axes.png",
+      "data": "sprites/enemies/skeleton_with_two_axes.json"
+    },
+    "stormrider": {
+      "image": "sprites/enemies/stormrider.png",
+      "data": "sprites/enemies/stormrider.json"
+    },
+    "stringer": {
+      "image": "sprites/enemies/stringer.png",
+      "data": "sprites/enemies/stringer.json"
+    },
+    "succubus": {
+      "image": "sprites/enemies/succubus.png",
+      "data": "sprites/enemies/succubus.json"
+    },
+    "the_butcher": {
+      "image": "sprites/enemies/the_butcher.png",
+      "data": "sprites/enemies/the_butcher.json"
+    },
+    "tom_rat": {
+      "image": "sprites/enemies/tom_rat.png",
+      "data": "sprites/enemies/tom_rat.json"
+    },
+    "town": {
+      "image": "maps/town/town.jpg",
+      "data": "maps/town/town.json"
+    },
+    "townsfolk": {
+      "image": "sprites/npcs/townsfolk.png",
+      "data": "sprites/npcs/townsfolk.json"
+    },
+    "venomtail": {
+      "image": "sprites/enemies/venomtail.png",
+      "data": "sprites/enemies/venomtail.json"
+    },
+    "viper": {
+      "image": "sprites/enemies/viper.png",
+      "data": "sprites/enemies/viper.json"
+    },
+    "warrior_heavy_mace": {
+      "image": "sprites/pc/warrior_heavy_mace.png",
+      "data": "sprites/pc/warrior_heavy_mace.json"
+    },
+    "warrior_light_axe": {
+      "image": "sprites/pc/warrior_light_axe.png",
+      "data": "sprites/pc/warrior_light_axe.json"
+    },
+    "warrior_light_mace": {
+      "image": "sprites/pc/warrior_light_mace.png",
+      "data": "sprites/pc/warrior_light_mace.json"
+    },
+    "warrior_light_mace_shield": {
+      "image": "sprites/pc/warrior_light_mace_shield.png",
+      "data": "sprites/pc/warrior_light_mace_shield.json"
+    },
+    "warrior_light_staff": {
+      "image": "sprites/pc/warrior_light_staff.png",
+      "data": "sprites/pc/warrior_light_staff.json"
+    },
+    "warrior_medium_mace": {
+      "image": "sprites/pc/warrior_medium_mace.png",
+      "data": "sprites/pc/warrior_medium_mace.json"
+    },
+    "zombie": {
+      "image": "sprites/enemies/zombie.png",
+      "data": "sprites/enemies/zombie.json"
     }
   }
 }

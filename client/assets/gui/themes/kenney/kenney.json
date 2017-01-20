@@ -20,7 +20,8 @@
     "button": "SlickUI.Element.Renderer.ButtonRenderer"
   },
   "fonts": {
-    "minecraftia": ["fonts/Exocet.png", "fonts/minecraftia.xml"]
+    "title": ["fonts/title.png", "fonts/title.fnt"],
+    "basic": ["fonts/ultima_online.png", "fonts/ultima_online.fnt"]
   },
   "button": {
     "border-x": 8,
