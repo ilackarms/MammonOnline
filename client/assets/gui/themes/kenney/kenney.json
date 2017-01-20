@@ -21,7 +21,7 @@
   },
   "fonts": {
     "title": ["fonts/title.png", "fonts/title.fnt"],
-    "basic": ["fonts/ultima_online.png", "fonts/ultima_online.fnt"]
+    "basic": ["fonts/uo.png", "fonts/uo.fnt"]
   },
   "button": {
     "border-x": 8,

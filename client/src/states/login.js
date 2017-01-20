@@ -93,8 +93,7 @@ module.exports = function (game, socket) {
         var cancel = panel.add(cancel = new SlickUI.Element.Button(0, panel.height - 40, 140, 40));
         cancel.add(new SlickUI.Element.Text(0,0, "Cancel", 24, 'basic')).center();
         cancel.events.onInputUp.add(function () {
-            utils.deleteSlickUIElement(panel);
-            login._displayLoginMenu();
+            location.reload();
         });
     };
 
