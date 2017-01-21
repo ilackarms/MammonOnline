@@ -125,7 +125,7 @@ module.exports = function (game, socket) {
         panel.add(new SlickUI.Element.Text(0, 0, 'Create a New Character', 36, 'title')).centerHorizontally();
         var selectedClassText = panel.add(new SlickUI.Element.Text(40, 60, 'Select Class:', 24, 'basic'));
         var classInfo = panel.add(new SlickUI.Element.Text(20, 240, '', 18, 'basic', panel.width - 40));
-        
+
         //rogue
         var rogueIcon = game.add.sprite(0, 0, 'rogue_icon');
         var rogueButton = panel.add(new SlickUI.Element.Button(80, 100, rogueIcon.width+10, rogueIcon.height+20));
@@ -136,7 +136,7 @@ module.exports = function (game, socket) {
             selectedClassText.value = 'Selected: Rogue';
             this.selectedClass = 'Rogue';
         });
-        
+
         //warrior
         var warriorIcon = game.add.sprite(0, 0, 'warrior_icon');
         var warriorButton = panel.add(new SlickUI.Element.Button(280, 100, warriorIcon.width+10, warriorIcon.height+20));
@@ -187,12 +187,94 @@ module.exports = function (game, socket) {
         var panel = this.slickUI.add(new SlickUI.Element.Panel(20, 20, game.width - 40, game.height - 40));
         panel.add(new SlickUI.Element.Text(0, 0, 'Create a New Character', 36, 'title')).centerHorizontally();
         panel.add(new SlickUI.Element.Text(40, 60, 'Select Starting Attributes:', 24, 'basic'));
-        var attributeInfo = panel.add(new SlickUI.Element.Text(20, 240, '', 18, 'basic', panel.width - 40));
+        var attributeInfo = panel.add(new SlickUI.Element.Text(20, 260, '', 18, 'basic', panel.width - 40));
+
+        var attrs = {
+            str: 35,
+            dex: 35,
+            int: 35
+        };
+        
+        function adjustStatSlider(slider, statValue) {
+            utils.setSliderValue(slider, 265, 465, (statValue - 10)/50);
+        }
+
+        function balanceStatSliders(changed, value) {
+            attrs[changed] = value*50 + 10;
+            if (attrs[changed] > 60) {
+                attrs[changed] = 60;
+            }
+            if (attrs[changed] < 10) {
+                attrs[changed] = 10;
+            }
+            var stat1, stat2;
+            switch (changed) {
+                case 'str':
+                    stat1 = 'dex';
+                    stat2 = 'int';
+                    break;
+                case 'dex':
+                    stat1 = 'int';
+                    stat2 = 'str';
+                    break;
+                case 'int':
+                    stat1 = 'str';
+                    stat2 = 'dex';
+                    break;
+            }
+
+            var remainder = 105 - (attrs[changed] + attrs[stat1] + attrs[stat2]);
+            var adjust1 = remainder;
+            var adjust2 = 0;
+            attrs[stat1] += adjust1;
+            if (attrs[stat1] < 10) {
+                adjust2 += attrs[stat1] - 10;
+                attrs[stat1] = 10;
+            }
+            if (attrs[stat1] > 60) {
+                adjust2 += attrs[stat1] - 60;
+                attrs[stat1] = 60;
+            }
+            attrs[stat2] += adjust2;
+
+            console.log(value, remainder, adjust1, adjust2);
+
+            attrs.str = Math.floor(attrs.str);
+            attrs.dex = Math.floor(attrs.dex);
+            attrs.int = Math.floor(attrs.int);
+
+            adjustStatSlider(strSlider, attrs.str);
+            adjustStatSlider(dexSlider, attrs.dex);
+            adjustStatSlider(intSlider, attrs.int);
+
+            strText.value = 'Strength: '+attrs.str;
+            dexText.value = 'Dexterity: '+attrs.dex;
+            intText.value = 'Intelligence: '+attrs.int;
+        }
+
+        var strText = panel.add(new SlickUI.Element.Text(40, 140, 'Strength: ', 20, 'basic'));
+        var strSlider = panel.add(new SlickUI.Element.Slider(240, 140, 200, 0.5));
+        strSlider.onDrag.add(function (value) {
+            balanceStatSliders('str', value);
+            attributeInfo.value = strDescription;
+        });
+        var dexText = panel.add(new SlickUI.Element.Text(40, 180, 'Dexterity: ', 20, 'basic'));
+        var dexSlider = panel.add(new SlickUI.Element.Slider(240, 180, 200, 0.5));
+        dexSlider.onDrag.add(function (value) {
+            balanceStatSliders('dex', value);
+            attributeInfo.value = dexDescription;
+        });
+        var intText = panel.add(new SlickUI.Element.Text(40, 220, 'Intelligence: ', 20, 'basic'));
+        var intSlider = panel.add(new SlickUI.Element.Slider(240, 220, 200, 0.5));
+        intSlider.onDrag.add(function (value) {
+            balanceStatSliders('int', value);
+            attributeInfo.value = intDescription;
+        });
 
         var cont = panel.add(new SlickUI.Element.Button(panel.width - 140, panel.height - 40, 140, 40));
         cont.add(new SlickUI.Element.Text(0,0, "Continue", 24, 'basic')).center();
         cont.events.onInputUp.add(function () {
-            console.log(this.stats = {});
+            window.attrs = attrs;
         });
 
         var cancel = panel.add(new SlickUI.Element.Button(0, panel.height - 40, 140, 40));

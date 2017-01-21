@@ -12,8 +12,7 @@ module.exports = function (game) {
     };
     
     boot.create = function () {
-        // game.stage.disableVisibilityChange = true; // So that game doesn't stop when window loses focus.
-        // game.input.maxPointers = 1;
+        game.canvas.oncontextmenu = function (e) { e.preventDefault(); };
         console.log('booted');
         game.state.start('load');
     };

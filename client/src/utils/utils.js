@@ -26,5 +26,11 @@ module.exports = function () {
         }
     };
 
+    //set SlickUI Slider Value
+    //currently only works for horizontal
+    utils.setSliderValue = function(slider, startX, endX, value){
+        slider.sprite_handle.x = (endX - startX) * value + startX;
+    };
+
     return utils;
 };
