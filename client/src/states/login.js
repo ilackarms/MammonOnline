@@ -274,7 +274,9 @@ module.exports = function (game, socket) {
         var cont = panel.add(new SlickUI.Element.Button(panel.width - 140, panel.height - 40, 140, 40));
         cont.add(new SlickUI.Element.Text(0,0, "Continue", 24, 'basic')).center();
         cont.events.onInputUp.add(function () {
-            window.attrs = attrs;
+            this.attrs = attrs;
+            utils.deleteSlickUIElement(panel);
+            login._displaySkillsMenu();
         });
 
         var cancel = panel.add(new SlickUI.Element.Button(0, panel.height - 40, 140, 40));
@@ -284,6 +286,78 @@ module.exports = function (game, socket) {
         });
     };
 
+
+
+    login._displaySkillsMenu = function () {
+        function classSkills () {
+            switch (this.selectedClass) {
+                case 'Warrior':
+                    return [
+                        'Athletics',
+                        'Barter',
+                        'Blacksmithy',
+                        'Carpentry',
+                        'Evasion',
+                        'Healing',
+                        'Lumberjacking',
+                        'Mace Fighting',
+                        'Magic Resistance',
+                        'Mining',
+                        'Parrying',
+                        'Swordsmanship',
+                        'Tactics',
+                        'Unarmed Fighting'
+                    ];
+                    break;
+                case 'Rogue':
+                    return [
+                        'Archery',
+                        'Athletics',
+                        'Barter',
+                        'Detecting Hidden',
+                        'Evasion',
+                        'Hiding',
+                        'Mace Fighting',
+                        'Magic Resistance',
+                        'Swordsmanship',
+                        'Tactics',
+                        'Unarmed Fighting',
+                        'Snooping',
+                        'Stealing',
+                        'Stealth'
+                    ];
+                    break;
+                case 'Sorcerer':
+                    return [
+                        'Alchemy',
+                        'Athletics',
+                        'Barter',
+                        'Concentration',
+                        'Evasion',
+                        'Herbalism',
+                        'Magery',
+                        'Magic Penetration',
+                        'Magic Resistance',
+                        'Meditation'
+                    ];
+                    break;
+                default:
+                    throw new Error('what?? no selected class? '+this.selectedClass);
+            }
+        }
+        function removeSkill(skillList, skillName) {
+            for (var i = 0; i < skillList.length; i++) {
+                if (skillList[i] === skillName) {
+                    skillList.splice(i, 1);
+                    return
+                }
+            }
+            throw new Error(skillName+ ' skill not found??');
+        }
+        var panel = this.slickUI.add(new SlickUI.Element.Panel(20, 20, game.width - 40, game.height - 40));
+        panel.add(new SlickUI.Element.Text(0, 0, 'Create a New Character', 36, 'title')).centerHorizontally();
+        panel.add(new SlickUI.Element.Text(40, 60, 'Select Starting Skills:', 24, 'basic'));
+    };
 
     return login;
 };

@@ -7,6 +7,9 @@ module.exports = function () {
         if (element instanceof SlickUI.Element.Text) {
             element.text.destroy();
             return; //for some reason text contains itself as a child forever??
+        } else if (element instanceof SlickUI.Element.Slider) {
+            element.sprite_handle.destroy();
+            return; //samae thing as text
         } else if (element instanceof SlickUI.Element.Button) {
             element.sprite.destroy();
             element.spriteOff.destroy();
