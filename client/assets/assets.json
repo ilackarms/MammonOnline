@@ -1,5 +1,8 @@
 {
   "images": {
+    "rogue_icon": "gui/themes/kenney/images/rogue_icon.png",
+    "sorcerer_icon": "gui/themes/kenney/images/sorcerer_icon.png",
+    "warrior_icon": "gui/themes/kenney/images/warrior_icon.png",
     "Rogue1": "gui/portraits/Rogue1.png",
     "Rogue10": "gui/portraits/Rogue10.bmp",
     "Rogue11": "gui/portraits/Rogue11.bmp",
