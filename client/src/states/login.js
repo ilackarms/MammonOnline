@@ -346,6 +346,7 @@ module.exports = function (game, socket) {
             }
         }
         function removeSkill(skillList, skillName) {
+            console.log('removing', skillName, skillList);
             for (var i = 0; i < skillList.length; i++) {
                 if (skillList[i] === skillName) {
                     skillList.splice(i, 1);
@@ -354,9 +355,35 @@ module.exports = function (game, socket) {
             }
             throw new Error(skillName+ ' skill not found??');
         }
+        function checkboxCallback(cb, skill) {
+            return function () {
+                if (cb.checked) {
+                    if (selectedSkills.length == 3) {
+                        cb.checked = false;
+                    } else {
+                        selectedSkills.push(skill);
+                    }
+                } else {
+                    removeSkill(selectedSkills, skill);
+                }
+                console.log(cb.checked ? 'Checked' : 'Unchecked', selectedSkills);
+            };
+        }
         var panel = this.slickUI.add(new SlickUI.Element.Panel(20, 20, game.width - 40, game.height - 40));
         panel.add(new SlickUI.Element.Text(0, 0, 'Create a New Character', 36, 'title')).centerHorizontally();
-        panel.add(new SlickUI.Element.Text(40, 60, 'Select Starting Skills:', 24, 'basic'));
+        panel.add(new SlickUI.Element.Text(40, 60, 'Select 3 Starting Skills:', 24, 'basic'));
+        var skills = classSkills();
+        var columns = 3;
+
+        var selectedSkills = [];
+        for (var i = 0; i < skills.length; i++) {
+            var skill = skills[i];
+            var col = i % columns,
+                row = Math.floor(i / columns);
+            panel.add(new SlickUI.Element.Text(col * 240 + 60, row * 40 + 120, skill, 20, 'basic'));
+            var cb = panel.add(new SlickUI.Element.Checkbox(col * 240 + 20, row * 40 + 110, SlickUI.Element.Checkbox.TYPE_CHECKBOX));
+            cb.events.onInputUp.add(checkboxCallback(cb, skill), this);
+        }
     };
 
     return login;
