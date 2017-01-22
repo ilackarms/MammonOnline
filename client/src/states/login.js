@@ -194,7 +194,7 @@ module.exports = function (game, socket) {
             dex: 35,
             int: 35
         };
-        
+
         function adjustStatSlider(slider, statValue) {
             utils.setSliderValue(slider, 265, 465, (statValue - 10)/50);
         }
@@ -289,6 +289,34 @@ module.exports = function (game, socket) {
 
 
     login._displaySkillsMenu = function () {
+        var skillDescriptions = {
+            "Alchemy":'Alchemy is used to craft magical potions.',
+            "Archery":'Archery determines damage and chance to hit with bows.',
+            "Athletics":'Athletics affects movement speed.',
+            "Barter":'Barter affects favorability of buying and selling prices when trading with NPCs',
+            "Blacksmithy":'Blacksmithy is used to craft weapons, armor, and other items from metal ore.',
+            "Carpentry":'Carpentry is used to craft weapons, armor, and other items from wood.',
+            "Concentration":'Concentration prevents interruption of spell casting and other skill use (such as healing) during combat.',
+            "Detecting Hidden":'Detecting hidden is used to detect hidden creatures, charcters, and objects.',
+            "Evasion":'Evasion improves a character\'s ability to evade attacks.',
+            "Healing":'Healing is a non-magical means of restoring character health via applying bandages.',
+            "Herbalism":'Herbalism is used to collect alchemical ingredients.',
+            "Hiding":'Hiding is a non-magical means of disappearing from sight.',
+            "Lumberjacking":'Lumberjacking is used to harvest wood from trees. Lumberjacking also increases damage dealt with axes.',
+            "Mace Fighting":'Mace Fighting  determines damage and chance to hit with maces, as well as the probability of slowing an opponent with a mace.',
+            "Magery":'Magery determines the ability to cast spells and their power.',
+            "Magic Penetration":'Magic Penetration is used to penetrate a target\'s magic resistance when calculating damage, or determining whether a spell is effective.',
+            "Magic Resistance":'Magic Resistance is used to diminish the damage dealt by spells to the character, or negate the effects of negative spells',
+            "Meditation":'Meditation is used to quickly regenerate mana spent casting spells.',
+            "Mining":'Mining is used to harvest metal ores in caves.',
+            "Parrying":'Parrying is used (only by fighters) to increase the chancec to deflect attacks with a shield.',
+            "Snooping":'Snooping is used to inspect the conetnts of other character\'s backpacks.',
+            "Stealing":'Stealing is used to steal items from other character\'s backpacks.',
+            "Stealth":'Stealth is used to move while hidden, without revealing oneself.',
+            "Swordsmanship":'Swordsmanship determines damage and chance to hit with swords and axes, as well as the probability of inflicting a bleed an opponent with a sword or axe.',
+            "Tactics":'Tactics increases damage dealt with all weapons in combat.',
+            "Unarmed Fighting":'Unarmed Fighting determines damage and chance to hit while unarmed, as well as the probability of stunning an opponent with an unarmed attack.'
+        };
         function classSkills () {
             switch (this.selectedClass) {
                 case 'Warrior':
@@ -366,12 +394,13 @@ module.exports = function (game, socket) {
                 } else {
                     removeSkill(selectedSkills, skill);
                 }
-                console.log(cb.checked ? 'Checked' : 'Unchecked', selectedSkills);
+                skillInfoText.value = skillDescriptions[skill];
             };
         }
         var panel = this.slickUI.add(new SlickUI.Element.Panel(20, 20, game.width - 40, game.height - 40));
         panel.add(new SlickUI.Element.Text(0, 0, 'Create a New Character', 36, 'title')).centerHorizontally();
         panel.add(new SlickUI.Element.Text(40, 60, 'Select 3 Starting Skills:', 24, 'basic'));
+        var skillInfoText = panel.add(new SlickUI.Element.Text(40, 320, '', 20, 'basic'));
         var skills = classSkills();
         var columns = 3;
 
