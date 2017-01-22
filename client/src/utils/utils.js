@@ -1,31 +1,45 @@
 module.exports = function () {
     var utils = {};
 
-    //delete SlickUI Element, recursing over all children
-    utils.deleteSlickUIElement = function(element){
-        console.log(element);
+    //hide/unhide SlickUI Element, recursing over all children
+    utils.setSlickUIElementVisible = function(element, visible){
+        console.log(element, element.container.children);
+        var elementType;
         if (element instanceof SlickUI.Element.Text) {
-            element.text.destroy();
-            return; //for some reason text contains itself as a child forever??
+            // elementType = SlickUI.Element.Text;
+            element.text.visible = visible;
+            return;
         } else if (element instanceof SlickUI.Element.Slider) {
-            element.sprite_handle.destroy();
-            return; //samae thing as text
+            elementType = SlickUI.Element.Slider;
+            element.sprite_handle.visible = visible;
+        } else if (element instanceof SlickUI.Element.Checkbox) {
+            elementType = SlickUI.Element.Checkbox;
+            element._spriteOff.visible = visible;
+            element._spriteOn.visible = visible;
+            element.sprite.visible = visible;
+            return;
         } else if (element instanceof SlickUI.Element.Button) {
-            element.sprite.destroy();
-            element.spriteOff.destroy();
-            element.spriteOn.destroy();
+            elementType = SlickUI.Element.Checkbox;
+            element.sprite.visible = visible;
+            element.spriteOff.visible = visible;
+            element.spriteOn.visible = visible;
         } else if (element instanceof SlickUI.Element.DisplayObject) {
-            element.displayObject.destroy();
-            element.sprite.destroy();
-        }
-        else {
-            element._sprite.destroy();
+            elementType = SlickUI.Element.DisplayObject;
+            element.displayObject.visible = visible;
+            element.sprite.visible = visible;
+        } else if (element instanceof SlickUI.Element.Panel) {
+            elementType = SlickUI.Element.Panel;
+            element._sprite.visible = visible;
+        } else {
+            // throw new Error("unknown element type "+element.toString());
+            return;
         }
         for (var i = 0; i < element.container.children.length; i++) {
-            if (element.container.children[i] === element) {
+            if (element.container.children[i] === element ||
+                element.container.children[i] instanceof elementType) {
                 continue;
             }
-            this.deleteSlickUIElement(element.container.children[i]);
+            this.setSlickUIElementVisible(element.container.children[i], visible);
         }
     };
 
