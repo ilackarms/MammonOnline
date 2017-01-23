@@ -178,21 +178,6 @@
     "set_rules": "maps/world/tilesets/set_rules.png",
     "snowplains": "maps/world/tilesets/snowplains.png",
     "snowplains_water": "maps/world/tilesets/snowplains_water.png",
-    "sorcerer_heavy_axe": "sprites/pc/sorcerer_heavy_axe.png",
-    "sorcerer_heavy_mace": "sprites/pc/sorcerer_heavy_mace.png",
-    "sorcerer_heavy_staff": "sprites/pc/sorcerer_heavy_staff.png",
-    "sorcerer_heavy_sword": "sprites/pc/sorcerer_heavy_sword.png",
-    "sorcerer_heavy_weaponless": "sprites/pc/sorcerer_heavy_weaponless.png",
-    "sorcerer_light_axe": "sprites/pc/sorcerer_light_axe.png",
-    "sorcerer_light_mace": "sprites/pc/sorcerer_light_mace.png",
-    "sorcerer_light_staff": "sprites/pc/sorcerer_light_staff.png",
-    "sorcerer_light_sword": "sprites/pc/sorcerer_light_sword.png",
-    "sorcerer_light_weaponless": "sprites/pc/sorcerer_light_weaponless.png",
-    "sorcerer_medium_axe": "sprites/pc/sorcerer_medium_axe.png",
-    "sorcerer_medium_mace": "sprites/pc/sorcerer_medium_mace.png",
-    "sorcerer_medium_staff": "sprites/pc/sorcerer_medium_staff.png",
-    "sorcerer_medium_sword": "sprites/pc/sorcerer_medium_sword.png",
-    "sorcerer_medium_weaponless": "sprites/pc/sorcerer_medium_weaponless.png",
     "tiled_cave": "maps/world/tilesets/tiled_cave.png",
     "tiled_collision": "maps/world/tilesets/tiled_collision.png",
     "tiles_0": "maps/forest/tiles_0.png",
@@ -208,14 +193,70 @@
     "rogue_staff": "sprites/pc/rogue_staff.json",
     "rogue_sword": "sprites/pc/rogue_sword.json",
     "rogue_weaponless": "sprites/pc/rogue_weaponless.json",
-    "sorcerer_axe": "sprites/pc/sorcerer_axe.json",
-    "sorcerer_mace": "sprites/pc/sorcerer_mace.json",
-    "sorcerer_staff": "sprites/pc/sorcerer_staff.json",
-    "sorcerer_sword": "sprites/pc/sorcerer_sword.json",
     "world": "maps/world/world.json"
   },
   "audios": {},
   "atlases": {
+    "sorcerer_heavy_axe": {
+      "image": "sprites/pc/sorcerer_heavy_axe.png",
+      "data": "sprites/pc/sorcerer_axe.json"
+    },
+    "sorcerer_heavy_mace": {
+      "image": "sprites/pc/sorcerer_heavy_mace.png",
+      "data": "sprites/pc/sorcerer_mace.json"
+    },
+    "sorcerer_heavy_staff": {
+      "image": "sprites/pc/sorcerer_heavy_staff.png",
+      "data": "sprites/pc/sorcerer_staff.json"
+    },
+    "sorcerer_heavy_sword": {
+      "image": "sprites/pc/sorcerer_heavy_sword.png",
+      "data":  "sprites/pc/sorcerer_sword.json"
+    },
+    "sorcerer_heavy_weaponless": {
+      "image": "sprites/pc/sorcerer_heavy_weaponless.png",
+      "data": "sprites/pc/sorcerer_weaponless.json"
+    },
+    "sorcerer_light_axe": {
+      "image": "sprites/pc/sorcerer_light_axe.png",
+      "data": "sprites/pc/sorcerer_axe.json"
+    },
+    "sorcerer_light_mace": {
+      "image": "sprites/pc/sorcerer_light_mace.png",
+      "data": "sprites/pc/sorcerer_mace.json"
+    },
+    "sorcerer_light_staff": {
+      "image": "sprites/pc/sorcerer_light_staff.png",
+      "data": "sprites/pc/sorcerer_staff.json"
+    },
+    "sorcerer_light_sword": {
+      "image": "sprites/pc/sorcerer_light_sword.png",
+      "data":  "sprites/pc/sorcerer_sword.json"
+    },
+    "sorcerer_light_weaponless": {
+      "image": "sprites/pc/sorcerer_light_weaponless.png",
+      "data": "sprites/pc/sorcerer_weaponless.json"
+    },
+    "sorcerer_medium_axe": {
+      "image": "sprites/pc/sorcerer_medium_axe.png",
+      "data": "sprites/pc/sorcerer_axe.json"
+    },
+    "sorcerer_medium_mace": {
+      "image": "sprites/pc/sorcerer_medium_mace.png",
+      "data": "sprites/pc/sorcerer_mace.json"
+    },
+    "sorcerer_medium_staff": {
+      "image": "sprites/pc/sorcerer_medium_staff.png",
+      "data": "sprites/pc/sorcerer_staff.json"
+    },
+    "sorcerer_medium_sword": {
+      "image": "sprites/pc/sorcerer_medium_sword.png",
+      "data":  "sprites/pc/sorcerer_sword.json"
+    },
+    "sorcerer_medium_weaponless": {
+      "image": "sprites/pc/sorcerer_medium_weaponless.png",
+      "data": "sprites/pc/sorcerer_weaponless.json"
+    },
     "warrior_heavy_axe": {
       "image": "sprites/pc/warrior_heavy_axe.png",
       "data": "sprites/pc/warrior_axe.json"
