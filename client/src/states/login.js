@@ -84,6 +84,7 @@ module.exports = function (game, socket) {
         confirmationPanel;
 
     var newCharacter = {};
+    var playSlot = {};
 
     login._displayCharacterSelectMenu = function (character_names) {
         characterSelectPanel = this.slickUI.add(new SlickUI.Element.Panel(80, 80, game.width - 160, game.height - 160));
@@ -92,7 +93,15 @@ module.exports = function (game, socket) {
         for (var i = 0; i < 3; i++) {
             var char = characterSelectPanel.add(new SlickUI.Element.Button(characterSelectPanel.width/2 - 70, characterSelectPanel.height/2 - 80 + i * 60, 140, 40));
             if (character_names[i]) {
-                char.add(new SlickUI.Element.Text(0, 0, character_names[0], 20, 'basic')).center();
+                char.add(new SlickUI.Element.Text(0, 0, character_names[i], 20, 'basic')).center();
+                char.events.onInputUp.add(function (i) {
+                    return function () {
+                        utils.setSlickUIElementVisible(characterSelectPanel, false);
+                        //choose character slot
+                        playSlot = i;
+                        login._displayPlayAsMenu(character_names[i]);
+                    };
+                }(i));
             } else {
                 char.add(new SlickUI.Element.Text(0, 0, 'NEW', 20, 'basic')).center();
                 char.events.onInputUp.add(function (i) {
@@ -112,6 +121,49 @@ module.exports = function (game, socket) {
             location.reload();
         });
     };
+
+    login._displayPlayAsMenu = function (name) {
+        var panel = this.slickUI.add(new SlickUI.Element.Panel(20, 20, game.width - 40, game.height - 40));
+
+        panel.add(new SlickUI.Element.Text(0, 0, 'Log in as '+name+"?", 24, 'basic')).center();
+        var errTxt = panel.add(new SlickUI.Element.Text(0, 0, '', 24, 'basic')).center();
+
+        var confirm = panel.add(new SlickUI.Element.Button(panel.width - 140, panel.height - 40, 140, 40));
+        confirm.add(new SlickUI.Element.Text(0,0, "Play", 24, 'basic')).center();
+        confirm.events.onInputUp.add(function () {
+            socket.emit(enums.EVENTS.SERVER_EVENTS.PLAY_CHARACTER_REQUEST, JSON.stringify({slot: playSlot}));
+        });
+
+        var deleteButton = panel.add(new SlickUI.Element.Button(panel.width/2-70, panel.height - 40, 140, 40));
+        deleteButton.add(new SlickUI.Element.Text(0,0, "Delete", 24, 'basic')).center();
+        deleteButton.events.onInputUp.add(function () {
+            if  (window.confirm("Are you sure you wish to delete "+name+"?")){
+                socket.emit(enums.EVENTS.SERVER_EVENTS.DELETE_CHARACTER_REQUEST, JSON.stringify({slot: playSlot}));
+                location.reload();
+            }
+        });
+
+        socket.on(enums.EVENTS.CLIENT_EVENTS.PLAY_CHARACTER_RESPONSE, function (data) {
+            var response = JSON.parse(data);
+            if (!response) {
+                return;
+            }
+            console.log(data, response);
+            if (response.code) {
+                errTxt.value = response.msg;
+            } else {
+                game.state.start('play');
+            }
+        });
+
+        var back = panel.add(new SlickUI.Element.Button(0, panel.height - 40, 140, 40));
+        back.add(new SlickUI.Element.Text(0,0, "Back", 24, 'basic')).center();
+        back.events.onInputUp.add(function () {
+            utils.setSlickUIElementVisible(panel, false);
+            utils.setSlickUIElementVisible(characterSelectPanel, true);
+        });
+    };
+
 
     login._displayNewCharacterMenu = function () {
         var rogueDescription = 'Rogues are skilled in ranged combat, as well as techniques of subterfuge and thievery. ' +
