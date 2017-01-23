@@ -11,21 +11,27 @@ func (e ClientEvent) String() string {
 }
 
 type serverEvents struct {
-	CONNECTION    ServerEvent
-	DISCONNECTION ServerEvent
-	LOGIN_REQUEST ServerEvent
+	CONNECTION               ServerEvent
+	DISCONNECTION            ServerEvent
+	LOGIN_REQUEST            ServerEvent
+	CREATE_CHARACTER_REQUEST ServerEvent
 }
 type clientEvents struct {
-	CONNECTION_ACK ClientEvent
-	LOGIN_RESPONSE ClientEvent
+	NO_REPLY                  ClientEvent
+	CONNECTION_ACK            ClientEvent
+	LOGIN_RESPONSE            ClientEvent
+	CREATE_CHARACTER_RESPONSE ClientEvent
 }
 
 var SERVER_EVENTS = serverEvents{
-	CONNECTION:    "connection",
-	DISCONNECTION: "disconnection",
-	LOGIN_REQUEST: "LOGIN_REQUEST",
+	CONNECTION:               "connection",
+	DISCONNECTION:            "disconnection",
+	LOGIN_REQUEST:            "LOGIN_REQUEST",
+	CREATE_CHARACTER_REQUEST: "CREATE_CHARACTER_REQUEST",
 }
 var CLIENT_EVENTS = clientEvents{
-	CONNECTION_ACK: "CONNECTION_ACK",
-	LOGIN_RESPONSE: "LOGIN_RESPONSE",
+	NO_REPLY:                  "NO_REPLY",
+	CONNECTION_ACK:            "CONNECTION_ACK",
+	LOGIN_RESPONSE:            "LOGIN_RESPONSE",
+	CREATE_CHARACTER_RESPONSE: "CREATE_CHARACTER_RESPONSE",
 }

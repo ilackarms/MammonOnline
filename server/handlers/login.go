@@ -1,4 +1,4 @@
-package login
+package handlers
 
 import (
 	log "github.com/Sirupsen/logrus"
@@ -10,7 +10,7 @@ import (
 	"github.com/ilackarms/MammonOnline/server/stateful"
 )
 
-func Handler(state *stateful.State, so socketio.Socket) utils.HandleFunc {
+func loginHandler(state *stateful.State, so socketio.Socket) utils.HandleFunc {
 	return func(msg string) (interface{}, error, enums.ErrorCode) {
 		var loginRequest api.LoginRequest
 		if err := utils.ParseRequest(msg, &loginRequest); err != nil {
@@ -37,6 +37,7 @@ func Handler(state *stateful.State, so socketio.Socket) utils.HandleFunc {
 			return nil, errors.New("invalid password", nil), enums.ERROR_CODES.INVALID_LOGIN
 		}
 		state.CreateAccount(loginRequest.Username, loginRequest.Password)
+		state.InitiateSession(so, loginRequest.Username)
 		log.Infof("account %v created", loginRequest.Username)
 		return &api.LoginResponse{
 			SessionToken:   so.Id(),

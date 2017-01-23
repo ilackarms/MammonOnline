@@ -18,3 +18,16 @@ type ErrorResponse struct {
 	Msg  string          `json:"msg"`
 	Code enums.ErrorCode `json:"code"`
 }
+
+type CreateCharacterRequest struct {
+	Attributes struct {
+		Strength     int `json:"str"`
+		Dexterity    int `json:"dex"`
+		Intelligence int `json:"int"`
+	} `json:"attributes"`
+	Skills        map[enums.Skill]int `json:"skills"`
+	SelectedClass enums.Class         `json:"selectedClass"`
+	Slot          int                 `json:"slot"`
+	PortraitKey   string              `json:"portraitKey"`
+	Name          string              `json:"characterName"`
+}

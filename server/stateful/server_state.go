@@ -67,21 +67,39 @@ func (s *EphemeralState) SessionExists(username string) bool {
 	return false
 }
 
+func (s *EphemeralState) GetSessionForUser(username string) (*Session, error) {
+	for _, session := range s.Sessions {
+		if session.Username == username {
+			return session, nil
+		}
+	}
+	return nil, errors.New("session not found for user "+username, nil)
+}
+
+func (s *EphemeralState) GetSessionForSocket(socketID string) (*Session, error) {
+	for _, session := range s.Sessions {
+		if session.Socket.Id() == socketID {
+			return session, nil
+		}
+	}
+	return nil, errors.New("session not found for socket "+socketID, nil)
+}
+
 func (s *EphemeralState) InitiateSession(so socketio.Socket, username string) {
 	s.Sessions = append(s.Sessions, &Session{
-		So:       so,
+		Socket:   so,
 		Username: username,
 	})
 }
 
-func (s *EphemeralState) TerminateSession(username string) error {
+func (s *EphemeralState) TerminateSession(socketID string) error {
 	for i, session := range s.Sessions {
-		if session.Username == username {
+		if session.Socket.Id() == socketID {
 			s.Sessions = append(s.Sessions[:i], s.Sessions[i+1:]...)
 			return nil
 		}
 	}
-	return errors.New("session for "+username+" not found", nil)
+	return errors.New("session for "+socketID+" not found", nil)
 }
 
 type State struct {

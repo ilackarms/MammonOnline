@@ -1,8 +1,18 @@
 package stateful
 
-import "github.com/googollee/go-socket.io"
+import (
+	"fmt"
+	"github.com/googollee/go-socket.io"
+)
 
 type Session struct {
-	So       socketio.Socket
+	Socket   socketio.Socket
 	Username string
+}
+
+func (sess *Session) String() string {
+	if sess == nil {
+		return "<nil session>"
+	}
+	return fmt.Sprintf("socket: %+v, username: %s", sess.Socket, sess.Username)
 }
