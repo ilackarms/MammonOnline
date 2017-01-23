@@ -23,11 +23,13 @@ func loginHandler(state *stateful.State, so socketio.Socket) utils.HandleFunc {
 					return nil, errors.New("user already logged in", nil), enums.ERROR_CODES.INVALID_LOGIN
 				}
 				state.InitiateSession(so, account)
-				log.Infof("account %v logged in; socket id: %v", loginRequest.Username, so.Id())
 				characters := state.GetCharacters(loginRequest.Username)
+				log.Infof("account %v logged in; socket id: %v, available characters: %+v", loginRequest.Username, so.Id(), characters)
 				names := make([]string, len(characters))
 				for i := range characters {
-					names[i] = characters[i].Name
+					if characters[i] != nil {
+						names[i] = characters[i].Name
+					}
 				}
 				return &api.LoginResponse{
 					SessionToken:   so.Id(),

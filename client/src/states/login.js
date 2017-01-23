@@ -703,7 +703,7 @@ module.exports = function (game, socket) {
             } else {
                 utils.setSlickUIElementVisible(confirmationPanel, false);
                 portraitImg.destroy();
-                alert(response);
+                game.state.start('play');
             }
         });
 
