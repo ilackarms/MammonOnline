@@ -14,7 +14,7 @@ func SocketIOServer() (<-chan socketio.Socket, error) {
 	}
 	socketReady := make(chan socketio.Socket)
 	server.On("connection", func(so socketio.Socket) {
-		log.Println("socket.io new connection", so.Id())
+		log.Println("socket.io new connection", so.Id(), so.Request().RemoteAddr)
 		so.On("disconnection", func() {
 			log.Println(so.Id() + " disconnected")
 		})
