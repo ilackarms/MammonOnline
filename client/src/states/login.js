@@ -639,48 +639,57 @@ module.exports = function (game, socket) {
     login._displayConfirmMenu = function () {
         confirmationPanel = this.slickUI.add(new SlickUI.Element.Panel(20, 20, game.width - 40, game.height - 40));
 
+        console.log('character: ',newCharacter);
+
+        confirmationPanel.add(new SlickUI.Element.Text(0, 0, 'Create a New Character', 36, 'title')).centerHorizontally();
+        confirmationPanel.add(new SlickUI.Element.Text(40, 60, 'Character Summary', 24, 'basic'));
+        confirmationPanel.add(new SlickUI.Element.Text(40, 100, 'Name: '+newCharacter.characterName, 20, 'basic'));
+        confirmationPanel.add(new SlickUI.Element.Text(40, 140, 'Portrait: ', 20, 'basic'));
+        var portraitImg = game.add.sprite(170, 160, newCharacter.portraitKey);
+
+        confirmationPanel.add(new SlickUI.Element.Text(400, 100, 'Class: '+newCharacter.selectedClass, 20, 'basic'));
+
+        confirmationPanel.add(new SlickUI.Element.Text(400, 140, 'Strength: '+ newCharacter.attrs.str, 20, 'basic'));
+        confirmationPanel.add(new SlickUI.Element.Text(400, 180, 'Dexterity: '+ newCharacter.attrs.dex, 20, 'basic'));
+        confirmationPanel.add(new SlickUI.Element.Text(400, 220, 'Intelligence: '+ newCharacter.attrs.int, 20, 'basic'));
+
+        var count = 0;
+        for (var key in newCharacter.skills) {
+            if (!newCharacter.skills.hasOwnProperty(key)) {
+                continue;
+            }
+                confirmationPanel.add(new SlickUI.Element.Text(400, 260 + count * 40, key+': '+newCharacter.skills[key]+".0", 20, 'basic'));
+            count++;
+        }
+
+        var errTxt = confirmationPanel.add(new SlickUI.Element.Text(240, confirmationPanel.height - 60, '', 18, 'basic'));
+
         function characterCreateRequest(attrs, skills, selectedClass, slot, portraitKey, characterName) {
+            var enumSkills = {};
+            for (var k in skills) {
+                if (!skills.hasOwnProperty(k)) continue;
+                var enumKey = enums.SKILLS[k.replace(' ', '_').toUpperCase()];
+                console.log('skill ', k, ' is ', skills[k], 'enum key', enumKey);
+                enumSkills[enumKey] = skills[k];
+            }
+            var enumClass = enums.CLASSES[selectedClass.replace(' ', '_').toUpperCase()];
             return {
                 attributes: attrs,
-                skills: skills,
-                selectedClass: selectedClass,
+                skills: enumSkills,
+                selectedClass: enumClass,
                 slot: slot,
                 portraitKey: portraitKey,
                 characterName: characterName
             };
         }
 
-        var character = characterCreateRequest(newCharacter.attrs, newCharacter.skills, newCharacter.selectedClass, newCharacter.slot, newCharacter.portraitKey, newCharacter.characterName);
+        var req = characterCreateRequest(newCharacter.attrs, newCharacter.skills, newCharacter.selectedClass, newCharacter.slot, newCharacter.portraitKey, newCharacter.characterName);
 
-        console.log('character: ',character);
-
-        confirmationPanel.add(new SlickUI.Element.Text(0, 0, 'Create a New Character', 36, 'title')).centerHorizontally();
-        confirmationPanel.add(new SlickUI.Element.Text(40, 60, 'Character Summary', 24, 'basic'));
-        confirmationPanel.add(new SlickUI.Element.Text(40, 100, 'Name: '+character.characterName, 20, 'basic'));
-        confirmationPanel.add(new SlickUI.Element.Text(40, 140, 'Portrait: ', 20, 'basic'));
-        var portraitImg = game.add.sprite(170, 160, character.portraitKey);
-
-        confirmationPanel.add(new SlickUI.Element.Text(400, 100, 'Class: '+character.selectedClass, 20, 'basic'));
-
-        confirmationPanel.add(new SlickUI.Element.Text(400, 140, 'Strength: '+ character.attributes.str, 20, 'basic'));
-        confirmationPanel.add(new SlickUI.Element.Text(400, 180, 'Dexterity: '+ character.attributes.dex, 20, 'basic'));
-        confirmationPanel.add(new SlickUI.Element.Text(400, 220, 'Intelligence: '+ character.attributes.int, 20, 'basic'));
-
-        var count = 0;
-        for (var key in character.skills) {
-            if (!character.skills.hasOwnProperty(key)) {
-                continue;
-            }
-                confirmationPanel.add(new SlickUI.Element.Text(400, 260 + count * 40, key+': '+character.skills[key]+".0", 20, 'basic'));
-            count++;
-        }
-
-        var errTxt = confirmationPanel.add(new SlickUI.Element.Text(240, confirmationPanel.height - 60, '', 18, 'basic'));
 
         var confirm = confirmationPanel.add(new SlickUI.Element.Button(confirmationPanel.width - 140, confirmationPanel.height - 40, 140, 40));
         confirm.add(new SlickUI.Element.Text(0,0, "Confirm", 24, 'basic')).center();
         confirm.events.onInputUp.add(function () {
-            socket.emit(enums.EVENTS.SERVER_EVENTS.CREATE_CHARACTER_REQUEST, JSON.stringify(character));
+            socket.emit(enums.EVENTS.SERVER_EVENTS.CREATE_CHARACTER_REQUEST, JSON.stringify(req));
         });
 
         socket.on(enums.EVENTS.CLIENT_EVENTS.CREATE_CHARACTER_RESPONSE, function (data) {

@@ -47,6 +47,7 @@ func createCharacterHandler(state *stateful.State, so socketio.Socket) utils.Han
 }
 
 func validateCreateCharacterRequest(req api.CreateCharacterRequest) error {
+	log.Infof("validating new character: %+v", req)
 	if req.Attributes.Strength+req.Attributes.Dexterity+req.Attributes.Intelligence != 105 {
 		return errors.New("attributes should sum to 105", nil)
 	}
@@ -57,16 +58,19 @@ func validateCreateCharacterRequest(req api.CreateCharacterRequest) error {
 		return errors.New("must choose exactly 3 starting skills", nil)
 	}
 	var skillTotal int
+	for _, val := range req.Skills {
+		skillTotal += val
+	}
+	if skillTotal != 100 {
+		return errors.New("starting skills must sum to 100", nil)
+	}
+
 	for skill, val := range req.Skills {
 		if val < 0 {
 			return errors.New("player cannot start with < 0 in a skill", nil)
 		}
 		if val > 50 {
 			return errors.New("player cannot start with > 50 in a skill", nil)
-		}
-		skillTotal += val
-		if skillTotal != 100 {
-			return errors.New("starting skills must sum to 100", nil)
 		}
 		classSkills, ok := enums.CLASS_SKILLS[req.SelectedClass]
 		if !ok {

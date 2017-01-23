@@ -1,4 +1,4 @@
-var Events = Events || {};
+var Events = {};
 
 module.exports = Events;
 

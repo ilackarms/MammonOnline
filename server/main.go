@@ -8,9 +8,13 @@ import (
 	"github.com/ilackarms/MammonOnline/server/enums"
 	"github.com/ilackarms/MammonOnline/server/handlers"
 	"github.com/ilackarms/MammonOnline/server/stateful"
+	"os"
 )
 
 func main() {
+	if debug := os.Getenv("DEBUG"); debug != "" && debug != "0" {
+		log.SetLevel(log.DebugLevel)
+	}
 	state := &stateful.State{
 		PersistentState: &stateful.PersistentState{},
 		EphemeralState: &stateful.EphemeralState{
