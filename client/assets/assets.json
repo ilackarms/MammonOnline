@@ -196,25 +196,7 @@
     "tiled_cave": "maps/world/tilesets/tiled_cave.png",
     "tiled_collision": "maps/world/tilesets/tiled_collision.png",
     "tiles_0": "maps/forest/tiles_0.png",
-    "town": "maps/town/town.png",
-    "warrior_heavy_axe": "sprites/pc/warrior_heavy_axe.png",
-    "warrior_heavy_mace_shield": "sprites/pc/warrior_heavy_mace_shield.png",
-    "warrior_heavy_shield": "sprites/pc/warrior_heavy_shield.png",
-    "warrior_heavy_staff": "sprites/pc/warrior_heavy_staff.png",
-    "warrior_heavy_sword": "sprites/pc/warrior_heavy_sword.png",
-    "warrior_heavy_sword_shield": "sprites/pc/warrior_heavy_sword_shield.png",
-    "warrior_heavy_weaponless": "sprites/pc/warrior_heavy_weaponless.png",
-    "warrior_light_shield": "sprites/pc/warrior_light_shield.png",
-    "warrior_light_sword": "sprites/pc/warrior_light_sword.png",
-    "warrior_light_sword_shield": "sprites/pc/warrior_light_sword_shield.png",
-    "warrior_light_weaponless": "sprites/pc/warrior_light_weaponless.png",
-    "warrior_medium_axe": "sprites/pc/warrior_medium_axe.png",
-    "warrior_medium_mace_shield": "sprites/pc/warrior_medium_mace_shield.png",
-    "warrior_medium_shield": "sprites/pc/warrior_medium_shield.png",
-    "warrior_medium_staff": "sprites/pc/warrior_medium_staff.png",
-    "warrior_medium_sword": "sprites/pc/warrior_medium_sword.png",
-    "warrior_medium_sword_shield": "sprites/pc/warrior_medium_sword_shield.png",
-    "warrior_medium_weaponless": "sprites/pc/warrior_medium_weaponless.png"
+    "town": "maps/town/town.png"
   },
   "datas": {
     "assets": "assets.json",
@@ -230,17 +212,82 @@
     "sorcerer_mace": "sprites/pc/sorcerer_mace.json",
     "sorcerer_staff": "sprites/pc/sorcerer_staff.json",
     "sorcerer_sword": "sprites/pc/sorcerer_sword.json",
-    "warrior_axe": "sprites/pc/warrior_axe.json",
-    "warrior_mace_shield": "sprites/pc/warrior_mace_shield.json",
-    "warrior_shield": "sprites/pc/warrior_shield.json",
-    "warrior_staff": "sprites/pc/warrior_staff.json",
-    "warrior_sword": "sprites/pc/warrior_sword.json",
-    "warrior_sword_shield": "sprites/pc/warrior_sword_shield.json",
-    "warrior_weaponless": "sprites/pc/warrior_weaponless.json",
     "world": "maps/world/world.json"
   },
   "audios": {},
   "atlases": {
+    "warrior_heavy_axe": {
+      "image": "sprites/pc/warrior_heavy_axe.png",
+      "data": "sprites/pc/warrior_axe.json"
+    },
+    "warrior_heavy_mace_shield": {
+      "image": "sprites/pc/warrior_heavy_mace_shield.png",
+      "data": "sprites/pc/warrior_mace_shield.json"
+    },
+    "warrior_heavy_shield": {
+      "image": "sprites/pc/warrior_heavy_shield.png",
+      "data": "sprites/pc/warrior_shield.json"
+    },
+    "warrior_heavy_staff": {
+      "image": "sprites/pc/warrior_heavy_staff.png",
+      "data": "sprites/pc/warrior_staff.json"
+    },
+    "warrior_heavy_sword": {
+      "image": "sprites/pc/warrior_heavy_sword.png",
+      "data": "sprites/pc/warrior_sword.json"
+    },
+    "warrior_heavy_sword_shield": {
+      "image": "sprites/pc/warrior_heavy_sword_shield.png",
+      "data": "sprites/pc/warrior_sword_shield.json"
+    },
+    "warrior_heavy_weaponless": {
+      "image": "sprites/pc/warrior_heavy_weaponless.png",
+      "data": "sprites/pc/warrior_weaponless.json"
+    },
+    "warrior_light_shield": {
+      "image": "sprites/pc/warrior_light_shield.png",
+      "data": "sprites/pc/warrior_shield.json"
+    },
+    "warrior_light_sword": {
+      "image": "sprites/pc/warrior_light_sword.png",
+      "data": "sprites/pc/warrior_sword.json"
+    },
+    "warrior_light_sword_shield": {
+      "image": "sprites/pc/warrior_light_sword_shield.png",
+      "data": "sprites/pc/warrior_sword_shield.json"
+    },
+    "warrior_light_weaponless": {
+      "image": "sprites/pc/warrior_light_weaponless.png",
+      "data": "sprites/pc/warrior_weaponless.json"
+    },
+    "warrior_medium_axe": {
+      "image": "sprites/pc/warrior_medium_axe.png",
+      "data": "sprites/pc/warrior_axe.json"
+    },
+    "warrior_medium_mace_shield": {
+      "image": "sprites/pc/warrior_medium_mace_shield.png",
+      "data": "sprites/pc/warrior_mace_shield.json"
+    },
+    "warrior_medium_shield": {
+      "image": "sprites/pc/warrior_medium_shield.png",
+      "data": "sprites/pc/warrior_shield.json"
+    },
+    "warrior_medium_staff": {
+      "image": "sprites/pc/warrior_medium_staff.png",
+      "data": "sprites/pc/warrior_staff.json"
+    },
+    "warrior_medium_sword": {
+      "image": "sprites/pc/warrior_medium_sword.png",
+      "data": "sprites/pc/warrior_sword.json"
+    },
+    "warrior_medium_sword_shield": {
+      "image": "sprites/pc/warrior_medium_sword_shield.png",
+      "data": "sprites/pc/warrior_sword_shield.json"
+    },
+    "warrior_medium_weaponless": {
+      "image": "sprites/pc/warrior_medium_weaponless.png",
+      "data": "sprites/pc/warrior_weaponless.json"
+    },
     "azid": {
       "image": "sprites/enemies/azid.png",
       "data": "sprites/enemies/azid.json"
