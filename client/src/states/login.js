@@ -72,10 +72,18 @@ module.exports = function (game, socket) {
                 password.destroy();
                 login._displayCharacterSelectMenu(response.character_names);
             }
-        })
+        });
     };
 
-    var characterSelectPanel, classSelectPanel, attrsSelectPanel, skillSelectPanel, skillSliderPanel;
+    var characterSelectPanel,
+        classSelectPanel,
+        attrsSelectPanel,
+        skillSelectPanel,
+        skillSliderPanel,
+        portraitPanel,
+        confirmationPanel;
+
+    var newCharacter = {};
 
     login._displayCharacterSelectMenu = function (character_names) {
         characterSelectPanel = this.slickUI.add(new SlickUI.Element.Panel(80, 80, game.width - 160, game.height - 160));
@@ -89,7 +97,7 @@ module.exports = function (game, socket) {
             char0.events.onInputUp.add(function () {
                 utils.setSlickUIElementVisible(characterSelectPanel, false);
                 //choose character slot
-                this.slot = 0;
+                newCharacter.slot = 0;
                 login._displayNewCharacterMenu();
             });
         }
@@ -136,7 +144,7 @@ module.exports = function (game, socket) {
         rogueButton.events.onInputUp.add(function () {
             classInfo.value = rogueDescription;
             selectedClassText.value = 'Selected: Rogue';
-            this.selectedClass = 'Rogue';
+            newCharacter.selectedClass = 'Rogue';
         });
 
         //warrior
@@ -147,7 +155,7 @@ module.exports = function (game, socket) {
         warriorButton.events.onInputUp.add(function () {
             classInfo.value = warriorDescription;
             selectedClassText.value = 'Selected: Warrior';
-            this.selectedClass = 'Warrior';
+            newCharacter.selectedClass = 'Warrior';
         });
 
         //sorcerer
@@ -158,13 +166,13 @@ module.exports = function (game, socket) {
         sorcererButton.events.onInputUp.add(function () {
             classInfo.value = sorcererDescription;
             selectedClassText.value = 'Selected: Sorcerer';
-            this.selectedClass = 'Sorcerer';
+            newCharacter.selectedClass = 'Sorcerer';
         });
 
         var cont = classSelectPanel.add(new SlickUI.Element.Button(classSelectPanel.width - 140, classSelectPanel.height - 40, 140, 40));
         cont.add(new SlickUI.Element.Text(0,0, "Continue", 24, 'basic')).center();
         cont.events.onInputUp.add(function () {
-            if (this.selectedClass) {
+            if (newCharacter.selectedClass) {
                 utils.setSlickUIElementVisible(classSelectPanel, false);
                 login._displayStatsMenu();
             }
@@ -277,7 +285,7 @@ module.exports = function (game, socket) {
         var cont = attrsSelectPanel.add(new SlickUI.Element.Button(attrsSelectPanel.width - 140, attrsSelectPanel.height - 40, 140, 40));
         cont.add(new SlickUI.Element.Text(0,0, "Continue", 24, 'basic')).center();
         cont.events.onInputUp.add(function () {
-            this.attrs = attrs;
+            newCharacter.attrs = attrs;
             utils.setSlickUIElementVisible(attrsSelectPanel, false);
             login._displaySkillsMenu();
         });
@@ -321,7 +329,7 @@ module.exports = function (game, socket) {
 
     login._displaySkillsMenu = function () {
         function classSkills () {
-            switch (this.selectedClass) {
+            switch (newCharacter.selectedClass) {
                 case 'Warrior':
                     return [
                         'Athletics',
@@ -373,7 +381,7 @@ module.exports = function (game, socket) {
                     ];
                     break;
                 default:
-                    throw new Error('what?? no selected class? '+this.selectedClass);
+                    throw new Error('what?? no selected class? '+newCharacter.selectedClass);
             }
         }
         function removeSkill(skillList, skillName) {
@@ -524,7 +532,7 @@ module.exports = function (game, socket) {
         var cont = skillSliderPanel.add(new SlickUI.Element.Button(skillSliderPanel.width - 140, skillSliderPanel.height - 40, 140, 40));
         cont.add(new SlickUI.Element.Text(0,0, "Continue", 24, 'basic')).center();
         cont.events.onInputUp.add(function () {
-            this.skills = skills;
+            newCharacter.skills = skills;
             utils.setSlickUIElementVisible(skillSliderPanel, false);
             login._diplayPortraitMenu();
         });
@@ -537,20 +545,162 @@ module.exports = function (game, socket) {
         });
     };
 
+    var portraitImage;
     login._diplayPortraitMenu = function () {
+        function setPortraitImage() {
+            var imagePrefix;
+            switch (newCharacter.selectedClass) {
+                case "Rogue":
+                    imagePrefix = "Rogue";
+                    break;
+                case "Warrior":
+                    imagePrefix = "War";
+                    break;
+                case "Sorcerer":
+                    imagePrefix = "Sorc";
+                    break;
+            }
+            var portraitKey = imagePrefix+(portraitIndex+1);
+            if (portraitImage) {
+                portraitImage.destroy();
+            }
+            portraitImage = game.add.sprite(280, 140, portraitKey);
+            newCharacter.portraitKey = portraitKey;
+        }
 
+        portraitPanel = this.slickUI.add(new SlickUI.Element.Panel(20, 20, game.width - 40, game.height - 40));
+        portraitPanel.add(new SlickUI.Element.Text(0, 0, 'Create a New Character', 36, 'title')).centerHorizontally();
+        portraitPanel.add(new SlickUI.Element.Text(40, 60, 'Select Portrait:', 24, 'basic'));
+        var portraitIndex = 0;
+        setPortraitImage();
+        var portraitLeftButton =  portraitPanel.add(new SlickUI.Element.Button(180, 180, 40, 40));
+        portraitLeftButton.add(new SlickUI.Element.Text(0,0, "<-", 24, 'basic')).center();
+        portraitLeftButton.events.onInputUp.add(function () {
+            portraitIndex--;
+            if (portraitIndex < 0) {
+                portraitIndex = 39;
+            }
+            setPortraitImage()
+        });
+        var portraitRightButton =  portraitPanel.add(new SlickUI.Element.Button(400, 180, 40, 40));
+        portraitRightButton.add(new SlickUI.Element.Text(0,0, "->", 24, 'basic')).center();
+        portraitRightButton.events.onInputUp.add(function () {
+            portraitIndex++;
+            if (portraitIndex > 39) {
+                portraitIndex = 0;
+            }
+            setPortraitImage()
+        });
+
+
+        portraitPanel.add(new SlickUI.Element.Text(40, 320, 'Name:', 24, 'basic'));
+        var characterName = game.add.inputField(portraitPanel._x + 160, portraitPanel._y + 320, {
+            font: '18px Arial',
+            fill: '#212121',
+            fontWeight: 'bold',
+            width: 150,
+            padding: 8,
+            borderWidth: 1,
+            borderColor: '#000',
+            borderRadius: 6,
+            placeHolder: 'Name',
+            type: PhaserInput.InputType.text
+        });
+
+        var errTxt = portraitPanel.add(new SlickUI.Element.Text(240, portraitPanel.height - 60, '', 18, 'basic'));
+
+        var cont = portraitPanel.add(new SlickUI.Element.Button(portraitPanel.width - 140, portraitPanel.height - 40, 140, 40));
+        cont.add(new SlickUI.Element.Text(0,0, "Continue", 24, 'basic')).center();
+        cont.events.onInputUp.add(function () {
+            newCharacter.characterName = characterName.value;
+            if (newCharacter.characterName.length > 4 && newCharacter.characterName.length < 20) {
+                utils.setSlickUIElementVisible(portraitPanel, false);
+                login._displayConfirmMenu();
+                portraitImage.destroy();
+            } else {
+                errTxt.value = 'Invalid name. Must be between 4 and 20 characters long';
+            }
+        });
+
+        var back = portraitPanel.add(new SlickUI.Element.Button(0, portraitPanel.height - 40, 140, 40));
+        back.add(new SlickUI.Element.Text(0,0, "Back", 24, 'basic')).center();
+        back.events.onInputUp.add(function () {
+            utils.setSlickUIElementVisible(portraitPanel, false);
+            utils.setSlickUIElementVisible(skillSliderPanel, true);
+            portraitImage.destroy();
+        });
     };
 
+    login._displayConfirmMenu = function () {
+        confirmationPanel = this.slickUI.add(new SlickUI.Element.Panel(20, 20, game.width - 40, game.height - 40));
 
-    login._finalizeCharacter = function () {
-      var characterCreateRequest = {
-          attributes: this.attrs,
-          skills: this.skills,
-          class: this.selectedClass,
-          slot: this.slot,
-          portrait: this.portrait
-      };
+        function characterCreateRequest(attrs, skills, selectedClass, slot, portraitKey, characterName) {
+            return {
+                attributes: attrs,
+                skills: skills,
+                selectedClass: selectedClass,
+                slot: slot,
+                portraitKey: portraitKey,
+                characterName: characterName
+            };
+        }
+
+        var character = characterCreateRequest(newCharacter.attrs, newCharacter.skills, newCharacter.selectedClass, newCharacter.slot, newCharacter.portraitKey, newCharacter.characterName);
+
+        console.log('character: ',character);
+
+        confirmationPanel.add(new SlickUI.Element.Text(0, 0, 'Create a New Character', 36, 'title')).centerHorizontally();
+        confirmationPanel.add(new SlickUI.Element.Text(40, 60, 'Character Summary', 24, 'basic'));
+        confirmationPanel.add(new SlickUI.Element.Text(40, 100, 'Name: '+character.characterName, 20, 'basic'));
+        confirmationPanel.add(new SlickUI.Element.Text(40, 140, 'Portrait: ', 20, 'basic'));
+        var portraitImg = game.add.sprite(170, 160, character.portraitKey);
+
+        confirmationPanel.add(new SlickUI.Element.Text(400, 100, 'Class: '+character.selectedClass, 20, 'basic'));
+
+        confirmationPanel.add(new SlickUI.Element.Text(400, 140, 'Strength: '+ character.attributes.str, 20, 'basic'));
+        confirmationPanel.add(new SlickUI.Element.Text(400, 180, 'Dexterity: '+ character.attributes.dex, 20, 'basic'));
+        confirmationPanel.add(new SlickUI.Element.Text(400, 220, 'Intelligence: '+ character.attributes.int, 20, 'basic'));
+
+        var count = 0;
+        for (var key in character.skills) {
+            if (!character.skills.hasOwnProperty(key)) {
+                continue;
+            }
+                confirmationPanel.add(new SlickUI.Element.Text(400, 260 + count * 40, key+': '+character.skills[key]+".0", 20, 'basic'));
+            count++;
+        }
+
+        var errTxt = confirmationPanel.add(new SlickUI.Element.Text(240, confirmationPanel.height - 60, '', 18, 'basic'));
+
+        var confirm = confirmationPanel.add(new SlickUI.Element.Button(confirmationPanel.width - 140, confirmationPanel.height - 40, 140, 40));
+        confirm.add(new SlickUI.Element.Text(0,0, "Confirm", 24, 'basic')).center();
+        confirm.events.onInputUp.add(function () {
+            socket.emit('SOMETHING HERE', JSON.stringify(character));
+        });
+
+        socket.on(enums.events.CLIENT_EVENTS.LOGIN_RESPONSE, function (data) {
+            var response = JSON.parse(data);
+            if (!response) {
+                return;
+            }
+            console.log(data, response);
+            if (response.code) {
+                errTxt.value = response.msg;
+            } else {
+                utils.setSlickUIElementVisible(confirmationPanel, false);
+                portraitImg.destroy();
+                alert(response);
+            }
+        });
+
+        var back = confirmationPanel.add(new SlickUI.Element.Button(0, confirmationPanel.height - 40, 140, 40));
+        back.add(new SlickUI.Element.Text(0,0, "Back", 24, 'basic')).center();
+        back.events.onInputUp.add(function () {
+            utils.setSlickUIElementVisible(confirmationPanel, false);
+            utils.setSlickUIElementVisible(portraitPanel, true);
+            portraitImg.destroy();
+        });
     };
 
-    return login;
-};
+        return login;
+    };
