@@ -32,6 +32,14 @@ type CreateCharacterRequest struct {
 	Name          string              `json:"characterName"`
 }
 
+type PlayCharacterRequest struct {
+	Slot int `json:"slot"`
+}
+
+type DeleteCharacterRequest struct {
+	Slot int `json:"slot"`
+}
+
 type StartGameResponse struct {
 	CharacterSlot int `json:"character_slot"`
 }

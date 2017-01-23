@@ -17,6 +17,10 @@ func (account *Account) AddCharacter(slot int, character *game.Character) {
 	account.Characters[slot] = character
 }
 
+func (account *Account) DeleteCharacter(slot int) {
+	account.Characters[slot] = nil
+}
+
 type PersistentState struct {
 	Accounts []*Account `json:"accounts"`
 }
