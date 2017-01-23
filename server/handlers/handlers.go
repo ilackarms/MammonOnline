@@ -28,6 +28,12 @@ func RegisterHandlers(state *stateful.State, so socketio.Socket) {
 			enums.CLIENT_EVENTS.NO_REPLY,
 			disconnectionHandler(state, so),
 		},
+		//Create New Character Handler
+		{
+			enums.SERVER_EVENTS.CREATE_CHARACTER_REQUEST,
+			enums.CLIENT_EVENTS.CREATE_CHARACTER_RESPONSE,
+			createCharacterHandler(state, so),
+		},
 	}
 
 	for _, route := range routes {

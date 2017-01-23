@@ -1,4 +1,4 @@
 var Enums = {};
 module.exports = Enums;
 
-Enums.events = require('./events');
+Enums.EVENTS = require('./events');

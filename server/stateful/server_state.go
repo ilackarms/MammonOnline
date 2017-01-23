@@ -3,17 +3,18 @@ package stateful
 import (
 	"github.com/emc-advanced-dev/pkg/errors"
 	"github.com/googollee/go-socket.io"
+	"github.com/ilackarms/MammonOnline/server/game"
+	"sync"
 )
 
-type Character struct {
-	Name  string `json:"name"`
-	Class string `json:"class"`
+type Account struct {
+	Username   string            `json:"username"`
+	Password   string            `json:"password"`
+	Characters []*game.Character `json:"characters"`
 }
 
-type Account struct {
-	Username   string       `json:"username"`
-	Password   string       `json:"password"`
-	Characters []*Character `json:"characters"`
+func (account *Account) AddCharacter(slot int, character *game.Character) {
+	account.Characters[slot] = character
 }
 
 type PersistentState struct {
@@ -42,7 +43,7 @@ func (s *PersistentState) CreateAccount(username, password string) *Account {
 	account := &Account{
 		Username: username,
 		Password: password,
-		Characters: []*Character{
+		Characters: []*game.Character{
 			nil,
 			nil,
 			nil,
@@ -52,7 +53,7 @@ func (s *PersistentState) CreateAccount(username, password string) *Account {
 	return account
 }
 
-func (s *PersistentState) GetCharacters(username string) []*Character {
+func (s *PersistentState) GetCharacters(username string) []*game.Character {
 	for _, account := range s.Accounts {
 		if account.Username == username {
 			return account.Characters
@@ -63,9 +64,12 @@ func (s *PersistentState) GetCharacters(username string) []*Character {
 
 type EphemeralState struct {
 	Sessions map[string]*Session
+	lock     sync.RWMutex
 }
 
 func (s *EphemeralState) SessionExists(username string) bool {
+	s.lock.RLock()
+	defer s.lock.RUnlock()
 	for _, session := range s.Sessions {
 		if session.Account.Username == username {
 			return true
@@ -75,6 +79,8 @@ func (s *EphemeralState) SessionExists(username string) bool {
 }
 
 func (s *EphemeralState) GetSessionForUser(username string) (*Session, error) {
+	s.lock.RLock()
+	defer s.lock.RUnlock()
 	for _, session := range s.Sessions {
 		if session.Account.Username == username {
 			return session, nil
@@ -84,6 +90,8 @@ func (s *EphemeralState) GetSessionForUser(username string) (*Session, error) {
 }
 
 func (s *EphemeralState) GetSessionForSocket(socketID string) (*Session, error) {
+	s.lock.RLock()
+	defer s.lock.RUnlock()
 	session, ok := s.Sessions[socketID]
 	if ok {
 		return session, nil
@@ -92,6 +100,8 @@ func (s *EphemeralState) GetSessionForSocket(socketID string) (*Session, error) 
 }
 
 func (s *EphemeralState) InitiateSession(so socketio.Socket, account *Account) {
+	s.lock.Lock()
+	defer s.lock.Unlock()
 	s.Sessions[so.Id()] = &Session{
 		Socket:  so,
 		Account: account,
@@ -99,6 +109,8 @@ func (s *EphemeralState) InitiateSession(so socketio.Socket, account *Account) {
 }
 
 func (s *EphemeralState) TerminateSession(socketID string) error {
+	s.lock.Lock()
+	defer s.lock.Unlock()
 	_, ok := s.Sessions[socketID]
 	if ok {
 		delete(s.Sessions, socketID)

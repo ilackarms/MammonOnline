@@ -31,3 +31,7 @@ type CreateCharacterRequest struct {
 	PortraitKey   string              `json:"portraitKey"`
 	Name          string              `json:"characterName"`
 }
+
+type StartGameResponse struct {
+	CharacterSlot int `json:"character_slot"`
+}

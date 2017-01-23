@@ -25,7 +25,7 @@ module.exports = function (game, socket) {
         panel.add(button = new SlickUI.Element.Button(panel.width - 140, panel.height-80, 140, 80));
         button.events.onInputUp.add(function () {
             console.log(panel);
-            socket.emit(enums.events.SERVER_EVENTS.LOGIN_REQUEST,
+            socket.emit(enums.EVENTS.SERVER_EVENTS.LOGIN_REQUEST,
                 JSON.stringify({
                     username: username.value,
                     password: password.value
@@ -58,7 +58,7 @@ module.exports = function (game, socket) {
             type: PhaserInput.InputType.password
         });
         username.startFocus();
-        socket.on(enums.events.CLIENT_EVENTS.LOGIN_RESPONSE, function (data) {
+        socket.on(enums.EVENTS.CLIENT_EVENTS.LOGIN_RESPONSE, function (data) {
             var response = JSON.parse(data);
             if (!response) {
                 return;
@@ -680,10 +680,10 @@ module.exports = function (game, socket) {
         var confirm = confirmationPanel.add(new SlickUI.Element.Button(confirmationPanel.width - 140, confirmationPanel.height - 40, 140, 40));
         confirm.add(new SlickUI.Element.Text(0,0, "Confirm", 24, 'basic')).center();
         confirm.events.onInputUp.add(function () {
-            socket.emit('SOMETHING HERE', JSON.stringify(character));
+            socket.emit(enums.EVENTS.SERVER_EVENTS.CREATE_CHARACTER_REQUEST, JSON.stringify(character));
         });
 
-        socket.on(enums.events.CLIENT_EVENTS.LOGIN_RESPONSE, function (data) {
+        socket.on(enums.EVENTS.CLIENT_EVENTS.CREATE_CHARACTER_RESPONSE, function (data) {
             var response = JSON.parse(data);
             if (!response) {
                 return;
