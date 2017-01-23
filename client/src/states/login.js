@@ -89,18 +89,23 @@ module.exports = function (game, socket) {
         characterSelectPanel = this.slickUI.add(new SlickUI.Element.Panel(80, 80, game.width - 160, game.height - 160));
         console.log(characterSelectPanel.width-1);
         characterSelectPanel.add(new SlickUI.Element.Text(0, 0, 'Character Select', 36, 'title')).centerHorizontally();
-        var char0 = characterSelectPanel.add(char1 = new SlickUI.Element.Button(characterSelectPanel.width/2 - 70, characterSelectPanel.height/2 - 80, 140, 40));
-        if (character_names[0]) {
-            char0.add(new SlickUI.Element.Text(0, 0, character_names[0], 20, 'basic')).center();
-        } else {
-            char0.add(new SlickUI.Element.Text(0, 0, 'NEW', 20, 'basic')).center();
-            char0.events.onInputUp.add(function () {
-                utils.setSlickUIElementVisible(characterSelectPanel, false);
-                //choose character slot
-                newCharacter.slot = 0;
-                login._displayNewCharacterMenu();
-            });
+        for (var i = 0; i < 3; i++) {
+            var char = characterSelectPanel.add(new SlickUI.Element.Button(characterSelectPanel.width/2 - 70, characterSelectPanel.height/2 - 80 + i * 60, 140, 40));
+            if (character_names[i]) {
+                char.add(new SlickUI.Element.Text(0, 0, character_names[0], 20, 'basic')).center();
+            } else {
+                char.add(new SlickUI.Element.Text(0, 0, 'NEW', 20, 'basic')).center();
+                char.events.onInputUp.add(function (i) {
+                    return function () {
+                        utils.setSlickUIElementVisible(characterSelectPanel, false);
+                        //choose character slot
+                        newCharacter.slot = i;
+                        login._displayNewCharacterMenu();
+                    };
+                }(i));
+            }
         }
+
         var cancel = characterSelectPanel.add(new SlickUI.Element.Button(0, characterSelectPanel.height - 40, 140, 40));
         cancel.add(new SlickUI.Element.Text(0,0, "Cancel", 24, 'basic')).center();
         cancel.events.onInputUp.add(function () {
