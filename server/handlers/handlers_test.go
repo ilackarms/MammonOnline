@@ -61,6 +61,39 @@ var _ = Describe("Handlers", func() {
 				client.Emit(enums.SERVER_EVENTS.LOGIN_REQUEST.String(), string(data))
 				Expect(<-responseChan).To(MatchRegexp(`{"session_token":".*","character_names":\[\]}`))
 				Expect(state.Accounts).To(HaveLen(1))
+				account, ok := state.GetAccount("testuser", "testpass")
+				Expect(ok).To(BeTrue())
+				Expect(account).NotTo(BeNil())
+				Expect(account.Characters).To(HaveLen(3))
+				for _, character := range account.Characters {
+					Expect(character).To(BeNil())
+				}
+			})
+		})
+		Context("on invalid login", func() {
+			It("replies with invalid login error", func() {
+				RegisterHandlers(state, so)
+				data, err := json.Marshal(api.LoginRequest{
+					Username: "testuser",
+					Password: "testpass",
+				})
+				must(err)
+				responseChan := make(chan string)
+				client.On(enums.CLIENT_EVENTS.LOGIN_RESPONSE.String(), func(msg string) {
+					responseChan <- msg
+				})
+				client.Emit(enums.SERVER_EVENTS.LOGIN_REQUEST.String(), string(data))
+				<-responseChan
+				data, err = json.Marshal(api.LoginRequest{
+					Username: "testuser",
+					Password: "wrongpass",
+				})
+				must(err)
+				client.On(enums.CLIENT_EVENTS.LOGIN_RESPONSE.String(), func(msg string) {
+					responseChan <- msg
+				})
+				client.Emit(enums.SERVER_EVENTS.LOGIN_REQUEST.String(), string(data))
+				Expect(<-responseChan).To(ContainSubstring("invalid password"))
 			})
 		})
 	})
@@ -80,6 +113,13 @@ var _ = Describe("Handlers", func() {
 	//		client.Emit(enums.SERVER_EVENTS.LOGIN_REQUEST.String(), string(data))
 	//		Expect(<-responseChan).To(MatchRegexp(`{"session_token":".*","character_names":\[\]}`))
 	//		Expect(state.Accounts).To(HaveLen(1))
+	//		account, ok := state.GetAccount("testuser", "testpass")
+	//		Expect(ok).To(BeTrue())
+	//		Expect(account).NotTo(BeNil())
+	//		Expect(account.Characters).To(HaveLen(3))
+	//		for _, character := range account.Characters {
+	//			Expect(character).To(BeNil())
+	//		}
 	//	})
 	//})
 })

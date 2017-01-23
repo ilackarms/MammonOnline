@@ -31,7 +31,7 @@ func (s *PersistentState) AccountExists(username string) bool {
 
 func (s *PersistentState) GetAccount(username, password string) (*Account, bool) {
 	for _, account := range s.Accounts {
-		if account.Username == username {
+		if account.Username == username && account.Password == password {
 			return account, true
 		}
 	}
@@ -42,6 +42,11 @@ func (s *PersistentState) CreateAccount(username, password string) *Account {
 	account := &Account{
 		Username: username,
 		Password: password,
+		Characters: []*Character{
+			nil,
+			nil,
+			nil,
+		},
 	}
 	s.Accounts = append(s.Accounts, account)
 	return account
