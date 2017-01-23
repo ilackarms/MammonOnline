@@ -3,6 +3,7 @@ package utils
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/Sirupsen/logrus"
 	"github.com/emc-advanced-dev/pkg/errors"
 	"github.com/googollee/go-socket.io"
 	"github.com/ilackarms/MammonOnline/server/api"
@@ -20,6 +21,7 @@ func Reply(so socketio.Socket, event enums.ClientEvent, response interface{}) er
 	if err := so.Emit(event.String(), string(data)); err != nil {
 		return errors.New("emitting data "+string(data)+" on event "+event.String(), err)
 	}
+	logrus.Debugf("responded with %s to endpoint %s", data, event)
 	return nil
 }
 

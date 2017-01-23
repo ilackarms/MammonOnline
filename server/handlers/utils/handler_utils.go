@@ -17,14 +17,19 @@ func AddHandler(so socketio.Socket,
 		result, err, code := handler(msg)
 		if err != nil {
 			log.Error("error handling "+serverEevent.String()+" from"+so.Id()+": ", err)
-			ReplyWithError(
+			if err := ReplyWithError(
 				so,
 				clientEvent,
 				code,
 				err,
-			)
+			); err != nil {
+				log.Error("error replying with error: ", err)
+			}
+			return
 		}
-		Reply(so, clientEvent, result)
+		if err := Reply(so, clientEvent, result); err != nil {
+			log.Error("error replying to socket: ", err)
+		}
 	}); err != nil {
 		log.Fatalf("INVALID HANDLER: %+v", handler)
 	}
