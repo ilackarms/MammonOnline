@@ -16,9 +16,9 @@ func disconnectionHandler(state *stateful.State, so socketio.Socket) utils.Handl
 			log.Warn("it appears "+so.Id()+" was not logged in. nothing to do.", err)
 		} else {
 			if err := state.TerminateSession(so.Id()); err != nil {
-				log.Errorf("error terminating session for "+sess.Username, err)
+				log.Errorf("error terminating session for "+sess.Account.Username, err)
 			} else {
-				log.Info("session terminated for user "+sess.Username, err)
+				log.Info("session terminated for user "+sess.Account.Username, err)
 			}
 		}
 		return nil, nil, enums.ERROR_CODES.NIL

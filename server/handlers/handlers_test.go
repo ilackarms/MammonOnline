@@ -39,7 +39,9 @@ var _ = Describe("Handlers", func() {
 	BeforeEach(func() {
 		state = &stateful.State{
 			PersistentState: &stateful.PersistentState{},
-			EphemeralState:  &stateful.EphemeralState{},
+			EphemeralState: &stateful.EphemeralState{
+				Sessions: make(map[string]*stateful.Session),
+			},
 		}
 	})
 	Describe("LoginHandler", func() {
@@ -62,4 +64,22 @@ var _ = Describe("Handlers", func() {
 			})
 		})
 	})
+	//Describe("CreateCharacterHandler", func() {
+	//	It("validates the create character request "+
+	//		"and adds the character to the given slot on the account", func() {
+	//		RegisterHandlers(state, so)
+	//		data, err := json.Marshal(api.LoginRequest{
+	//			Username: "testuser",
+	//			Password: "testpass",
+	//		})
+	//		must(err)
+	//		responseChan := make(chan string)
+	//		client.On(enums.CLIENT_EVENTS.LOGIN_RESPONSE.String(), func(msg string) {
+	//			responseChan <- msg
+	//		})
+	//		client.Emit(enums.SERVER_EVENTS.LOGIN_REQUEST.String(), string(data))
+	//		Expect(<-responseChan).To(MatchRegexp(`{"session_token":".*","character_names":\[\]}`))
+	//		Expect(state.Accounts).To(HaveLen(1))
+	//	})
+	//})
 })

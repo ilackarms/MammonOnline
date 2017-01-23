@@ -29,20 +29,22 @@ func (s *PersistentState) AccountExists(username string) bool {
 	return false
 }
 
-func (s *PersistentState) VerifyAccount(username, password string) bool {
+func (s *PersistentState) GetAccount(username, password string) (*Account, bool) {
 	for _, account := range s.Accounts {
 		if account.Username == username {
-			return account.Password == password
+			return account, true
 		}
 	}
-	return false
+	return nil, false
 }
 
-func (s *PersistentState) CreateAccount(username, password string) {
-	s.Accounts = append(s.Accounts, &Account{
+func (s *PersistentState) CreateAccount(username, password string) *Account {
+	account := &Account{
 		Username: username,
 		Password: password,
-	})
+	}
+	s.Accounts = append(s.Accounts, account)
+	return account
 }
 
 func (s *PersistentState) GetCharacters(username string) []*Character {
@@ -55,12 +57,12 @@ func (s *PersistentState) GetCharacters(username string) []*Character {
 }
 
 type EphemeralState struct {
-	Sessions []*Session
+	Sessions map[string]*Session
 }
 
 func (s *EphemeralState) SessionExists(username string) bool {
 	for _, session := range s.Sessions {
-		if session.Username == username {
+		if session.Account.Username == username {
 			return true
 		}
 	}
@@ -69,7 +71,7 @@ func (s *EphemeralState) SessionExists(username string) bool {
 
 func (s *EphemeralState) GetSessionForUser(username string) (*Session, error) {
 	for _, session := range s.Sessions {
-		if session.Username == username {
+		if session.Account.Username == username {
 			return session, nil
 		}
 	}
@@ -77,27 +79,25 @@ func (s *EphemeralState) GetSessionForUser(username string) (*Session, error) {
 }
 
 func (s *EphemeralState) GetSessionForSocket(socketID string) (*Session, error) {
-	for _, session := range s.Sessions {
-		if session.Socket.Id() == socketID {
-			return session, nil
-		}
+	session, ok := s.Sessions[socketID]
+	if ok {
+		return session, nil
 	}
 	return nil, errors.New("session not found for socket "+socketID, nil)
 }
 
-func (s *EphemeralState) InitiateSession(so socketio.Socket, username string) {
-	s.Sessions = append(s.Sessions, &Session{
-		Socket:   so,
-		Username: username,
-	})
+func (s *EphemeralState) InitiateSession(so socketio.Socket, account *Account) {
+	s.Sessions[so.Id()] = &Session{
+		Socket:  so,
+		Account: account,
+	}
 }
 
 func (s *EphemeralState) TerminateSession(socketID string) error {
-	for i, session := range s.Sessions {
-		if session.Socket.Id() == socketID {
-			s.Sessions = append(s.Sessions[:i], s.Sessions[i+1:]...)
-			return nil
-		}
+	_, ok := s.Sessions[socketID]
+	if ok {
+		delete(s.Sessions, socketID)
+		return nil
 	}
 	return errors.New("session for "+socketID+" not found", nil)
 }

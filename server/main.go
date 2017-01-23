@@ -13,7 +13,9 @@ import (
 func main() {
 	state := &stateful.State{
 		PersistentState: &stateful.PersistentState{},
-		EphemeralState:  &stateful.EphemeralState{},
+		EphemeralState: &stateful.EphemeralState{
+			Sessions: make(map[string]*stateful.Session),
+		},
 	}
 
 	server, err := socketio.NewServer(nil)
