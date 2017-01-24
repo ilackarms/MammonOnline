@@ -158,23 +158,6 @@
     "progress_bar_bg": "gui/preloader/progress_bar_bg.png",
     "progress_bar_fg": "gui/preloader/progress_bar_fg.png",
     "right_orb": "hud/right_orb.png",
-    "rogue_heavy_axe": "sprites/pc/rogue_heavy_axe.png",
-    "rogue_heavy_bow": "sprites/pc/rogue_heavy_bow.png",
-    "rogue_heavy_mace": "sprites/pc/rogue_heavy_mace.png",
-    "rogue_heavy_staff": "sprites/pc/rogue_heavy_staff.png",
-    "rogue_heavy_sword": "sprites/pc/rogue_heavy_sword.png",
-    "rogue_heavy_weaponless": "sprites/pc/rogue_heavy_weaponless.png",
-    "rogue_light_axe": "sprites/pc/rogue_light_axe.png",
-    "rogue_light_bow": "sprites/pc/rogue_light_bow.png",
-    "rogue_light_mace": "sprites/pc/rogue_light_mace.png",
-    "rogue_light_sword": "sprites/pc/rogue_light_sword.png",
-    "rogue_light_weaponless": "sprites/pc/rogue_light_weaponless.png",
-    "rogue_medium_axe": "sprites/pc/rogue_medium_axe.png",
-    "rogue_medium_bow": "sprites/pc/rogue_medium_bow.png",
-    "rogue_medium_mace": "sprites/pc/rogue_medium_mace.png",
-    "rogue_medium_staff": "sprites/pc/rogue_medium_staff.png",
-    "rogue_medium_sword": "sprites/pc/rogue_medium_sword.png",
-    "rogue_medium_weaponless": "sprites/pc/rogue_medium_weaponless.png",
     "set_rules": "maps/world/tilesets/set_rules.png",
     "snowplains": "maps/world/tilesets/snowplains.png",
     "snowplains_water": "maps/world/tilesets/snowplains_water.png",
@@ -185,18 +168,78 @@
   },
   "datas": {
     "assets": "assets.json",
-    "cave_template": "maps/town/cave_template.json",
-    "out": "maps/catacombs/out.json",
-    "rogue_axe": "sprites/pc/rogue_axe.json",
-    "rogue_bow": "sprites/pc/rogue_bow.json",
-    "rogue_mace": "sprites/pc/rogue_mace.json",
-    "rogue_staff": "sprites/pc/rogue_staff.json",
-    "rogue_sword": "sprites/pc/rogue_sword.json",
-    "rogue_weaponless": "sprites/pc/rogue_weaponless.json",
     "world": "maps/world/world.json"
   },
   "audios": {},
   "atlases": {
+    "rogue_heavy_axe": {
+      "image": "sprites/pc/rogue_heavy_axe.png",
+      "data":  "sprites/pc/rogue_axe.json"
+    },
+    "rogue_heavy_bow": {
+      "image": "sprites/pc/rogue_heavy_bow.png",
+      "data": "sprites/pc/rogue_bow.json"
+    },
+    "rogue_heavy_mace": {
+      "image": "sprites/pc/rogue_heavy_mace.png",
+      "data": "sprites/pc/rogue_mace.json"
+    },
+    "rogue_heavy_staff": {
+      "image": "sprites/pc/rogue_heavy_staff.png",
+      "data": "sprites/pc/rogue_staff.json"
+    },
+    "rogue_heavy_sword": {
+      "image": "sprites/pc/rogue_heavy_sword.png",
+      "data": "sprites/pc/rogue_sword.json"
+    },
+    "rogue_heavy_weaponless": {
+      "image": "sprites/pc/rogue_heavy_weaponless.png",
+      "data": "sprites/pc/rogue_weaponless.json"
+    },
+    "rogue_light_axe": {
+      "image": "sprites/pc/rogue_light_axe.png",
+      "data":  "sprites/pc/rogue_axe.json"
+    },
+    "rogue_light_bow": {
+      "image": "sprites/pc/rogue_light_bow.png",
+      "data": "sprites/pc/rogue_bow.json"
+    },
+    "rogue_light_mace": {
+      "image": "sprites/pc/rogue_light_mace.png",
+      "data": "sprites/pc/rogue_mace.json"
+    },
+    "rogue_light_sword": {
+      "image": "sprites/pc/rogue_light_sword.png",
+      "data": "sprites/pc/rogue_sword.json"
+    },
+    "rogue_light_weaponless": {
+      "image": "sprites/pc/rogue_light_weaponless.png",
+      "data": "sprites/pc/rogue_weaponless.json"
+    },
+    "rogue_medium_axe": {
+      "image": "sprites/pc/rogue_medium_axe.png",
+      "data":  "sprites/pc/rogue_axe.json"
+    },
+    "rogue_medium_bow": {
+      "image": "sprites/pc/rogue_medium_bow.png",
+      "data": "sprites/pc/rogue_bow.json"
+    },
+    "rogue_medium_mace": {
+      "image": "sprites/pc/rogue_medium_mace.png",
+      "data": "sprites/pc/rogue_mace.json"
+    },
+    "rogue_medium_staff": {
+      "image": "sprites/pc/rogue_medium_staff.png",
+      "data": "sprites/pc/rogue_staff.json"
+    },
+    "rogue_medium_sword": {
+      "image": "sprites/pc/rogue_medium_sword.png",
+      "data": "sprites/pc/rogue_sword.json"
+    },
+    "rogue_medium_weaponless": {
+      "image": "sprites/pc/rogue_medium_weaponless.png",
+      "data": "sprites/pc/rogue_weaponless.json"
+    },
     "sorcerer_heavy_axe": {
       "image": "sprites/pc/sorcerer_heavy_axe.png",
       "data": "sprites/pc/sorcerer_axe.json"
