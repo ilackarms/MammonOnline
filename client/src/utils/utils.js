@@ -49,5 +49,18 @@ module.exports = function () {
         slider.sprite_handle.x = (endX - startX) * value + startX;
     };
 
+    //find animations by regex (in texture atlas/spritesheet)
+    utils.findAnimations = function (frames, prefix) {
+        var animations = [];
+        var regexp = new RegExp(prefix+'.[0-9]+');
+        for (var i =0; i < frames.length; i++) {
+            var frame = frames[i];
+            if (frame.name.match(regexp)) {
+                animations.push(frame.name)
+            }
+        }
+        return animations;
+    };
+
     return utils;
 };
