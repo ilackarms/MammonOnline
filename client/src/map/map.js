@@ -122,9 +122,16 @@ Map.prototype._init = function () {
 
     this._lowerTiles = lowerTileImages;
     this._upperTiles = upperTileImages;
+    this._lowerGroup = this._game.add.group();
+    this._upperGroup = this._game.add.group();
 };
 
-Map.prototype.draw = function (offsetX, offsetY, lower) {
+Map.prototype.draw = function (offsetX, offsetY) {
+    this._draw(offsetX, offsetY, false);
+    this._draw(offsetX, offsetY, true);
+};
+
+Map.prototype._draw = function (offsetX, offsetY, lower) {
     if (!this._initialized) {
         this._init();
     }
@@ -150,19 +157,19 @@ Map.prototype.draw = function (offsetX, offsetY, lower) {
                 var screenX = (x - y) * width / 2,
                     screenY = (x + y) * height / 2;
 
-                var sourceTile;
+                var lowerTile;
                 if (lower) {
-                    sourceTile = this._lowerTiles[tile];
+                    lowerTile = this._lowerTiles[tile];
                 } else {
-                    sourceTile = this._upperTiles[tile];
+                    lowerTile = this._upperTiles[tile];
                     //the upper part of this tile has notihng visible to it
-                    if (!sourceTile) {
+                    if (!lowerTile) {
                         continue;
                     }
                 }
 
                 var finalBMD = this._game.make.bitmapData(tileset.tilewidth, tileset.tileheight);
-                finalBMD.copy(sourceTile.bmd, 0, 0);
+                finalBMD.copy(lowerTile.bmd, 0, 0);
 
                 //for larger than regular tile size
                 //gotta make sure we draw the tile at the right spot
@@ -175,7 +182,9 @@ Map.prototype.draw = function (offsetX, offsetY, lower) {
                     finalBMD.context.fillStyle = "white";
                     finalBMD.context.fillText(x + "," + y, width/2, height * 2/6 + shiftY);
                 }
-                this._game.add.image(screenX + offsetX - shiftX, screenY + offsetY - height * 14/16 - shiftY, finalBMD);
+                var finalTile = this._game.add.image(screenX + offsetX - shiftX, screenY + offsetY - height * 14/16 - shiftY, finalBMD);
+                if (lower) this._lowerGroup.add(finalTile);
+                else this._upperGroup.add(finalTile);
                 console.log(".");
             }
         }

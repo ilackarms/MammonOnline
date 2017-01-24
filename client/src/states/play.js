@@ -15,8 +15,7 @@ module.exports = function (game, socket) {
     
     play.create = function () {
         console.log('playing game');
-        play.map.draw(0, 0, false);
-        play.map.draw(0, 0, true);
+        play.map.draw(0, 0);
     };
 
     return play;
