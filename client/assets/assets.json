@@ -208,6 +208,10 @@
       "image": "sprites/pc/rogue_light_mace.png",
       "data": "sprites/pc/rogue_mace.json"
     },
+    "rogue_light_staff": {
+      "image": "sprites/pc/rogue_light_staff.png",
+      "data": "sprites/pc/rogue_light_staff.json"
+    },
     "rogue_light_sword": {
       "image": "sprites/pc/rogue_light_sword.png",
       "data": "sprites/pc/rogue_sword.json"
@@ -372,6 +376,30 @@
       "image": "sprites/pc/warrior_medium_weaponless.png",
       "data": "sprites/pc/warrior_weaponless.json"
     },
+    "warrior_heavy_mace": {
+      "image": "sprites/pc/warrior_heavy_mace.png",
+      "data": "sprites/pc/warrior_heavy_mace.json"
+    },
+    "warrior_light_axe": {
+      "image": "sprites/pc/warrior_light_axe.png",
+      "data": "sprites/pc/warrior_light_axe.json"
+    },
+    "warrior_light_mace": {
+      "image": "sprites/pc/warrior_light_mace.png",
+      "data": "sprites/pc/warrior_light_mace.json"
+    },
+    "warrior_light_mace_shield": {
+      "image": "sprites/pc/warrior_light_mace_shield.png",
+      "data": "sprites/pc/warrior_light_mace_shield.json"
+    },
+    "warrior_light_staff": {
+      "image": "sprites/pc/warrior_light_staff.png",
+      "data": "sprites/pc/warrior_light_staff.json"
+    },
+    "warrior_medium_mace": {
+      "image": "sprites/pc/warrior_medium_mace.png",
+      "data": "sprites/pc/warrior_medium_mace.json"
+    },
     "azid": {
       "image": "sprites/enemies/azid.png",
       "data": "sprites/enemies/azid.json"
@@ -391,10 +419,6 @@
     "black_knight": {
       "image": "sprites/enemies/black_knight.png",
       "data": "sprites/enemies/black_knight.json"
-    },
-    "catacombs": {
-      "image": "maps/catacombs/catacombs.png",
-      "data": "maps/catacombs/catacombs.json"
     },
     "crypt_demon": {
       "image": "sprites/enemies/crypt_demon.png",
@@ -508,10 +532,6 @@
       "image": "sprites/enemies/reaper.png",
       "data": "sprites/enemies/reaper.json"
     },
-    "rogue_light_staff": {
-      "image": "sprites/pc/rogue_light_staff.png",
-      "data": "sprites/pc/rogue_light_staff.json"
-    },
     "scavenger": {
       "image": "sprites/enemies/scavenger.png",
       "data": "sprites/enemies/scavenger.json"
@@ -552,10 +572,6 @@
       "image": "sprites/enemies/tom_rat.png",
       "data": "sprites/enemies/tom_rat.json"
     },
-    "town": {
-      "image": "maps/town/town.jpg",
-      "data": "maps/town/town.json"
-    },
     "townsfolk": {
       "image": "sprites/npcs/townsfolk.png",
       "data": "sprites/npcs/townsfolk.json"
@@ -567,30 +583,6 @@
     "viper": {
       "image": "sprites/enemies/viper.png",
       "data": "sprites/enemies/viper.json"
-    },
-    "warrior_heavy_mace": {
-      "image": "sprites/pc/warrior_heavy_mace.png",
-      "data": "sprites/pc/warrior_heavy_mace.json"
-    },
-    "warrior_light_axe": {
-      "image": "sprites/pc/warrior_light_axe.png",
-      "data": "sprites/pc/warrior_light_axe.json"
-    },
-    "warrior_light_mace": {
-      "image": "sprites/pc/warrior_light_mace.png",
-      "data": "sprites/pc/warrior_light_mace.json"
-    },
-    "warrior_light_mace_shield": {
-      "image": "sprites/pc/warrior_light_mace_shield.png",
-      "data": "sprites/pc/warrior_light_mace_shield.json"
-    },
-    "warrior_light_staff": {
-      "image": "sprites/pc/warrior_light_staff.png",
-      "data": "sprites/pc/warrior_light_staff.json"
-    },
-    "warrior_medium_mace": {
-      "image": "sprites/pc/warrior_medium_mace.png",
-      "data": "sprites/pc/warrior_medium_mace.json"
     },
     "zombie": {
       "image": "sprites/enemies/zombie.png",
