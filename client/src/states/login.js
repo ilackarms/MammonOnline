@@ -152,7 +152,7 @@ module.exports = function (game, socket) {
             if (response.code) {
                 errTxt.value = response.msg;
             } else {
-                game.state.start('play');
+                game.state.start('play', true, null, response);
             }
         });
 
@@ -755,7 +755,7 @@ module.exports = function (game, socket) {
             } else {
                 utils.setSlickUIElementVisible(confirmationPanel, false);
                 portraitImg.destroy();
-                game.state.start('play');
+                game.state.start('play', true, null, response);
             }
         });
 
