@@ -3,7 +3,7 @@ function main() {
     var socket = io();
 
     //init game
-    var game =  new Phaser.Game(800, 480, Phaser.CANVAS, 'game');
+    var game =  new Phaser.Game(1067, 600, Phaser.CANVAS, 'game');
 
     //init game states
     game.state.add('boot', require('./states/boot')(game));
