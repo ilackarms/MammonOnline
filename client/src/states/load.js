@@ -18,13 +18,13 @@ module.exports = function (game) {
             loadCount++;
             game.load.json(key, 'assets/'+assets.datas[key]);
         }
-        // for (var key in assets.atlases) {
-        //     if (!assets.atlases.hasOwnProperty(key)) {
-        //         continue;
-        //     }
-        //     loadCount++;
-        //     game.load.atlas(key, 'assets/'+assets.atlases[key].image, 'assets/'+assets.atlases[key].data);
-        // }
+        for (var key in assets.atlases) {
+            if (!assets.atlases.hasOwnProperty(key)) {
+                continue;
+            }
+            loadCount++;
+            game.load.atlas(key, 'assets/'+assets.atlases[key].image, 'assets/'+assets.atlases[key].data);
+        }
         console.log(assets, 'loading', loadCount);
     };
 
@@ -35,8 +35,9 @@ module.exports = function (game) {
         this.loading = game.add.sprite(centerX, 80, 'title');
         this.loading.anchor.setTo(0.5, 0.5);
 
-        this.loading = game.add.sprite(centerX, centerY - 20, 'loading_text');
-        this.loading.anchor.setTo(0.5, 0.5);
+        // this.loading = game.add.sprite(centerX, centerY - 20, 'loading_text');
+        // this.loading.anchor.setTo(0.5, 0.5);
+        game.add.bitmapText(300, 200, 'basic', 'Loading...', 64);
 
         this.barBg = game.add.sprite(centerX, centerY + 40, 'load_progress_bar_dark');
         this.barBg.anchor.setTo(0.5, 0.5);

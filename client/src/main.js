@@ -1,8 +1,6 @@
 function main() {
     // init socket
     var socket = io();
-    var handlers = require('./handlers/handlers')(socket);
-    handlers.registerHandlers();
 
     //init game
     var game =  new Phaser.Game(800, 480, Phaser.CANVAS, 'game');

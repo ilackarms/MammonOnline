@@ -7,7 +7,9 @@ module.exports = function (game) {
         this.load.image('loading_text', 'assets/gui/preloader/loading.png');
         this.load.image('load_progress_bar_dark', 'assets/gui/preloader/progress_bar_bg.png');
         this.load.image('load_progress_bar', 'assets/gui/preloader/progress_bar_fg.png');
-        this.load.json('assets', 'assets/assets.json')
+        this.load.json('assets', 'assets/assets.json');
+        game.load.bitmapFont('basic', 'assets/gui/themes/kenney/fonts/uo.png', 'assets/gui/themes/kenney/fonts/uo.fnt');
+        game.load.bitmapFont('title', 'assets/gui/themes/kenney/fonts/title.png', 'assets/gui/themes/kenney/fonts/title.fnt');
 
     };
     

@@ -128,13 +128,21 @@ Map.prototype.draw = function (offsetX, offsetY, lower) {
     if (!this._initialized) {
         this._init();
     }
+    this._game.add.sprite('progress_bar_fg')
+    if (loadingBar) {
+        var done = 1;
+        var iterations = this._map.length * this._map[0].length * this._map[0][0].length;
+        var cropRect = new Phaser.Rectangle(loadingBar.x, loadingBar.y, 0, loadingBar.height);
+        loadingBar.crop(cropRect);
+    }
 
-    var start = 0;
-    for (var l = start; l < this._map.length; l++) {
+    for (var l = 0; l < this._map.length; l++) {
         var layer = this._map[l];
         for (var x = 0; x < layer.length; x++) {
             var column = layer[x];
             for (var y = 0; y < column.length; y++) {
+
+
                 if (!column[y].visible && !this._debugMode) {
                     continue;
                 }
@@ -176,6 +184,9 @@ Map.prototype.draw = function (offsetX, offsetY, lower) {
                 }
                 this._game.add.image(screenX + offsetX - shiftX, screenY + offsetY - height * 14/16 - shiftY, finalBMD);
                 console.log(".");
+                if (loadingBar) {
+                    cropRect.width = loadingBar.width * (done++ / iterations);
+                }
             }
         }
     }
