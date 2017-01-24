@@ -41,5 +41,6 @@ type DeleteCharacterRequest struct {
 }
 
 type StartGameResponse struct {
-	CharacterSlot int `json:"character_slot"`
+	CharacterSlot int    `json:"character_slot"`
+	Map           string `json:"map"`
 }

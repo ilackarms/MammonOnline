@@ -42,6 +42,7 @@ func createCharacterHandler(state *stateful.State, so socketio.Socket) utils.Han
 		log.Info("created new character: ", character)
 		return &api.StartGameResponse{
 			CharacterSlot: req.Slot,
+			Map:           "world",
 		}, nil, enums.ERROR_CODES.NIL
 	}
 }
