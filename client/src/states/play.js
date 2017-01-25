@@ -1,4 +1,4 @@
-module.exports = function (game, socket, fps) {
+module.exports = function (game, socket) {
     var play = {};
 
     var enums = require('../enums/enums');
@@ -24,17 +24,16 @@ module.exports = function (game, socket, fps) {
         play.map.draw(0, 0);
     };
 
-    function initPlayerAnimations(playerClass) {
+    function playerAnimator(playerClass) {
         var armors = ['light', 'medium', 'heavy'],
             weapons = ['axe', 'mace', 'staff', 'sword', 'weaponless'],
             actions = [
                 {name:'idle', loop: true},
                 {name:'attack', loop: true},
-                {name:'die', loop: true},
+                {name:'die', loop: false},
                 {name:'cast_spell', loop: true},
-                {name: 'die', loop: true},
                 {name:'walk', loop: true},
-                {name:'get_hit', loop: true}
+                {name:'get_hit', loop: false}
             ],
             directions = ['s', 'sw', 'w', 'nw', 'n', 'ne', 'e', 'se'];
 
@@ -71,16 +70,51 @@ module.exports = function (game, socket, fps) {
                     for (var l = 0; l < directions.length; l++) {
                         var direction = directions[l];
                         var frames = utils.findAnimations(frameData, action.name+'.'+direction);
-                        sprite.animations.add(action.name+'.'+direction, frames, fps, action.loop);
+                        sprite.animations.add(action.name+'.'+direction, frames, 30, action.loop);
                     }
                 }
                 playerSprites[armor][weapon] = sprite;
             }
         }
-        playerSprites.playAnimation = function (armor, weapon, action, direction) {
+        playerSprites.playAnimation = function (armor, weapon, action, direction, frameRate) {
             var sprite = this[armor][weapon];
-            sprite.play(action+'.'+direction);
+            sprite.play(action+'.'+direction, frameRate);
+        };
+        return playerSprites;
+    }
+
+    function enemyAnimator(enemyName) {
+        var actions = [
+                {name: 'idle', loop: true},
+                {name: 'attack', loop: true},
+                {name: 'die', loop: false},
+                {name: 'special', loop: true},
+                {name: 'walk', loop: true},
+                {name: 'get_hit', loop: true}
+            ],
+            directions = ['s', 'sw', 'w', 'nw', 'n', 'ne', 'e', 'se'];
+
+        var atlasName = enemyName;
+        var frameData = game.cache.getFrameData(atlasName).getFrames();
+        var sprite = game.make.sprite(0, 0, atlasName);
+        //store sprite, create all animations for it
+        for (var k = 0; k < actions.length; k++) {
+            var action = actions[k];
+            for (var l = 0; l < directions.length; l++) {
+                var direction = directions[l];
+                var frames = utils.findAnimations(frameData, action.name + '.' + direction);
+                if (frames.length > 0) {
+                    sprite.animations.add(action.name + '.' + direction, frames, 30, action.loop);
+                }
+            }
         }
+        var enemy = {};
+        enemy.sprite = sprite;
+        enemy.playAnimation = function (armor, weapon, action, direction, frameRate) {
+            var sprite = this[armor][weapon];
+            sprite.play(action+'.'+direction, frameRate);
+        };
+        return enemy;
     }
 
     return play;
