@@ -55,10 +55,10 @@ module.exports = function (game, socket) {
                 break;
         }
 
-        var playerSprites = {};
+        var player = {};
         for (var i = 0; i < armors.length; i++) {
             var armor = armors[i];
-            playerSprites[armor] = {};
+            player[armor] = {};
             for (var j = 0; j < weapons.length; j++) {
                 var weapon = weapons[j];
                 var atlasName = className+'_'+armor+'_'+weapon;
@@ -73,14 +73,14 @@ module.exports = function (game, socket) {
                         sprite.animations.add(action.name+'.'+direction, frames, 30, action.loop);
                     }
                 }
-                playerSprites[armor][weapon] = sprite;
+                player[armor][weapon] = sprite;
             }
         }
-        playerSprites.playAnimation = function (armor, weapon, action, direction, frameRate) {
+        player.playAnimation = function (armor, weapon, action, direction, frameRate) {
             var sprite = this[armor][weapon];
             sprite.play(action+'.'+direction, frameRate);
         };
-        return playerSprites;
+        return player;
     }
 
     function enemyAnimator(enemyName) {
