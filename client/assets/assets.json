@@ -400,6 +400,42 @@
       "image": "sprites/pc/warrior_medium_mace.png",
       "data": "sprites/pc/warrior_medium_mace.json"
     },
+    "acolyte": {
+      "image": "sprites/enemies/acolyte.png",
+      "data": "sprites/enemies/acolyte.json"
+    },
+    "cyber_demon": {
+      "image": "sprites/enemies/cyber_demon.png",
+      "data": "sprites/enemies/cyber_demon.json"
+    },
+    "director": {
+      "image": "sprites/enemies/director.png",
+      "data": "sprites/enemies/director.json"
+    },
+    "droid": {
+      "image": "sprites/enemies/droid.png",
+      "data": "sprites/enemies/droid.json"
+    },
+    "experiment": {
+      "image": "sprites/enemies/experiment.png",
+      "data": "sprites/enemies/experiment.json"
+    },
+    "exterminator": {
+      "image": "sprites/enemies/exterminator.png",
+      "data": "sprites/enemies/exterminator.json"
+    },
+    "seeker": {
+      "image": "sprites/enemies/seeker.png",
+      "data": "sprites/enemies/seeker.json"
+    },
+    "seeker": {
+      "image": "sprites/enemies/seeker.png",
+      "data": "sprites/enemies/seeker.json"
+    },
+    "technician": {
+      "image": "sprites/enemies/technician.png",
+      "data": "sprites/enemies/technicianc.json"
+    },
     "azid": {
       "image": "sprites/enemies/azid.png",
       "data": "sprites/enemies/azid.json"
