@@ -1,6 +1,11 @@
 module.exports = function (game, socket) {
     var play = {};
 
+    /*
+    updateQueue.push(function(game, socket, delta){});
+     */
+    var updateQueue = [];
+
     var enums = require('../enums/enums');
     var maps = require('../map/map');
     var utils = require('../utils/utils');
@@ -22,6 +27,13 @@ module.exports = function (game, socket) {
     play.create = function () {
         console.log('playing game');
         play.map.draw(0, 0);
+    };
+
+    play.update = function (delta) {
+        var update = updateQueue.pop();
+        if (update) {
+            update(game, socket, delta);
+        }//hong9062
     };
 
     function playerAnimator(playerClass) {
