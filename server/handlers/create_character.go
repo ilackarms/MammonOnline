@@ -39,6 +39,7 @@ func createCharacterHandler(state *stateful.State, so socketio.Socket) utils.Han
 			Region:   enums.REGIONS.WORLD,
 		}
 		session.Account.AddCharacter(req.Slot, character)
+		session.Character = session.Account.Characters[req.Slot]
 		log.Info("created new character: ", character)
 		return &api.StartGameResponse{
 			CharacterSlot: req.Slot,
