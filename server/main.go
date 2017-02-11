@@ -29,9 +29,6 @@ func main() {
 	server.On(enums.SERVER_EVENTS.CONNECTION.String(), func(so socketio.Socket) {
 		log.Infof("New Socket %v Connected, adding handlers...", so.Id())
 		handlers.RegisterHandlers(state, so)
-		//so.On("disconnection", func() {
-		//	log.Println("TODO: disconnection HANDLER")
-		//})
 	})
 	server.On("error", func(so socketio.Socket, err error) {
 		log.Println("TODO: error HANDLER:", err)
