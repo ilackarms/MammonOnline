@@ -9,6 +9,7 @@ import (
 	"github.com/ilackarms/MammonOnline/server/game"
 	"github.com/ilackarms/MammonOnline/server/handlers/utils"
 	"github.com/ilackarms/MammonOnline/server/stateful"
+	"github.com/pborman/uuid"
 )
 
 func createCharacterHandler(state *stateful.State, so socketio.Socket) utils.HandleFunc {
@@ -26,6 +27,9 @@ func createCharacterHandler(state *stateful.State, so socketio.Socket) utils.Han
 		}
 
 		character := &game.Character{
+			Object: &game.Object{
+				UID: uuid.New(),
+			},
 			Attributes: game.Attributes{
 				Strength:     req.Attributes.Strength,
 				Dexterity:    req.Attributes.Dexterity,
@@ -42,7 +46,7 @@ func createCharacterHandler(state *stateful.State, so socketio.Socket) utils.Han
 		session.Character = session.Account.Characters[req.Slot]
 		log.Info("created new character: ", character)
 		return &api.StartGameResponse{
-			CharacterSlot: req.Slot,
+			PlayerUID: character.UID,
 		}, nil, enums.ERROR_CODES.NIL
 	}
 }

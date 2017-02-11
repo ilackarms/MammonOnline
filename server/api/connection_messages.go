@@ -41,5 +41,5 @@ type DeleteCharacterRequest struct {
 }
 
 type StartGameResponse struct {
-	CharacterSlot int `json:"character_slot"`
+	PlayerUID string `json:"player_uid"`
 }

@@ -29,7 +29,7 @@ func playCharacterHandler(state *stateful.State, so socketio.Socket) utils.Handl
 		session.Character = session.Account.Characters[req.Slot]
 		log.Info(session.Character.Name, " started playing!")
 		return &api.StartGameResponse{
-			CharacterSlot: req.Slot,
+			PlayerUID: session.Character.UID,
 		}, nil, enums.ERROR_CODES.NIL
 	}
 }
