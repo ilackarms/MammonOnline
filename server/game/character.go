@@ -14,12 +14,11 @@ type Attributes struct {
 }
 
 type Character struct {
-	Object
+	*Object
 	Attributes Attributes          `json:"attributes"`
 	Skills     map[enums.Skill]int `json:"skills"`
 	Class      enums.Class         `json:"class"`
 	Portrait   string              `json:"portrait"`
 	Name       string              `json:"name"`
-	Position   Position            `json:"position"`
 	Region     enums.Region        `json:"region"`
 }

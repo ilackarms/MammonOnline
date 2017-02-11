@@ -28,7 +28,9 @@ func createCharacterHandler(state *stateful.State, so socketio.Socket) utils.Han
 
 		character := &game.Character{
 			Object: &game.Object{
-				UID: uuid.New(),
+				UID:      uuid.New(),
+				Type:     enums.OBJECTS.PLAYER,
+				Position: game.Position{X: 10, Y: 10},
 			},
 			Attributes: game.Attributes{
 				Strength:     req.Attributes.Strength,
