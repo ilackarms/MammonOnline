@@ -6,6 +6,7 @@ type Object struct {
 	UID      string       `json:"uid"`
 	Type     enums.Object `json:"type"`
 	Position Position     `json:"position"`
+	ZoneName string       `json:"zone_name"`
 }
 
 func (obj *Object) GetUID() string {
@@ -20,8 +21,13 @@ func (obj *Object) GetPosition() Position {
 	return obj.Position
 }
 
+func (obj *Object) GetZoneName() string {
+	return obj.ZoneName
+}
+
 type IObject interface {
 	GetUID() string
 	GetType() string
 	GetPosition() Position
+	GetZoneName() string
 }

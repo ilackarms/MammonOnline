@@ -31,6 +31,7 @@ func createCharacterHandler(state *stateful.State, so socketio.Socket) utils.Han
 				UID:      uuid.New(),
 				Type:     enums.OBJECTS.PLAYER,
 				Position: game.Position{X: 10, Y: 10},
+				ZoneName: state.World.Zones["world"].Name,
 			},
 			Attributes: game.Attributes{
 				Strength:     req.Attributes.Strength,
@@ -41,11 +42,13 @@ func createCharacterHandler(state *stateful.State, so socketio.Socket) utils.Han
 			Class:    req.SelectedClass,
 			Portrait: req.PortraitKey,
 			Name:     req.Name,
-			Region:   enums.REGIONS.WORLD,
+			LoggedIn: true,
 		}
 		session.Account.AddCharacter(req.Slot, character)
 		session.Character = session.Account.Characters[req.Slot]
-		state.World.AddObject("world", character)
+		if err := state.World.AddObject(character); err != nil {
+			return nil, errors.New("adding character to world", err), enums.ERROR_CODES.INTERNAL_ERROR
+		}
 		log.Info("created new character: ", character)
 		return &api.StartGameResponse{
 			PlayerUID: character.UID,
@@ -64,7 +67,7 @@ func validateCreateCharacterRequest(req api.CreateCharacterRequest) error {
 	if len(req.Skills) != 3 {
 		return errors.New("must choose exactly 3 starting skills", nil)
 	}
-	var skillTotal int
+	var skillTotal uint
 	for _, val := range req.Skills {
 		skillTotal += val
 	}

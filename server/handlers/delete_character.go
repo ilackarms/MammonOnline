@@ -23,8 +23,13 @@ func deleteCharacterHandler(state *stateful.State, so socketio.Socket) utils.Han
 		if req.Slot < 0 || req.Slot > 2 {
 			return nil, errors.New("invalid slot #", nil), enums.ERROR_CODES.INVALID_REQUEST
 		}
+		character := session.Account.Characters[req.Slot]
+		if character == nil {
+			return nil, errors.New("character at slot is nil?", nil), enums.ERROR_CODES.INTERNAL_ERROR
+		}
 		session.Account.DeleteCharacter(req.Slot)
-		log.Info("deleted character in slot ", req.Slot)
+		state.World.DeleteObject(character.GetUID())
+		log.Infof("deleted character %v in slot %v", character, req.Slot)
 		return nil, nil, enums.ERROR_CODES.NIL
 	}
 }

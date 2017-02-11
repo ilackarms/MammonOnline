@@ -1,6 +1,7 @@
 package stateful
 
 import (
+	log "github.com/Sirupsen/logrus"
 	"github.com/emc-advanced-dev/pkg/errors"
 	"github.com/googollee/go-socket.io"
 	"github.com/ilackarms/MammonOnline/server/game"
@@ -116,8 +117,12 @@ func (s *EphemeralState) InitiateSession(so socketio.Socket, account *Account) {
 func (s *EphemeralState) TerminateSession(socketID string) error {
 	s.lock.Lock()
 	defer s.lock.Unlock()
-	_, ok := s.Sessions[socketID]
+	session, ok := s.Sessions[socketID]
 	if ok {
+		if session.Character != nil {
+			log.Info("character %v logged out.", session.Character.Name)
+			session.Character.LoggedIn = false
+		}
 		delete(s.Sessions, socketID)
 		return nil
 	}

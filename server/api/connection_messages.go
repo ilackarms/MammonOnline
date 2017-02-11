@@ -21,15 +21,15 @@ type ErrorResponse struct {
 
 type CreateCharacterRequest struct {
 	Attributes struct {
-		Strength     int `json:"str"`
-		Dexterity    int `json:"dex"`
-		Intelligence int `json:"int"`
+		Strength     uint `json:"str"`
+		Dexterity    uint `json:"dex"`
+		Intelligence uint `json:"int"`
 	} `json:"attributes"`
-	Skills        map[enums.Skill]int `json:"skills"`
-	SelectedClass enums.Class         `json:"selectedClass"`
-	Slot          int                 `json:"slot"`
-	PortraitKey   string              `json:"portraitKey"`
-	Name          string              `json:"characterName"`
+	Skills        map[enums.Skill]uint `json:"skills"`
+	SelectedClass enums.Class          `json:"selectedClass"`
+	Slot          int                  `json:"slot"`
+	PortraitKey   string               `json:"portraitKey"`
+	Name          string               `json:"characterName"`
 }
 
 type PlayCharacterRequest struct {

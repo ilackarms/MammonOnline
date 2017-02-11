@@ -6,12 +6,26 @@ import (
 	"github.com/emc-advanced-dev/pkg/errors"
 	"github.com/ilackarms/MammonOnline/server/enums"
 	"github.com/ilackarms/MammonOnline/server/game/utils"
+	"sync"
 )
 
 type Tile struct {
 	Type enums.Tile `json:"type"`
 	//references to objects by id, for lookup purposes
-	Objects []IObject `json:"objects"`
+	Objects map[string]IObject `json:"objects"`
+	objLock sync.RWMutex
+}
+
+func (tile *Tile) AddObject(obj IObject) {
+	tile.objLock.Lock()
+	tile.Objects[obj.GetUID()] = obj
+	tile.objLock.Unlock()
+}
+
+func (tile *Tile) DeleteObject(uid string) {
+	tile.objLock.Lock()
+	delete(tile.Objects, uid)
+	tile.objLock.Unlock()
 }
 
 type Zone struct {
@@ -25,7 +39,7 @@ type Zone struct {
 //reads the map tiles in from the
 //layer named 'template' (required)
 //creates an empty map (only tile types intialized)
-func ZoneFromTilemap(region enums.Region, tilemapData []byte, rulesData mapRules) (*Zone, error) {
+func ZoneFromTilemap(name string, region enums.Region, tilemapData, rulesData []byte) (*Zone, error) {
 	tilemap, err := utils.ParseTilemap(tilemapData)
 	if err != nil {
 		return nil, errors.New("parsing tilemap", err)
@@ -37,6 +51,7 @@ func ZoneFromTilemap(region enums.Region, tilemapData []byte, rulesData mapRules
 	for _, layer := range tilemap.Layers {
 		if layer.Name == "template" {
 			zone := &Zone{
+				Name:   name,
 				Region: region,
 				Tiles:  make([][]*Tile, layer.Width),
 			}
@@ -47,16 +62,17 @@ func ZoneFromTilemap(region enums.Region, tilemapData []byte, rulesData mapRules
 					tileID := layer.Data[i]
 					tileType, ok := rules.TileTypes[tileID]
 					if !ok {
-						return nil, errors.New("invalid set of rules for tilemap; given "+fmt.Sprintf("+%v", rules)+" with no rule for "+tileID, nil)
+						return nil, errors.New("invalid set of rules for tilemap; given "+fmt.Sprintf("+%v", rules)+" with no rule for "+fmt.Sprintf("%v", tileID), nil)
 					}
 					zone.Tiles[x][y] = &Tile{
-						Type: tileType,
+						Type:    tileType,
+						Objects: make(map[string]IObject),
 					}
 					//TODO: add in objects from optional object layer
 					//layer named object_template; use object_rules or something
 				}
 			}
-			return zone
+			return zone, nil
 		}
 	}
 	return nil, errors.New("no layer laned 'template' in tilemap: "+fmt.Sprintf("%+v", tilemap), nil)

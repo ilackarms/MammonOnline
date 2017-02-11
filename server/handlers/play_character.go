@@ -27,6 +27,7 @@ func playCharacterHandler(state *stateful.State, so socketio.Socket) utils.Handl
 			return nil, errors.New("no charcter in that slot", nil), enums.ERROR_CODES.INVALID_REQUEST
 		}
 		session.Character = session.Account.Characters[req.Slot]
+		session.Character.LoggedIn = true
 		log.Info(session.Character.Name, " started playing!")
 		return &api.StartGameResponse{
 			PlayerUID: session.Character.UID,
