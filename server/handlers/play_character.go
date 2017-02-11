@@ -30,7 +30,6 @@ func playCharacterHandler(state *stateful.State, so socketio.Socket) utils.Handl
 		log.Info(session.Character.Name, " started playing!")
 		return &api.StartGameResponse{
 			CharacterSlot: req.Slot,
-			Map:           "world",
 		}, nil, enums.ERROR_CODES.NIL
 	}
 }
