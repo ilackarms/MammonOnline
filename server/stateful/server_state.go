@@ -22,7 +22,8 @@ func (account *Account) DeleteCharacter(slot int) {
 }
 
 type PersistentState struct {
-	Accounts []*Account `json:"accounts"`
+	Accounts []*Account  `json:"accounts"`
+	World    *game.World `json:"world"`
 }
 
 func (s *PersistentState) AccountExists(username string) bool {

@@ -41,11 +41,11 @@ func createCharacterHandler(state *stateful.State, so socketio.Socket) utils.Han
 			Class:    req.SelectedClass,
 			Portrait: req.PortraitKey,
 			Name:     req.Name,
-			Position: game.Position{X: 0, Y: 0},
 			Region:   enums.REGIONS.WORLD,
 		}
 		session.Account.AddCharacter(req.Slot, character)
 		session.Character = session.Account.Characters[req.Slot]
+		state.World.AddObject("world", character)
 		log.Info("created new character: ", character)
 		return &api.StartGameResponse{
 			PlayerUID: character.UID,
