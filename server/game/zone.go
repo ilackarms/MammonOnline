@@ -1,7 +1,6 @@
 package game
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/emc-advanced-dev/pkg/errors"
 	"github.com/ilackarms/MammonOnline/server/enums"
