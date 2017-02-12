@@ -18,18 +18,21 @@ type layer struct {
 }
 
 type tileset struct {
-	Columns     int    `json:"columns"`
-	Firstgid    int    `json:"firstgid"`
-	Image       string `json:"image"`
-	Collisions  []int  `json:"collisions"`
-	Imageheight int    `json:"imageheight"`
-	Imagewidth  int    `json:"imagewidth"`
-	Margin      int    `json:"margin"`
-	Name        string `json:"name"`
-	Spacing     int    `json:"spacing"`
-	Tilecount   int    `json:"tilecount"`
-	Tileheight  int    `json:"tileheight"`
-	Tilewidth   int    `json:"tilewidth"`
+	Columns        int    `json:"columns"`
+	Firstgid       int    `json:"firstgid"`
+	Image          string `json:"image"`
+	Collisions     []int  `json:"collisions"`
+	Imageheight    int    `json:"imageheight"`
+	Imagewidth     int    `json:"imagewidth"`
+	Margin         int    `json:"margin"`
+	Name           string `json:"name"`
+	Spacing        int    `json:"spacing"`
+	Tilecount      int    `json:"tilecount"`
+	Tileheight     int    `json:"tileheight"`
+	Tileproperties map[string]struct {
+		Type int `json:"type"`
+	} `json:"tileproperties"`
+	Tilewidth int `json:"tilewidth"`
 }
 
 type tilemap struct {
@@ -43,6 +46,17 @@ type tilemap struct {
 	Tilewidth    int       `json:"tilewidth"`
 	Version      int       `json:"version"`
 	Width        int       `json:"width"`
+}
+
+func (tm *tilemap) GetTilesetForGID(gid int) tileset {
+	var ts tileset
+	for _, tileset := range tm.Tilesets {
+		if gid < tileset.Firstgid-1 {
+			break
+		}
+		ts = tileset
+	}
+	return ts
 }
 
 func ParseTilemap(data []byte) (*tilemap, error) {

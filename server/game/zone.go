@@ -39,14 +39,10 @@ type Zone struct {
 //reads the map tiles in from the
 //layer named 'template' (required)
 //creates an empty map (only tile types intialized)
-func ZoneFromTilemap(name string, region enums.Region, tilemapData, rulesData []byte) (*Zone, error) {
-	tilemap, err := utils.ParseTilemap(tilemapData)
+func ZoneFromTilemap(name string, region enums.Region, data []byte) (*Zone, error) {
+	tilemap, err := utils.ParseTilemap(data)
 	if err != nil {
 		return nil, errors.New("parsing tilemap", err)
-	}
-	rules, err := parseMapRules(rulesData)
-	if err != nil {
-		return nil, errors.New("parsing map rules", err)
 	}
 	for _, layer := range tilemap.Layers {
 		if layer.Name == "template" {
@@ -59,13 +55,21 @@ func ZoneFromTilemap(name string, region enums.Region, tilemapData, rulesData []
 				zone.Tiles[x] = make([]*Tile, layer.Height)
 				for y := range zone.Tiles[x] {
 					i := x + y*layer.Width
-					tileID := layer.Data[i]
-					tileType, ok := rules.TileTypes[tileID]
+					tileGID := layer.Data[i] - 1 //for some reason tiled likes to +1 on this
+					tileset := tilemap.GetTilesetForGID(tileGID)
+					tilesetIndex := tileGID - (tileset.Firstgid - 1)
+					property, ok := tileset.Tileproperties[fmt.Sprintf("%d", tilesetIndex)]
 					if !ok {
-						return nil, errors.New("invalid set of rules for tilemap; given "+fmt.Sprintf("+%v", rules)+" with no rule for "+fmt.Sprintf("%v", tileID), nil)
+						return nil, errors.New(fmt.Sprintf("tile %v in tileset %+v doesn't have any properties", tilesetIndex, tileset), nil)
 					}
+					tileType := enums.Tile(property.Type)
+					if tileType == enums.TILES.INVALID_VALUE {
+						return nil, errors.New(fmt.Sprintf("tile %v in tileset %+v doesn't its type set to a valid value", tilesetIndex, tileset), nil)
+					}
+					//NOTE: it's up to the caller to verify
+					//that the tile type is the correct value
 					zone.Tiles[x][y] = &Tile{
-						Type:    tileType,
+						Type:    enums.Tile(property.Type),
 						Objects: make(map[string]IObject),
 					}
 					//TODO: add in objects from optional object layer
@@ -80,16 +84,4 @@ func ZoneFromTilemap(name string, region enums.Region, tilemapData, rulesData []
 
 func (m *Zone) Size() (int, int) {
 	return len(m.Tiles), len(m.Tiles[0])
-}
-
-type mapRules struct {
-	TileTypes map[int]enums.Tile `json:"tile_types"`
-}
-
-func parseMapRules(data []byte) (*mapRules, error) {
-	var rules mapRules
-	if err := json.Unmarshal(data, &rules); err != nil {
-		return nil, errors.New("unable to unmarshal "+string(data)+" to map rules", err)
-	}
-	return &rules, nil
 }
