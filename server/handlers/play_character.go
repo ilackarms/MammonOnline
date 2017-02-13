@@ -31,6 +31,7 @@ func playCharacterHandler(state *stateful.State, so socketio.Socket) utils.Handl
 		log.Info(session.Character.Name, " started playing!")
 		return &api.StartGameResponse{
 			PlayerUID: session.Character.UID,
+			World:     state.World,
 		}, nil, enums.ERROR_CODES.NIL
 	}
 }

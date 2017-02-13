@@ -1,6 +1,9 @@
 package api
 
-import "github.com/ilackarms/MammonOnline/server/enums"
+import (
+	"github.com/ilackarms/MammonOnline/server/enums"
+	"github.com/ilackarms/MammonOnline/server/game"
+)
 
 type ConnectionAcknowledgment struct{}
 
@@ -41,5 +44,6 @@ type DeleteCharacterRequest struct {
 }
 
 type StartGameResponse struct {
-	PlayerUID string `json:"player_uid"`
+	PlayerUID string      `json:"player_uid"`
+	World     *game.World `json:"world"`
 }
