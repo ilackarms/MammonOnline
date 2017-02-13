@@ -19,6 +19,12 @@ func NewWorld() *World {
 	}
 }
 
+func (world *World) AddZone(zone *Zone) {
+	world.zoneLock.Lock()
+	world.Zones[zone.Name] = zone
+	world.zoneLock.Unlock()
+}
+
 func (world *World) AddObject(obj IObject) error {
 	uid := obj.GetUID()
 	position := obj.GetPosition()

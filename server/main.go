@@ -6,6 +6,7 @@ import (
 
 	"encoding/json"
 	"flag"
+	"fmt"
 	"github.com/emc-advanced-dev/pkg/errors"
 	"github.com/googollee/go-socket.io"
 	"github.com/ilackarms/MammonOnline/server/enums"
@@ -17,13 +18,18 @@ import (
 
 func main() {
 	verbose := flag.Bool("v", false, "run with verbose logging")
-	saveFile := flag.String("f", "game_state.json", "save file for whole game state")
+	saveFile := flag.String("f", "gamestate.json", "save file for whole game state")
 	flag.Parse()
 	if *verbose {
 		log.SetLevel(log.DebugLevel)
 	}
 
-	state := initializeState(*saveFile)
+	state, err := initializeState(*saveFile)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	log.Infof("loaded world: %+v", state.World)
 
 	server, err := socketio.NewServer(nil)
 	if err != nil {
@@ -43,7 +49,7 @@ func main() {
 	log.Fatal(http.ListenAndServe(":5000", nil))
 }
 
-func initializeState(saveFile string) *stateful.State {
+func initializeState(saveFile string) (*stateful.State, error) {
 	state := &stateful.State{
 		PersistentState: &stateful.PersistentState{},
 		EphemeralState: &stateful.EphemeralState{
@@ -66,13 +72,18 @@ func initializeState(saveFile string) *stateful.State {
 	if err == nil {
 		if err := json.Unmarshal(data, state.PersistentState); err == nil {
 			log.Info("state loaded from " + saveFile)
-			return state
+			return state, nil
 		}
 	}
 
-	log.Info("unable to load state from " + saveFile + ", starting with clean state")
+	log.Info("unable to load state from " + saveFile + ", generating world")
+	world, err := stateful.GenerateWorld()
+	if err != nil {
+		return nil, errors.New("failed to create new world", err)
+	}
+	state.World = world
 
-	return state
+	return state, nil
 }
 
 func saveState(fileName string, state *stateful.State) error {
@@ -83,6 +94,13 @@ func saveState(fileName string, state *stateful.State) error {
 	if err := ioutil.WriteFile(fileName, data, 0644); err != nil {
 		return errors.New("writing save file", err)
 	}
-	log.Debugf("state saved to "+fileName+" %v bytes", len(data))
+	var sizeStr = fmt.Sprintf("%v bytes", len(data))
+	if len(data)>>10 > 0 {
+		sizeStr = fmt.Sprintf("%v kb", len(data)>>10)
+	}
+	if len(data)>>20 > 0 {
+		sizeStr = fmt.Sprintf("%v mb", len(data)>>20)
+	}
+	log.Debugf("state saved to "+fileName+" %s", sizeStr)
 	return nil
 }

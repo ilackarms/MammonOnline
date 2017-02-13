@@ -2,9 +2,11 @@ package game
 
 import (
 	"fmt"
+	log "github.com/Sirupsen/logrus"
 	"github.com/emc-advanced-dev/pkg/errors"
 	"github.com/ilackarms/MammonOnline/server/enums"
 	"github.com/ilackarms/MammonOnline/server/game/utils"
+	"io/ioutil"
 	"sync"
 )
 
@@ -28,9 +30,8 @@ func (tile *Tile) DeleteObject(uid string) {
 }
 
 type Zone struct {
-	Name   string       `json:"name"`
-	Region enums.Region `json:"region"`
-	Tiles  [][]*Tile    `json:"tiles"`
+	Name  string    `json:"name"`
+	Tiles [][]*Tile `json:"tiles"`
 }
 
 //utility function to initialize
@@ -38,17 +39,21 @@ type Zone struct {
 //reads the map tiles in from the
 //layer named 'template' (required)
 //creates an empty map (only tile types intialized)
-func ZoneFromTilemap(name string, region enums.Region, data []byte) (*Zone, error) {
+func ZoneFromTilemap(name, tilemapPath string) (*Zone, error) {
+	data, err := ioutil.ReadFile(tilemapPath)
+	if err != nil {
+		return nil, errors.New("failed to read "+tilemapPath, err)
+	}
 	tilemap, err := utils.ParseTilemap(data)
 	if err != nil {
 		return nil, errors.New("parsing tilemap", err)
 	}
 	for _, layer := range tilemap.Layers {
 		if layer.Name == "template" {
+			log.Debugf("processing layer %+v", layer)
 			zone := &Zone{
-				Name:   name,
-				Region: region,
-				Tiles:  make([][]*Tile, layer.Width),
+				Name:  name,
+				Tiles: make([][]*Tile, layer.Width),
 			}
 			for x := range zone.Tiles {
 				zone.Tiles[x] = make([]*Tile, layer.Height)
