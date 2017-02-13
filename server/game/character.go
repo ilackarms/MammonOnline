@@ -14,7 +14,7 @@ type Attributes struct {
 }
 
 type Character struct {
-	*Object
+	*Mobile
 	Attributes Attributes           `json:"attributes"`
 	Skills     map[enums.Skill]uint `json:"skills"`
 	Class      enums.Class          `json:"class"`
