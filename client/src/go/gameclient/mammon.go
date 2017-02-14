@@ -1,4 +1,4 @@
-package mammonclient
+package gameclient
 
 import (
 	"encoding/json"
@@ -14,7 +14,6 @@ type MammonClient struct {
 }
 
 func New(phaserGame *js.Object, worldData *js.Object) *js.Object {
-	fmt.Print(worldData.String())
 	var world game.World
 	if err := json.Unmarshal([]byte(worldData.String()), &world); err != nil {
 		panic("failed to unmarshal world" + err.Error())

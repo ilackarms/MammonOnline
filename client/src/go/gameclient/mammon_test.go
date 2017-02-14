@@ -1,7 +1,7 @@
-package mammonclient_test
+package gameclient_test
 
 import (
-	"github.com/ilackarms/MammonOnline/client/src/go/mammonclient"
+	"github.com/ilackarms/MammonOnline/client/src/go/gameclient"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )

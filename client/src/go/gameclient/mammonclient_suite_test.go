@@ -1,4 +1,4 @@
-package mammonclient_test
+package gameclient_test
 
 import (
 	. "github.com/onsi/ginkgo"
