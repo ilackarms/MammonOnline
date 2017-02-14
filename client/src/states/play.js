@@ -1,9 +1,6 @@
 module.exports = function (game, socket) {
     var play = {};
 
-    /*
-    updateQueue.push(function(game, socket, delta){});
-     */
     var updateQueue = [];
 
     var enums = require('../enums/enums');
@@ -11,29 +8,30 @@ module.exports = function (game, socket) {
     var utils = require('../utils/utils');
 
     play.init = function (gameData) {
-        console.log(gameData);
+        // console.log(gameData);
         play.gameData = gameData;
     };
 
     play.preload = function () {
-        play.map = new maps.Map(game, play.gameData.map, false, true);
-        play.player = {};
-        play.player.class = play.gameData.class;
-        play.player.armor = null;
-        play.player.weapon = null;
-        play.player.animation = 'idle';
+        play.playerUid = play.gameData.player_uid;
+        var world = JSON.stringify(play.gameData.world);
+        play.Mammon = Mammon.New(game, world);
+        play.Mammon.Preload();
     };
 
     play.create = function () {
-        console.log('playing game');
-        play.map.draw(0, 0);
+        play.Mammon.Create();
+        // console.log('playing game');
+        // play.map.draw(0, 0);
+        // play.animator = playerAnimator(play.player.class);
+        // updateQueue.push(function () {
+        //     play.animator.playAnimation(play.player.armor, play.player.weapon, 'idle', 's', 30);
+        // });
     };
 
-    play.update = function (delta) {
-        var update = updateQueue.pop();
-        if (update) {
-            update(game, socket, delta);
-        }//hong9062
+    play.update = function () {
+        play.Mammon.Update(game.time.elapsed);
+
     };
 
     function playerAnimator(playerClass) {

@@ -149,7 +149,7 @@ module.exports = function (game, socket) {
             if (!response) {
                 return;
             }
-            console.log(data, response);
+            // console.log(data, response);
             if (response.code) {
                 errTxt.value = response.msg;
             } else {
