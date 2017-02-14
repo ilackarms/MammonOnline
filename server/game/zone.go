@@ -5,7 +5,7 @@ import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/emc-advanced-dev/pkg/errors"
 	"github.com/ilackarms/MammonOnline/server/enums"
-	"github.com/ilackarms/MammonOnline/server/game/utils"
+	"github.com/ilackarms/MammonOnline/server/game/tiled"
 	"io/ioutil"
 	"sync"
 )
@@ -44,7 +44,7 @@ func ZoneFromTilemap(name, tilemapPath string) (*Zone, error) {
 	if err != nil {
 		return nil, errors.New("failed to read "+tilemapPath, err)
 	}
-	tilemap, err := utils.ParseTilemap(data)
+	tilemap, err := tiled.ParseTilemap(data)
 	if err != nil {
 		return nil, errors.New("parsing tilemap", err)
 	}

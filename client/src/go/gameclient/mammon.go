@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gopherjs/gopherjs/js"
+	"github.com/ilackarms/MammonOnline/client/src/go/render"
 	"github.com/ilackarms/MammonOnline/server/game"
 	"github.com/thoratou/go-phaser/generated/phaser"
 )
@@ -25,14 +26,16 @@ func New(phaserGame *js.Object, worldData *js.Object) *js.Object {
 }
 
 func (mammon *MammonClient) Preload() {
-	fmt.Print("preload")
+	fmt.Print("preloaded")
 }
 
 func (mammon *MammonClient) Create() {
-	fmt.Print("create")
+	rz := render.NewRenderZone(mammon.PhaserGame, "world", true)
+	rz.Draw(0, 0, true)
+	fmt.Print("created")
 }
 
 func (mammon *MammonClient) Update(deltaObj *js.Object) {
 	delta := deltaObj.Float()
-	fmt.Printf("update: %+v %v\n", deltaObj, delta)
+	fmt.Printf("updated: %+v %v\n", deltaObj, delta)
 }

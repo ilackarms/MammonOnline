@@ -144,7 +144,7 @@ module.exports = function (game, socket) {
         });
 
         socket.on(enums.EVENTS.CLIENT_EVENTS.PLAY_CHARACTER_RESPONSE, function (data) {
-            console.log('play char resposne:', data);
+            // console.log('play char resposne:', data);
             var response = JSON.parse(data);
             if (!response) {
                 return;
