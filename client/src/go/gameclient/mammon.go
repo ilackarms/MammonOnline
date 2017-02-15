@@ -36,6 +36,6 @@ func (mammon *MammonClient) Create() {
 }
 
 func (mammon *MammonClient) Update(deltaObj *js.Object) {
-	delta := deltaObj.Float()
-	fmt.Printf("updated: %+v %v\n", deltaObj, delta)
+	//delta := deltaObj.Float()
+	//fmt.Print-f("updated: %+v %v\n", deltaObj, delta)
 }

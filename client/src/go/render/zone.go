@@ -27,6 +27,8 @@ type RenderZone struct {
 	lowerGroup      *phaser.Group
 	upperGroup      *phaser.Group
 	debugMode       bool
+	tilewidth       int
+	tileheight      int
 }
 
 func NewRenderZone(game *phaser.Game, name string, debugMode bool) *RenderZone {
@@ -72,9 +74,7 @@ func NewRenderZone(game *phaser.Game, name string, debugMode bool) *RenderZone {
 			panic("getting the iamge for " + tileset.Name)
 		}
 		lowerTileImages[i] = createTileImage(game, tileset, image, i, true, debugMode)
-		fmt.Printf("added %+v to lower tile images at %v\n", lowerTileImages[i], i)
 		upperTileImages[i] = createTileImage(game, tileset, image, i, false, debugMode)
-		fmt.Printf("added %+v to upper tile images at %v\n", upperTileImages[i], i)
 	}
 
 	return &RenderZone{
@@ -87,6 +87,8 @@ func NewRenderZone(game *phaser.Game, name string, debugMode bool) *RenderZone {
 		lowerGroup:      game.Add().Group(),
 		upperGroup:      game.Add().Group(),
 		debugMode:       debugMode,
+		tilewidth:       tilemap.Tilewidth,
+		tileheight:      tilemap.Tileheight,
 	}
 }
 
@@ -102,9 +104,8 @@ func (zone *RenderZone) Draw(offsetX, offsetY int, lower bool) {
 				if gid < 0 {
 					continue
 				}
-				tileset := findTileset(zone.tilesets, gid)
-				width := tileset.Tilewidth
-				height := tileset.Tileheight
+				width := zone.tilewidth
+				height := zone.tileheight
 				screenX := (x - y) * width / 2
 				screenY := (x + y) * height / 2
 				var baseImage *phaser.BitmapData
@@ -117,20 +118,20 @@ func (zone *RenderZone) Draw(offsetX, offsetY int, lower bool) {
 						continue
 					}
 				}
-				js.Global.Get("console").Call("log",
-					fmt.Sprintf(
-						"gid: %+v\n"+
-							"lower: %+v\n"+
-							"base image: %+v\n"+
-							"zone: %+v\n"+
-							"x,y: %v,%v\n",
-						gid,
-						lower,
-						baseImage,
-						zone,
-						x, y,
-					),
-				)
+				//js.Global.Get("console").Call("log",
+				//	fmt.Sprintf(
+				//		"gid: %+v\n"+
+				//			"lower: %+v\n"+
+				//			"base image: %+v\n"+
+				//			"zone: %+v\n"+
+				//			"x,y: %v,%v\n",
+				//		gid,
+				//		lower,
+				//		baseImage.BaseTexture().Source(),
+				//		zone,
+				//		x, y,
+				//	),
+				//)
 				shiftX := baseImage.Width() - width
 				shiftY := baseImage.Height() - height
 				finalImage := baseImage
@@ -141,13 +142,13 @@ func (zone *RenderZone) Draw(offsetX, offsetY int, lower bool) {
 					finalImage.Context().FillStyle = "white"
 					finalImage.Context().FillText(fmt.Sprintf("%v,%v", x, y), width/2, height*1/3+shiftY, -1)
 				}
+				//fmt.Printf("tile %v,%v: %v\n", x, y, tileset.Name)
 				gameTile := zone.game.Add().Image3O(screenX+offsetX-shiftX, screenY+offsetY-height*7/8-shiftY, finalImage)
 				if lower {
 					zone.lowerGroup.Add(&phaser.DisplayObject{gameTile.Object})
 				} else {
 					zone.upperGroup.Add(&phaser.DisplayObject{gameTile.Object})
 				}
-				fmt.Print(".")
 			}
 		}
 	}
@@ -172,6 +173,7 @@ func createTileImage(game *phaser.Game, tileset tiled.Tileset, image *phaser.Ima
 		bmd.Context().LineTo(0, 0)
 		bmd.Context().Clip()
 	}
+	//fmt.Printf("drawing gid: %v (%v) %v [%v, %v] w:%v y:%v \n", gid, tileset.Firstgid, image.Name(), x0, y0, width, height)
 	bmd.Context().DrawImage(image.Object, x0, y0, width, height, 0, 0, width, height)
 	if !lower {
 		bmd.Context().ClosePath()
@@ -196,14 +198,22 @@ func createTileImage(game *phaser.Game, tileset tiled.Tileset, image *phaser.Ima
 }
 
 func findTileset(tilesets []tiled.Tileset, gid int) tiled.Tileset {
-	var tileset tiled.Tileset
-	for _, ts := range tilesets {
-		if gid < tileset.Firstgid {
+	var selected tiled.Tileset
+	var found bool
+	for _, tileset := range tilesets {
+		//fmt.Printf("inspecting tileset %s with firstgid %v, for gid %v", ts.Name, ts.Firstgid, gid)
+		//-1 on the gid
+		if gid < tileset.Firstgid-1 {
 			break
 		}
-		tileset = ts
+		found = true
+		selected = tileset
 	}
-	return tileset
+	if !found {
+		panic("no tileset found for gid " + fmt.Sprintf("%v", gid))
+	}
+	//fmt.Printf("\nselected firstgid %v for %v\n", selected.Firstgid, gid)
+	return selected
 }
 
 func isVisible(bmd *phaser.BitmapData, width, height int) bool {
@@ -214,8 +224,4 @@ func isVisible(bmd *phaser.BitmapData, width, height int) bool {
 		}
 	}
 	return false
-}
-
-func (zone *RenderZone) init() {
-
 }

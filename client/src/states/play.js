@@ -88,6 +88,7 @@ module.exports = function (game, socket) {
         }
         player.playAnimation = function (armor, weapon, action, direction, frameRate) {
             var sprite = this[armor][weapon];
+            game.add.sprite(game.camera.centerX, game.camera.centerY);
             sprite.play(action+'.'+direction, frameRate);
         };
         return player;
