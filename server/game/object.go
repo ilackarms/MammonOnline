@@ -1,6 +1,8 @@
 package game
 
-import "github.com/ilackarms/MammonOnline/server/enums"
+import (
+	"github.com/ilackarms/MammonOnline/server/enums"
+)
 
 type Object struct {
 	UID      string       `json:"uid"`
@@ -13,8 +15,8 @@ func (obj *Object) GetUID() string {
 	return obj.UID
 }
 
-func (obj *Object) GetType() string {
-	return obj.UID
+func (obj *Object) GetType() enums.Object {
+	return obj.Type
 }
 
 func (obj *Object) GetPosition() Position {
@@ -27,7 +29,7 @@ func (obj *Object) GetZoneName() string {
 
 type IObject interface {
 	GetUID() string
-	GetType() string
+	GetType() enums.Object
 	GetPosition() Position
 	GetZoneName() string
 }

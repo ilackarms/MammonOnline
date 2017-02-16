@@ -13,9 +13,10 @@ module.exports = function (game, socket) {
     };
 
     play.preload = function () {
+        console.log("game data:", play.gameData);
         play.playerUid = play.gameData.player_uid;
         var world = JSON.stringify(play.gameData.world);
-        play.Mammon = Mammon.New(game, world);
+        play.Mammon = Mammon.New(game, world, play.playerUid);
         play.Mammon.Preload();
     };
 

@@ -73,6 +73,8 @@ func initializeState(saveFile string) (*stateful.State, error) {
 		if err := json.Unmarshal(data, state.PersistentState); err == nil {
 			log.Info("state loaded from " + saveFile)
 			return state, nil
+		} else {
+			log.Warn("failed to parse state file: ", err)
 		}
 	}
 

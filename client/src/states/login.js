@@ -17,14 +17,14 @@ module.exports = function (game, socket) {
 
     login._displayLoginMenu = function () {
         var panel = this.slickUI.add(new SlickUI.Element.Panel(80, 80, game.width - 160, game.height - 160));
-        console.log(panel.width-1);
+        // console.log(panel.width-1);
         panel.add(new SlickUI.Element.Text(0, 0, 'Mammon Online', 72, 'title')).centerHorizontally();
         var errTxt;
         panel.add(errTxt = new SlickUI.Element.Text(20, panel.height - 36, '', 14, 'basic'));
         var button;
         panel.add(button = new SlickUI.Element.Button(panel.width - 140, panel.height-80, 140, 80));
         button.events.onInputUp.add(function () {
-            console.log(panel);
+            // console.log(panel);
             socket.emit(enums.EVENTS.SERVER_EVENTS.LOGIN_REQUEST,
                 JSON.stringify({
                     username: username.value,
@@ -63,7 +63,7 @@ module.exports = function (game, socket) {
             if (!response) {
                 return;
             }
-            console.log(data, response);
+            // console.log(data, response);
             if (response.code) {
                 errTxt.value = response.msg;
             } else {
@@ -88,7 +88,7 @@ module.exports = function (game, socket) {
 
     login._displayCharacterSelectMenu = function (character_names) {
         characterSelectPanel = this.slickUI.add(new SlickUI.Element.Panel(80, 80, game.width - 160, game.height - 160));
-        console.log(characterSelectPanel.width-1);
+        // console.log(characterSelectPanel.width-1);
         characterSelectPanel.add(new SlickUI.Element.Text(0, 0, 'Character Select', 36, 'title')).centerHorizontally();
         for (var i = 0; i < 3; i++) {
             var char = characterSelectPanel.add(new SlickUI.Element.Button(characterSelectPanel.width/2 - 70, characterSelectPanel.height/2 - 80 + i * 60, 140, 40));
@@ -306,7 +306,7 @@ module.exports = function (game, socket) {
             }
             attrs[stat2] += adjust2;
 
-            console.log(value, remainder, adjust1, adjust2);
+            // console.log(value, remainder, adjust1, adjust2);
 
             attrs.str = Math.floor(attrs.str);
             attrs.dex = Math.floor(attrs.dex);
@@ -443,7 +443,7 @@ module.exports = function (game, socket) {
             }
         }
         function removeSkill(skillList, skillName) {
-            console.log('removing', skillName, skillList);
+            // console.log('removing', skillName, skillList);
             for (var i = 0; i < skillList.length; i++) {
                 if (skillList[i] === skillName) {
                     skillList.splice(i, 1);
@@ -553,7 +553,7 @@ module.exports = function (game, socket) {
             }
             skills[skill2] += adjust2;
 
-            console.log(value, remainder, adjust1, adjust2);
+            // console.log(value, remainder, adjust1, adjust2);
 
             skills[selectedSkills[0]] = Math.floor(skills[selectedSkills[0]]);
             skills[selectedSkills[1]] = Math.floor(skills[selectedSkills[1]]);
@@ -692,7 +692,7 @@ module.exports = function (game, socket) {
     login._displayConfirmMenu = function () {
         confirmationPanel = this.slickUI.add(new SlickUI.Element.Panel(20, 20, game.width - 40, game.height - 40));
 
-        console.log('character: ',newCharacter);
+        // console.log('character: ',newCharacter);
 
         confirmationPanel.add(new SlickUI.Element.Text(0, 0, 'Create a New Character', 36, 'title')).centerHorizontally();
         confirmationPanel.add(new SlickUI.Element.Text(40, 60, 'Character Summary', 24, 'basic'));
@@ -722,7 +722,7 @@ module.exports = function (game, socket) {
             for (var k in skills) {
                 if (!skills.hasOwnProperty(k)) continue;
                 var enumKey = enums.SKILLS[k.replace(' ', '_').toUpperCase()];
-                console.log('skill ', k, ' is ', skills[k], 'enum key', enumKey);
+                // console.log('skill ', k, ' is ', skills[k], 'enum key', enumKey);
                 enumSkills[enumKey] = skills[k];
             }
             var enumClass = enums.CLASSES[selectedClass.replace(' ', '_').toUpperCase()];
@@ -750,7 +750,7 @@ module.exports = function (game, socket) {
             if (!response) {
                 return;
             }
-            console.log(data, response);
+            // console.log(data, response);
             if (response.code) {
                 errTxt.value = response.msg;
             } else {
