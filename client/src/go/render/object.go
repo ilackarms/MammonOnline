@@ -10,6 +10,8 @@ type ObjectRenderer interface {
 	Draw(screenX, screenY int)
 	UpdateAnimation(frameRate int)
 	SetPosition(x, y int)
+	Sprites() []*phaser.Sprite
+	Group() *phaser.Group
 }
 
 func NewObjectRenderer(phaserGame *phaser.Game, obj game.IObject) ObjectRenderer {

@@ -13,6 +13,7 @@ module.exports = function (game, socket) {
     };
 
     play.preload = function () {
+        document.play = play;
         console.log("game data:", play.gameData);
         play.playerUid = play.gameData.player_uid;
         var world = JSON.stringify(play.gameData.world);
@@ -32,7 +33,10 @@ module.exports = function (game, socket) {
 
     play.update = function () {
         play.Mammon.Update(game.time.elapsed);
+    };
 
+    play.render = function() {
+        play.Mammon.Render();
     };
 
     function playerAnimator(playerClass) {

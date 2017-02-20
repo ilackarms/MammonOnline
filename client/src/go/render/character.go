@@ -1,9 +1,12 @@
 package render
 
 import (
+	"fmt"
+	"github.com/ilackarms/MammonOnline/client/src/go/render/utils"
 	"github.com/ilackarms/MammonOnline/server/enums"
 	"github.com/ilackarms/MammonOnline/server/game"
 	"github.com/thoratou/go-phaser/generated/phaser"
+	"log"
 	"regexp"
 )
 
@@ -12,6 +15,7 @@ type characterRenderer struct {
 	character     *game.Character
 	sprites       map[string]map[string]*phaser.Sprite //[armor][weapon]
 	currentSprite *phaser.Sprite
+	group         *phaser.Group
 }
 
 var loopAction = map[string]bool{
@@ -33,6 +37,7 @@ func newCharacterRenderer(game *phaser.Game, character *game.Character) *charact
 	)
 
 	sprites := make(map[string]map[string]*phaser.Sprite)
+	group := game.Add().Group()
 
 	switch character.Class {
 	case enums.CLASSES.ROGUE:
@@ -64,26 +69,36 @@ func newCharacterRenderer(game *phaser.Game, character *game.Character) *charact
 						animationsParam[i] = animations[i]
 					}
 					sprite.Animations().Add1O(animationName, animationsParam)
+					sprite.Anchor().Set1O(0, 0.5)
+					group.Add(&phaser.DisplayObject{sprite.Object})
+					game.Physics().Arcade().Enable1O(sprite, DebugMode)
 				}
 			}
 			sprites[armor][weapon] = sprite
+			fmt.Printf("added sprite %s: (%v,%v), w:+%v,y:+%v\n", atlasName, sprite.X(), sprite.Y(), sprite.Width(), sprite.Height())
 		}
 	}
 	return &characterRenderer{
 		game:      game,
 		character: character,
 		sprites:   sprites,
+		group:     group,
 	}
 }
 
 func (cr *characterRenderer) Draw(x, y int) {
+	if !cr.character.LoggedIn {
+		return
+	}
 	cr.UpdateAnimation(20)
-	cr.SetPosition(x, y)
+	screenX, screenY := utils.ToScreenCoordinates(x, y, Tilewidth, Tileheight)
+	cr.SetPosition(screenX, screenY)
 }
 
 func (cr *characterRenderer) SetPosition(screenX, screenY int) {
-	cr.currentSprite.SetXA(screenX)
-	cr.currentSprite.SetYA(screenY)
+	cr.group.SetXA(screenX)
+	cr.group.SetYA(screenY)
+	log.Printf("set positoin to %v,%v", screenX, screenY)
 }
 
 func (cr *characterRenderer) UpdateAnimation(frameRate int) {
@@ -99,6 +114,20 @@ func (cr *characterRenderer) UpdateAnimation(frameRate int) {
 	sprite.Play2O(animationName, frameRate, loopAction[action])
 	sprite.SetVisibleA(true)
 	cr.currentSprite = sprite
+}
+
+func (cr *characterRenderer) Sprites() []*phaser.Sprite {
+	var sprites []*phaser.Sprite
+	for _, m := range cr.sprites {
+		for _, sprite := range m {
+			sprites = append(sprites, sprite)
+		}
+	}
+	return sprites
+}
+
+func (cr *characterRenderer) Group() *phaser.Group {
+	return cr.group
 }
 
 func animationName(action, direction string) string {

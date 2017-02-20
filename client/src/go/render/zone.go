@@ -32,7 +32,7 @@ type RenderZone struct {
 	tileheight      int
 }
 
-func NewRenderZone(game *phaser.Game, name string, debugMode bool) *RenderZone {
+func NewRenderZone(game *phaser.Game, name string) *RenderZone {
 	tilemapObj := game.Cache().GetJSON(name)
 	tilemapJSON := js.Global.Get("JSON").Call("stringify", tilemapObj).String()
 	var tilemap tiled.Tilemap
@@ -74,8 +74,8 @@ func NewRenderZone(game *phaser.Game, name string, debugMode bool) *RenderZone {
 		if !ok {
 			panic("getting the iamge for " + tileset.Name)
 		}
-		lowerTileImages[i] = createTileImage(game, tileset, image, i, true, debugMode)
-		upperTileImages[i] = createTileImage(game, tileset, image, i, false, debugMode)
+		lowerTileImages[i] = createTileImage(game, tileset, image, i, true, DebugMode)
+		upperTileImages[i] = createTileImage(game, tileset, image, i, false, DebugMode)
 	}
 
 	return &RenderZone{
@@ -87,7 +87,7 @@ func NewRenderZone(game *phaser.Game, name string, debugMode bool) *RenderZone {
 		upperTileImages: upperTileImages,
 		lowerGroup:      game.Add().Group(),
 		upperGroup:      game.Add().Group(),
-		debugMode:       debugMode,
+		debugMode:       DebugMode,
 		tilewidth:       tilemap.Tilewidth,
 		tileheight:      tilemap.Tileheight,
 	}
@@ -106,7 +106,7 @@ func (zone *RenderZone) Draw(offsetX, offsetY int, lower bool) {
 					continue
 				}
 				width, height := zone.tilewidth, zone.tileheight
-				screenX, screenY := utils.GetScreenPosition(x, y, width, height)
+				screenX, screenY := utils.ToScreenCoordinates(x, y, width, height)
 				var baseImage *phaser.BitmapData
 				if lower {
 					baseImage = zone.lowerTileImages[gid]
@@ -142,7 +142,10 @@ func (zone *RenderZone) Draw(offsetX, offsetY int, lower bool) {
 					finalImage.Context().FillText(fmt.Sprintf("%v,%v", x, y), width/2, height*1/3+shiftY, -1)
 				}
 				//fmt.Printf("tile %v,%v: %v\n", x, y, tileset.Name)
-				gameTile := zone.game.Add().Image3O(screenX+offsetX-shiftX, screenY+offsetY-height*7/8-shiftY, finalImage)
+				gameTile := zone.game.Add().Image3O(screenX+offsetX-shiftX, screenY+offsetY-shiftY, finalImage)
+				if false {
+					gameTile = zone.game.Add().Image3O(screenX+offsetX-shiftX, screenY+offsetY-height*7/8-shiftY, finalImage)
+				}
 				if lower {
 					zone.lowerGroup.Add(&phaser.DisplayObject{gameTile.Object})
 				} else {
@@ -151,6 +154,10 @@ func (zone *RenderZone) Draw(offsetX, offsetY int, lower bool) {
 			}
 		}
 	}
+}
+
+func (rz *RenderZone) GetTileDimensions() (int, int) {
+	return rz.tilewidth, rz.tileheight
 }
 
 func createTileImage(game *phaser.Game, tileset tiled.Tileset, image *phaser.Image, gid int, lower, debugMode bool) *phaser.BitmapData {
