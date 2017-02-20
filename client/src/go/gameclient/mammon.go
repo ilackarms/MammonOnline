@@ -7,6 +7,7 @@ import (
 	"github.com/ilackarms/MammonOnline/client/src/go/render"
 	"github.com/ilackarms/MammonOnline/server/game"
 	"github.com/thoratou/go-phaser/generated/phaser"
+	"log"
 )
 
 type MammonClient struct {
@@ -15,7 +16,13 @@ type MammonClient struct {
 	PlayerUID  string
 }
 
+var (
+	debugSprites []*phaser.Sprite
+	debugMode    = true
+)
+
 func New(phaserGame *js.Object, worldData *js.Object, playerUID string) *js.Object {
+	render.DebugMode = debugMode
 	var world game.World
 	fmt.Println(worldData.String())
 	if err := json.Unmarshal([]byte(worldData.String()), &world); err != nil {
@@ -28,11 +35,29 @@ func New(phaserGame *js.Object, worldData *js.Object, playerUID string) *js.Obje
 	})
 }
 
+func (mammon *MammonClient) GetGame() *phaser.Game {
+	return mammon.PhaserGame
+}
+
+func (mammon *MammonClient) GetWorld() *game.World {
+	return mammon.World
+}
+
+func (mammon *MammonClient) GetSprites() []*phaser.Sprite {
+	return debugSprites
+}
+
+func (mammon *MammonClient) GetPlayerUID() string {
+	return mammon.PlayerUID
+}
+
 func (mammon *MammonClient) Preload() {
 	fmt.Print("preloaded")
 }
 
 func (mammon *MammonClient) Create() {
+	mammon.PhaserGame.Physics().StartSystem(mammon.PhaserGame.Physics().ARCADE())
+	log.Printf("physics: %+v", phaser.PHYSICS.P2JS)
 	var player *game.Character
 	for _, obj := range mammon.World.Objects {
 		if obj.GetUID() == mammon.PlayerUID {
@@ -47,7 +72,8 @@ func (mammon *MammonClient) Create() {
 	if player == nil {
 		panic(fmt.Sprintf("player with uuid "+mammon.PlayerUID+" not found in %+v", mammon.World.Objects))
 	}
-	rz := render.NewRenderZone(mammon.PhaserGame, player.ZoneName, true)
+	rz := render.NewRenderZone(mammon.PhaserGame, player.ZoneName)
+	render.Tilewidth, render.Tileheight = rz.GetTileDimensions()
 	rz.Draw(0, 0, true)
 	zone := mammon.World.Zones[player.ZoneName]
 	for x := range zone.Tiles {
@@ -56,13 +82,34 @@ func (mammon *MammonClient) Create() {
 			for _, obj := range tile.Objects {
 				objRenderer := render.NewObjectRenderer(mammon.PhaserGame, obj)
 				objRenderer.Draw(x, y)
+				if obj.GetUID() == mammon.PlayerUID {
+					log.Printf("following %v\n", obj.GetUID())
+					mammon.PhaserGame.Camera().Follow(objRenderer.Group())
+				}
+
+				sprites := objRenderer.Sprites()
+				if debugMode {
+					for _, sprite := range sprites {
+						debugSprites = append(debugSprites, sprite)
+					}
+				}
+
+				log.Printf("drawing object at %v,%v", x, y)
 			}
 		}
 	}
 	fmt.Print("created")
 }
 
-func (mammon *MammonClient) Update(deltaObj *js.Object) {
-	//delta := deltaObj.Float()
-	//fmt.Print-f("updated: %+v %v\n", deltaObj, delta)
+func (mammon *MammonClient) Update(deltaObj *js.Object) {}
+
+func (mammon *MammonClient) Render() {
+	if debugMode {
+		for _, sprite := range debugSprites {
+			if sprite.Visible() {
+				mammon.PhaserGame.Debug().BodyInfo(sprite, 32, 32)
+				mammon.PhaserGame.Debug().Body(sprite)
+			}
+		}
+	}
 }
