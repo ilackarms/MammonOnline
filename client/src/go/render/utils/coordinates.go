@@ -5,3 +5,7 @@ func GetScreenPosition(x, y, tilewidth, tileheight int) (int, int) {
 	screenY := (x + y) * tileheight / 2
 	return screenX, screenY
 }
+
+func GetGameCoordinates(screenX, screenY, tilewidth, tileheight int) (int, int) {
+
+}
