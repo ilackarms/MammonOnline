@@ -11,7 +11,7 @@ func assetDir(parts ...string) string {
 }
 
 func GenerateWorld() (*game.World, error) {
-	worldZone, err := game.ZoneFromTilemap("world", assetDir("maps", "world", "world_test.json"))
+	worldZone, err := game.ZoneFromTilemap("world", assetDir("maps", "world", "world.json"))
 	if err != nil {
 		return nil, errors.New("creating world zone", err)
 	}

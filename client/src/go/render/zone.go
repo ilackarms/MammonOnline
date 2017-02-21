@@ -117,22 +117,10 @@ func (zone *RenderZone) Draw(offsetX, offsetY int, lower bool) {
 						continue
 					}
 				}
-				//js.Global.Get("console").Call("log",
-				//	fmt.Sprintf(
-				//		"gid: %+v\n"+
-				//			"lower: %+v\n"+
-				//			"base image: %+v\n"+
-				//			"zone: %+v\n"+
-				//			"x,y: %v,%v\n",
-				//		gid,
-				//		lower,
-				//		baseImage.BaseTexture().Source(),
-				//		zone,
-				//		x, y,
-				//	),
-				//)
+				tileset := findTileset(zone.tilesets, gid)
 				shiftX := baseImage.Width() - width
 				shiftY := baseImage.Height() - height
+				fmt.Printf("offset: %+v", tileset.Tileoffset)
 				finalImage := baseImage
 				if zone.debugMode {
 					finalImage = zone.game.Make().BitmapData2O(baseImage.Width(), baseImage.Height())
@@ -142,10 +130,7 @@ func (zone *RenderZone) Draw(offsetX, offsetY int, lower bool) {
 					finalImage.Context().FillText(fmt.Sprintf("%v,%v", x, y), width/2, height*1/3+shiftY, -1)
 				}
 				//fmt.Printf("tile %v,%v: %v\n", x, y, tileset.Name)
-				gameTile := zone.game.Add().Image3O(screenX+offsetX-shiftX, screenY+offsetY-shiftY, finalImage)
-				if false {
-					gameTile = zone.game.Add().Image3O(screenX+offsetX-shiftX, screenY+offsetY-height*7/8-shiftY, finalImage)
-				}
+				gameTile := zone.game.Add().Image3O(screenX+offsetX-shiftX+tileset.Tileoffset.X, screenY+offsetY-shiftY+tileset.Tileoffset.Y, finalImage)
 				if lower {
 					zone.lowerGroup.Add(&phaser.DisplayObject{gameTile.Object})
 				} else {

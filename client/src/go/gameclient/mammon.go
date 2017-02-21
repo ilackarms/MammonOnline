@@ -18,7 +18,7 @@ type MammonClient struct {
 
 var (
 	debugSprites []*phaser.Sprite
-	debugMode    = true
+	debugMode    = false
 )
 
 func New(phaserGame *js.Object, worldData *js.Object, playerUID string) *js.Object {

@@ -18,17 +18,21 @@ type layer struct {
 }
 
 type Tileset struct {
-	Columns        int    `json:"columns"`
-	Firstgid       int    `json:"firstgid"`
-	Image          string `json:"image"`
-	Collisions     []int  `json:"collisions"`
-	Imageheight    int    `json:"imageheight"`
-	Imagewidth     int    `json:"imagewidth"`
-	Margin         int    `json:"margin"`
-	Name           string `json:"name"`
-	Spacing        int    `json:"spacing"`
-	Tilecount      int    `json:"tilecount"`
-	Tileheight     int    `json:"tileheight"`
+	Columns     int    `json:"columns"`
+	Firstgid    int    `json:"firstgid"`
+	Image       string `json:"image"`
+	Collisions  []int  `json:"collisions"`
+	Imageheight int    `json:"imageheight"`
+	Imagewidth  int    `json:"imagewidth"`
+	Margin      int    `json:"margin"`
+	Name        string `json:"name"`
+	Spacing     int    `json:"spacing"`
+	Tilecount   int    `json:"tilecount"`
+	Tileheight  int    `json:"tileheight"`
+	Tileoffset  struct {
+		X int `json:"x"`
+		Y int `json:"y"`
+	} `json:"tileoffset"`
 	Tileproperties map[string]struct {
 		Type int `json:"type"`
 	} `json:"tileproperties"`

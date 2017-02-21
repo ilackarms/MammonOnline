@@ -31,7 +31,7 @@ func createCharacterHandler(state *stateful.State, so socketio.Socket) utils.Han
 				Object: &game.Object{
 					UID:      uuid.New(),
 					Type:     enums.OBJECTS.PLAYER,
-					Position: game.Position{X: 8, Y: 2},
+					Position: game.Position{X: 15, Y: 15},
 					ZoneName: state.World.Zones["world"].Name,
 				},
 				Action:    enums.ACTIONS.IDLE,
