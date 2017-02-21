@@ -92,7 +92,7 @@ func (cr *characterRenderer) Draw(x, y int) {
 	}
 	cr.UpdateAnimation(20)
 	screenX, screenY := utils.ToScreenCoordinates(x, y, Tilewidth, Tileheight)
-	cr.SetPosition(screenX, screenY)
+	cr.SetPosition(screenX+OffsetX, screenY)
 }
 
 func (cr *characterRenderer) SetPosition(screenX, screenY int) {

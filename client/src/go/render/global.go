@@ -1,6 +1,6 @@
 package render
 
 var (
-	Tilewidth, Tileheight int
-	DebugMode             bool
+	Tilewidth, Tileheight, OffsetX int
+	DebugMode                      bool
 )

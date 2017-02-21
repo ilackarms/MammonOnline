@@ -8,6 +8,7 @@ import (
 	"github.com/ilackarms/MammonOnline/server/game"
 	"github.com/thoratou/go-phaser/generated/phaser"
 	"log"
+	"math"
 )
 
 type MammonClient struct {
@@ -18,7 +19,7 @@ type MammonClient struct {
 
 var (
 	debugSprites []*phaser.Sprite
-	debugMode    = false
+	debugMode    = true
 )
 
 func New(phaserGame *js.Object, worldData *js.Object, playerUID string) *js.Object {
@@ -72,10 +73,20 @@ func (mammon *MammonClient) Create() {
 	if player == nil {
 		panic(fmt.Sprintf("player with uuid "+mammon.PlayerUID+" not found in %+v", mammon.World.Objects))
 	}
+
+	zone := mammon.World.Zones[player.ZoneName]
+	mapW, mapH := zone.Size()
 	rz := render.NewRenderZone(mammon.PhaserGame, player.ZoneName)
 	render.Tilewidth, render.Tileheight = rz.GetTileDimensions()
-	rz.Draw(0, 0, true)
-	zone := mammon.World.Zones[player.ZoneName]
+	worldX, worldY, offsetX := calculateWorldBounds(
+		float64(mapW),
+		float64(mapH),
+		float64(render.Tilewidth),
+		float64(render.Tileheight),
+	)
+	render.OffsetX = offsetX
+	mammon.PhaserGame.World().SetBounds(0, 0, worldX, worldY)
+	rz.Draw(offsetX, 0, true)
 	for x := range zone.Tiles {
 		for y := range zone.Tiles[x] {
 			tile := zone.Tiles[x][y]
@@ -112,4 +123,20 @@ func (mammon *MammonClient) Render() {
 			}
 		}
 	}
+}
+
+//mapW/H are the tile dimensions of the map
+//tileW/H are the pixel dimensions of a tile
+//return values are x, screen width of isometric map
+//y, screen height of isometric map
+//offsetX, screen offset to draw 0,0 of map at
+func calculateWorldBounds(mapW, mapH, tileW, tileH float64) (int, int, int) {
+	m := math.Sqrt(math.Pow(tileW/2, 2) + math.Pow(tileH/2, 2))
+	theta := math.Atan(mapH / mapW)
+	w := m * mapW
+	h := m * mapH
+	x := (w + h) * math.Cos(theta)
+	y := (w + h) * math.Sin(theta)
+	offsetX := h * math.Cos(theta)
+	return int(x), int(y), int(offsetX)
 }
