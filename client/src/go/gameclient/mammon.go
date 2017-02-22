@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gopherjs/gopherjs/js"
+	"github.com/ilackarms/MammonOnline/client/src/go/gameclient/socket"
 	"github.com/ilackarms/MammonOnline/client/src/go/render"
 	"github.com/ilackarms/MammonOnline/server/game"
 	"github.com/thoratou/go-phaser/generated/phaser"
@@ -13,6 +14,7 @@ import (
 
 type MammonClient struct {
 	PhaserGame *phaser.Game
+	Socket     *socket.Socket
 	World      *game.World
 	PlayerUID  string
 }
@@ -22,7 +24,7 @@ var (
 	debugMode    = true
 )
 
-func New(phaserGame *js.Object, worldData *js.Object, playerUID string) *js.Object {
+func New(phaserGame *js.Object, worldData *js.Object, so *js.Object, playerUID string) *js.Object {
 	render.DebugMode = debugMode
 	var world game.World
 	fmt.Println(worldData.String())
@@ -31,6 +33,7 @@ func New(phaserGame *js.Object, worldData *js.Object, playerUID string) *js.Obje
 	}
 	return js.MakeWrapper(&MammonClient{
 		PhaserGame: &phaser.Game{phaserGame},
+		Socket:     &socket.Socket{so},
 		World:      &world,
 		PlayerUID:  playerUID,
 	})
