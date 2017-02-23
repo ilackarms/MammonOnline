@@ -168,6 +168,7 @@
   },
   "datas": {
     "assets": "assets.json",
+    "config": "config/config.json",
     "world": "maps/world/world.json"
   },
   "audios": {},

@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	js.Global.Set("Mammon", map[string]interface{}{
+	js.Global.Set("Client", map[string]interface{}{
 		"New": gameclient.New,
 	})
 }
