@@ -11,8 +11,6 @@ import (
 	"log"
 )
 
-//NEXT STEP IS REFACTORING THE CODE A BIT :dDDDDDD
-//THEN SOME SOCKET HANDLERS (user inputs, server messages)
 type client struct {
 	PhaserGame    *phaser.Game
 	Socket        *socket.Socket
@@ -49,11 +47,15 @@ func New(phaserGameObj *js.Object, worldData string, so *js.Object, playerUID st
 }
 
 func (c *client) Preload() {
+	render.LoadingScreen = render.DrawLoadingText(c.PhaserGame)
+	render.LoadingScreen.Show()
+	render.LoadingScreen.SetProgress(0)
 	log.Print("preloaded")
 }
 
 func (c *client) Create() {
 	render.DrawWorld(c.PhaserGame, c.World, c.UpdateManager, c.PlayerUID)
+	render.LoadingScreen.Hide()
 	log.Print("created")
 }
 

@@ -52,17 +52,17 @@ func newCharacterRenderer(game *phaser.Game, character *game.Character, updateMa
 	case enums.CLASSES.SORCERER:
 		className = "sorcerer"
 	}
-	for _, armor := range armors {
+	for i, armor := range armors {
 		if sprites[armor] == nil {
 			sprites[armor] = make(map[string]*phaser.Sprite)
 		}
-		for _, weapon := range weapons {
+		for j, weapon := range weapons {
 			atlasName := className + "_" + armor + "_" + weapon
 			frames := game.Cache().GetFrameData(atlasName).GetFrames()
 			sprite := game.Add().Sprite3O(0, 0, atlasName)
 			sprite.SetVisibleA(false)
-			for _, action := range actions {
-				for _, direction := range directions {
+			for k, action := range actions {
+				for l, direction := range directions {
 					animationName := animationName(action, direction)
 					animations := findAnimations(frames, animationName)
 					animationsParam := make([]interface{}, len(animations))
@@ -79,6 +79,7 @@ func newCharacterRenderer(game *phaser.Game, character *game.Character, updateMa
 							game.Debug().Body(sprite)
 						})
 					}
+					LoadingScreen.SetProgress(float64(i*j*k*l) / float64(len(armors)*len(weapons)*len(actions)*len(directions)))
 				}
 			}
 			sprites[armor][weapon] = sprite

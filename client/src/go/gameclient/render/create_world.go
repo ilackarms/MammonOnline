@@ -54,6 +54,7 @@ func DrawWorld(phaserGame *phaser.Game, world *game.World, updateManager *update
 			}
 		}
 	}
+	//LoadingScreen.Hide()
 }
 
 //mapW/H are the tile dimensions of the map
