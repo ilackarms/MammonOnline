@@ -10,6 +10,18 @@ import (
 )
 
 func DrawWorld(phaserGame *phaser.Game, world *game.World, updateManager *update.Manager, playerUID string) {
+	GlobalGroup = phaserGame.Add().Group()
+	ForegroundGroup = phaserGame.Add().Group()
+	SpriteGroup = phaserGame.Add().Group()
+	BackgroundGroup = phaserGame.Add().Group()
+
+	GlobalGroup.Add(&phaser.DisplayObject{ForegroundGroup.Object})
+	GlobalGroup.Add(&phaser.DisplayObject{SpriteGroup.Object})
+	GlobalGroup.Add(&phaser.DisplayObject{BackgroundGroup.Object})
+
+	GlobalGroup.BringToTop(SpriteGroup)
+	GlobalGroup.BringToTop(ForegroundGroup)
+
 	phaserGame.Physics().StartSystem(phaserGame.Physics().ARCADE())
 	//log.Printf("physics: %+v", phaser.PHYSICS.P2JS)
 	var player *game.Character

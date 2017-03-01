@@ -37,6 +37,7 @@ func newCharacterRenderer(game *phaser.Game, character *game.Character, updateMa
 
 	sprites := make(map[string]map[string]*phaser.Sprite)
 	group := game.Add().Group()
+	SpriteGroup.Add(&phaser.DisplayObject{group.Object})
 
 	switch character.Class {
 	case enums.CLASSES.ROGUE:

@@ -78,6 +78,12 @@ func NewRenderZone(game *phaser.Game, name string) *RenderZone {
 		upperTileImages[i] = createTileImage(game, tileset, image, i, false, DebugMode)
 	}
 
+	lowerGroup := game.Add().Group()
+	upperGroup := game.Add().Group()
+	BackgroundGroup.Add(&phaser.DisplayObject{lowerGroup.Object})
+	BackgroundGroup.Add(&phaser.DisplayObject{upperGroup.Object})
+	BackgroundGroup.BringToTop(upperGroup)
+
 	return &RenderZone{
 		name:            name,
 		game:            game,
@@ -85,8 +91,8 @@ func NewRenderZone(game *phaser.Game, name string) *RenderZone {
 		tilesets:        tilesets,
 		lowerTileImages: lowerTileImages,
 		upperTileImages: upperTileImages,
-		lowerGroup:      game.Add().Group(),
-		upperGroup:      game.Add().Group(),
+		lowerGroup:      lowerGroup,
+		upperGroup:      upperGroup,
 		debugMode:       DebugMode,
 		tilewidth:       tilemap.Tilewidth,
 		tileheight:      tilemap.Tileheight,
