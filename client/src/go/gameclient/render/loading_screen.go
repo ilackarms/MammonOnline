@@ -3,10 +3,8 @@ package render
 import "github.com/thoratou/go-phaser/generated/phaser"
 
 type LoadingText struct {
-	game      *phaser.Game
-	barFG     *phaser.Sprite
-	group     *phaser.Group
-	fullWidth int
+	game  *phaser.Game
+	group *phaser.Group
 }
 
 func DrawLoadingText(game *phaser.Game) *LoadingText {
@@ -17,23 +15,15 @@ func DrawLoadingText(game *phaser.Game) *LoadingText {
 	bg.BeginFill(0x000000)
 	bg.DrawRect(0, 0, game.Camera().Width(), game.Camera().Height())
 	bg.EndFill()
-	text := game.Add().BitmapText2O(centerX-100, centerY-120, "basic", "Loading...", 64)
-	barBG := game.Add().Sprite3O(centerX-192, centerY+40, "load_progress_bar_dark")
-	barFG := game.Add().Sprite3O(centerX-192, centerY+40, "load_progress_bar")
-	barBG.Anchor().SetTo1O(0, 0.5)
-	barFG.Anchor().SetTo1O(0, 0.5)
+	text := game.Add().BitmapText2O(centerX-100, centerY-64, "basic", "Loading...", 64)
 
 	group.Add(&phaser.DisplayObject{bg.Object})
 	group.Add(&phaser.DisplayObject{text.Object})
-	group.Add(&phaser.DisplayObject{barBG.Object})
-	group.Add(&phaser.DisplayObject{barFG.Object})
 	group.SetVisibleA(false)
 
 	return &LoadingText{
-		game:      game,
-		group:     group,
-		barFG:     barFG,
-		fullWidth: barFG.Width(),
+		game:  game,
+		group: group,
 	}
 }
 
@@ -44,8 +34,4 @@ func (lt *LoadingText) Show() {
 
 func (lt *LoadingText) Hide() {
 	lt.group.SetVisibleA(false)
-}
-
-func (lt *LoadingText) SetProgress(percent float64) {
-	lt.barFG.SetWidthA(int(percent * float64(lt.fullWidth)))
 }

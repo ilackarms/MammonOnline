@@ -73,7 +73,6 @@ func NewRenderZone(game *phaser.Game, name string) *RenderZone {
 		if !ok {
 			panic("getting the iamge for " + tileset.Name)
 		}
-		LoadingScreen.SetProgress(float64(i) / float64(maxGid))
 		lowerTileImages[i] = createTileImage(game, tileset, image, i, true, DebugMode)
 		upperTileImages[i] = createTileImage(game, tileset, image, i, false, DebugMode)
 	}
@@ -142,7 +141,6 @@ func (zone *RenderZone) Draw(offsetX, offsetY int, lower bool) {
 				} else {
 					zone.upperGroup.Add(&phaser.DisplayObject{gameTile.Object})
 				}
-				LoadingScreen.SetProgress(float64(x+y*len(layer.tiles)) / float64(len(layer.tiles)*len(layer.tiles[x])))
 			}
 		}
 	}

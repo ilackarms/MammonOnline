@@ -46,7 +46,6 @@ func New(phaserGameObj *js.Object, worldData string, so *js.Object, playerUID st
 func (c *client) Preload() {
 	render.LoadingScreen = render.DrawLoadingText(c.PhaserGame)
 	render.LoadingScreen.Show()
-	render.LoadingScreen.SetProgress(0)
 	log.Print("preloaded")
 }
 
