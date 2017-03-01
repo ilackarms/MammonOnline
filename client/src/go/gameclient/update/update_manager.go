@@ -1,33 +1,53 @@
 package update
 
-import (
-	"github.com/gopherjs/gopherjs/js"
-)
-
-type updateFunc func(deltaObj *js.Object)
-type renderFunc func()
+type Update struct {
+	fn     func()
+	name   string
+	oneOff bool
+}
 
 type Manager struct {
-	updateFuncs []updateFunc
-	renderFuncs []renderFunc
+	updates map[string]*Update
+	renders map[string]*Update
 }
 
 func NewManager() *Manager {
-	return &Manager{}
+	return &Manager{
+		updates: make(map[string]*Update),
+		renders: make(map[string]*Update),
+	}
 }
 
-func (m *Manager) AddRenderFunc(f renderFunc) {
-	m.renderFuncs = append(m.renderFuncs, f)
+func (m *Manager) AddRenderFunc(name string, f func(), oneOff bool) {
+	m.renders[name] = &Update{
+		fn:     f,
+		name:   name,
+		oneOff: oneOff,
+	}
 }
 
-func (m *Manager) GetRenderFuncs() []renderFunc {
-	return m.renderFuncs
+func (m *Manager) ProcessRenders() {
+	for name, update := range m.renders {
+		update.fn()
+		if update.oneOff {
+			delete(m.renders, name)
+		}
+	}
 }
 
-func (m *Manager) AddUpdateFunc(f updateFunc) {
-	m.updateFuncs = append(m.updateFuncs, f)
+func (m *Manager) AddUpdateFunc(name string, f func(), oneOff bool) {
+	m.updates[name] = &Update{
+		fn:     f,
+		name:   name,
+		oneOff: oneOff,
+	}
 }
 
-func (m *Manager) GetUpdateFuncs() []updateFunc {
-	return m.updateFuncs
+func (m *Manager) ProcessUpdates() {
+	for name, update := range m.updates {
+		update.fn()
+		if update.oneOff {
+			delete(m.updates, name)
+		}
+	}
 }

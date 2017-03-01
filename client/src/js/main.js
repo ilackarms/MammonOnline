@@ -743,9 +743,9 @@ function loadGUI() {
             val2 += remaining/2;
             EZGUI.components[stat1+'Slider'].value = val1;
             EZGUI.components[stat2+'Slider'].value = val2;
-            console.log(105 - (getStat(EZGUI.components[stat+'Slider'].value) +
-                getStat(EZGUI.components[stat1+'Slider'].value) +
-                getStat(EZGUI.components[stat2+'Slider'].value)));
+            // console.log(105 - (getStat(EZGUI.components[stat+'Slider'].value) +
+            //     getStat(EZGUI.components[stat1+'Slider'].value) +
+            //     getStat(EZGUI.components[stat2+'Slider'].value)));
             setStatLabels();
         }
 
@@ -800,7 +800,7 @@ function loadGUI() {
                         var skill = skills[i];
                         var checkboxID = skill+'Checkbox';
                         if (EZGUI.components[checkboxID].checked) {
-                            console.log(skill);
+                            // console.log(skill);
                             checkedSkills.push(skill);
                         }
                     }
@@ -832,7 +832,7 @@ function loadGUI() {
             var list = portraitSelectWindow.getListElement();
             for (var i = 1; i < 40; i++) {
                 var img = 'assets/gui/portraits/'+imagePrefix+i+'.bmp';
-                console.log(img);
+                // console.log(img);
                 var portraitImage = {
                     id: img,
                     component: 'Radio',
@@ -856,7 +856,7 @@ function loadGUI() {
                 runOnce(function () {
                     var portrait = EZGUI.radioGroups['portraitGroup'].selected;
                     characterName = EZGUI.components.characterName.text;
-                    console.log(portrait);
+                    // console.log(portrait);
                     if (portrait && characterName.length > 4 && characterName.length < 40) {
                         selectedPortrait = portrait.Id;
                         displaySummaryWindow();
@@ -1068,9 +1068,9 @@ function loadGUI() {
         });
 
         EZGUI.components.loginButton.on('click', function (event) {
-            runOnce(function () {
-                console.log(EZGUI.components.username.text, EZGUI.components.password.text);
-            });
+            // runOnce(function () {
+            //     console.log(EZGUI.components.username.text, EZGUI.components.password.text);
+            // });
             loginElement.visible = false;
             characterSelectElement.visible = true;
         });
@@ -1211,7 +1211,7 @@ function loadSlickGUI(){
     slickUI.add(panel = new SlickUI.Element.Panel(8, 8, 150, game.height - 16));
     var button;
     panel.add(button = new SlickUI.Element.Button(0,0, 140, 80));
-    button.events.onInputUp.add(function () {console.log('Clicked button');});
+    // button.events.onInputUp.add(function () {console.log('Clicked button');});
     button.add(new SlickUI.Element.Text(0,0, "My button")).center();
     var password = game.add.inputField(10, 90, {
         font: '18px Arial',

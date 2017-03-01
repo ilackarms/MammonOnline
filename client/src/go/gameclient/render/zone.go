@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gopherjs/gopherjs/js"
-	"github.com/ilackarms/MammonOnline/client/src/go/gameclient/render/utils"
 	"github.com/ilackarms/MammonOnline/server/game/tiled"
 	"github.com/thoratou/go-phaser/generated/phaser"
 )
@@ -107,7 +106,7 @@ func (zone *RenderZone) Draw(offsetX, offsetY int, lower bool) {
 					continue
 				}
 				width, height := zone.tilewidth, zone.tileheight
-				screenX, screenY := utils.ToScreenCoordinates(x, y, width, height)
+				screenX, screenY := ToScreenCoordinates(x, y)
 				var baseImage *phaser.BitmapData
 				if lower {
 					baseImage = zone.lowerTileImages[gid]
@@ -121,7 +120,6 @@ func (zone *RenderZone) Draw(offsetX, offsetY int, lower bool) {
 				tileset := findTileset(zone.tilesets, gid)
 				shiftX := baseImage.Width() - width
 				shiftY := baseImage.Height() - height
-				fmt.Printf("offset: %+v", tileset.Tileoffset)
 				finalImage := baseImage
 				if zone.debugMode {
 					finalImage = zone.game.Make().BitmapData2O(baseImage.Width(), baseImage.Height())

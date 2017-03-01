@@ -8,7 +8,7 @@ import (
 )
 
 type Config struct {
-	DebugMode bool `true:"debug_mode"`
+	DebugMode bool `json:"debug_mode"`
 }
 
 func GetFromCache(game *phaser.Game) (*Config, error) {

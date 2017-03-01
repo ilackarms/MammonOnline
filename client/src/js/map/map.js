@@ -185,7 +185,7 @@ Map.prototype._draw = function (offsetX, offsetY, lower) {
                 var finalTile = this._game.add.image(screenX + offsetX - shiftX, screenY + offsetY - height * 14/16 - shiftY, finalBMD);
                 if (lower) this._lowerGroup.add(finalTile);
                 else this._upperGroup.add(finalTile);
-                console.log(".");
+                // console.log(".");
             }
         }
     }

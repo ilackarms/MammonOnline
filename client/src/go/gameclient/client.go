@@ -3,6 +3,7 @@ package gameclient
 import (
 	"encoding/json"
 	"github.com/gopherjs/gopherjs/js"
+	"github.com/ilackarms/MammonOnline/client/src/go/gameclient/input"
 	"github.com/ilackarms/MammonOnline/client/src/go/gameclient/render"
 	"github.com/ilackarms/MammonOnline/client/src/go/gameclient/socket"
 	"github.com/ilackarms/MammonOnline/client/src/go/gameclient/update"
@@ -20,12 +21,7 @@ type client struct {
 	UpdateManager *update.Manager
 }
 
-var (
-	debugMode = false
-)
-
 func New(phaserGameObj *js.Object, worldData string, so *js.Object, playerUID string) *js.Object {
-	render.DebugMode = debugMode
 	var world game.World
 	//fmt.Println(worldData.String())
 	if err := json.Unmarshal([]byte(worldData), &world); err != nil {
@@ -34,8 +30,9 @@ func New(phaserGameObj *js.Object, worldData string, so *js.Object, playerUID st
 	phaserGame := &phaser.Game{phaserGameObj}
 	cfg, err := GetFromCache(phaserGame)
 	if err != nil {
-		panic("failed to reach cfg from cache: " + err.Error())
+		panic("failed to read cfg from cache: " + err.Error())
 	}
+	render.DebugMode = cfg.DebugMode
 	return js.MakeWrapper(&client{
 		PhaserGame:    phaserGame,
 		Socket:        &socket.Socket{so},
@@ -55,18 +52,15 @@ func (c *client) Preload() {
 
 func (c *client) Create() {
 	render.DrawWorld(c.PhaserGame, c.World, c.UpdateManager, c.PlayerUID)
+	input.SetHandlers(c.UpdateManager, c.Socket, c.PhaserGame)
 	render.LoadingScreen.Hide()
 	log.Print("created")
 }
 
-func (c *client) Update(deltaObj *js.Object) {
-	for _, fn := range c.UpdateManager.GetUpdateFuncs() {
-		fn(deltaObj)
-	}
+func (c *client) Update() {
+	c.UpdateManager.ProcessUpdates()
 }
 
 func (c *client) Render() {
-	for _, fn := range c.UpdateManager.GetRenderFuncs() {
-		fn()
-	}
+	c.UpdateManager.ProcessRenders()
 }

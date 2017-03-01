@@ -3,7 +3,7 @@ module.exports = function () {
 
     //hide/unhide SlickUI Element, recursing over all children
     utils.setSlickUIElementVisible = function(element, visible){
-        console.log(element, element.container.children);
+        // console.log(element, element.container.children);
         var elementType;
         if (element instanceof SlickUI.Element.Text) {
             // elementType = SlickUI.Element.Text;

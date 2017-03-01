@@ -47,3 +47,11 @@ type StartGameResponse struct {
 	PlayerUID string      `json:"player_uid"`
 	World     *game.World `json:"world"`
 }
+
+type MoveRequest struct {
+	Destination game.Position `json:"destination"`
+}
+
+type MoveResponse struct {
+	Destination game.Position `json:"destination"`
+}
