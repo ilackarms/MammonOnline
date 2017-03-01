@@ -133,6 +133,7 @@ func (zone *RenderZone) Draw(offsetX, offsetY int, lower bool) {
 					finalImage.Context().Font = "15px Georgia"
 					finalImage.Context().FillStyle = "white"
 					finalImage.Context().FillText(fmt.Sprintf("%v,%v", x, y), width/2, height*1/3+shiftY, -1)
+					finalImage.Context().FillText("*", width/2, height/2, -1)
 				}
 				//fmt.Printf("tile %v,%v: %v\n", x, y, tileset.Name)
 				gameTile := zone.game.Add().Image3O(screenX+offsetX-shiftX+tileset.Tileoffset.X, screenY+offsetY-shiftY+tileset.Tileoffset.Y, finalImage)

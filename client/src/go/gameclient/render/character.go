@@ -116,7 +116,7 @@ func (cr *characterRenderer) UpdateAnimation(frameRate int) {
 	cr.currentSprite = sprite
 	if DebugMode {
 		cr.updateManager.AddRenderFunc("debug_sprite", func() {
-			cr.game.Debug().BodyInfo(sprite, 32, 32)
+			//cr.game.Debug().BodyInfo(sprite, 32, 32)
 			cr.game.Debug().Body(sprite)
 		}, false)
 	}
