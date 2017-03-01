@@ -21,7 +21,8 @@ module.exports = function (game, socket) {
     };
 
     play.create = function () {
-        play.Client.Create();
+        // play.Client.Create();
+        setTimeout(play.Client.Create, 1);
     };
 
     play.update = function () {
