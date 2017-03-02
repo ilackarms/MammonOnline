@@ -43,9 +43,9 @@ func DebugMouseCoordinates(game *phaser.Game, updateManager *update.Manager) {
 	group.Add(&phaser.DisplayObject{text.Object})
 	ForegroundGroup.Add(&phaser.DisplayObject{group.Object})
 	updateManager.AddUpdateFunc("mouse_debug", func() {
-		screenX, screenY := game.Input().X(), game.Input().Y()
-		x, y := ToGameCoordinates(screenX+int(game.Camera().Position().X()),
-			screenY+int(game.Camera().Position().Y()))
+		screenX := game.Input().X() + int(game.Camera().Position().X())
+		screenY := game.Input().Y() + int(game.Camera().Position().Y())
+		x, y := ToGameCoordinates(screenX, screenY)
 		log.Printf("%v,%v from (%v, %v)", x, y, screenX, screenY)
 		text.SetText(fmt.Sprintf(".(%v,%v)", x, y))
 		text.Set("x", screenX)
