@@ -19,6 +19,7 @@ func DrawWorld(phaserGame *phaser.Game, world *game.World, updateManager *update
 	GlobalGroup.Add(&phaser.DisplayObject{SpriteGroup.Object})
 	GlobalGroup.Add(&phaser.DisplayObject{BackgroundGroup.Object})
 
+	GlobalGroup.BringToTop(BackgroundGroup)
 	GlobalGroup.BringToTop(SpriteGroup)
 	GlobalGroup.BringToTop(ForegroundGroup)
 
@@ -68,7 +69,6 @@ func DrawWorld(phaserGame *phaser.Game, world *game.World, updateManager *update
 		}
 	}
 	DebugMouseCoordinates(phaserGame, updateManager)
-	//LoadingScreen.Hide()
 }
 
 //mapW/H are the tile dimensions of the map

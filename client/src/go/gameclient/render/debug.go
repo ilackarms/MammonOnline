@@ -2,7 +2,6 @@ package render
 
 import (
 	"fmt"
-	"github.com/gopherjs/gopherjs/js"
 	"github.com/ilackarms/MammonOnline/client/src/go/gameclient/update"
 	"github.com/thoratou/go-phaser/generated/phaser"
 	"log"
@@ -30,15 +29,16 @@ func DrawDebugGrid(game *phaser.Game, width, length int) {
 			debugTile.Copy3O(bmd, 0, 0)
 			debugTile.Text(fmt.Sprintf("%v,%v", x, y), Tilewidth/2, Tileheight/2)
 			debugTile.Text("*", 0, 0)
-			game.Add().Image3O(screenX+OffsetX, screenY, debugTile)
+			img := game.Add().Image3O(screenX+OffsetX, screenY, debugTile)
+			group := game.Add().Group()
+			group.Add(&phaser.DisplayObject{img.Object})
+			BackgroundGroup.Add(&phaser.DisplayObject{group.Object})
 		}
 	}
 }
 
 func DebugMouseCoordinates(game *phaser.Game, updateManager *update.Manager) {
-	style := js.Global.Get("JSON").Call("parse",
-		`{ "font": "65px Arial", "fill": "#ff0044", "align": "center" }`)
-	text := game.Add().Text4O(100, 100, "placeholder", style)
+	text := game.Add().BitmapText2O(100, 100, "basic", "placeholder", 16)
 	group := game.Add().Group()
 	group.Add(&phaser.DisplayObject{text.Object})
 	ForegroundGroup.Add(&phaser.DisplayObject{group.Object})
@@ -47,7 +47,7 @@ func DebugMouseCoordinates(game *phaser.Game, updateManager *update.Manager) {
 		x, y := ToGameCoordinates(screenX+int(game.Camera().Position().X()),
 			screenY+int(game.Camera().Position().Y()))
 		log.Printf("%v,%v from (%v, %v)", x, y, screenX, screenY)
-		text.SetText1O(fmt.Sprintf(".(%v,%v)", x, y))
+		text.SetText(fmt.Sprintf(".(%v,%v)", x, y))
 		text.Set("x", screenX)
 		text.Set("y", screenY)
 	}, false)
