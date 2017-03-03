@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/ilackarms/MammonOnline/client/src/go/gameclient/update"
 	"github.com/thoratou/go-phaser/generated/phaser"
-	"log"
 )
 
 func DrawDebugGrid(game *phaser.Game, width, length int) {
@@ -42,8 +41,8 @@ func DebugMouseCoordinates(game *phaser.Game, updateManager *update.Manager) {
 	group.Add(&phaser.DisplayObject{text.Object})
 	ForegroundGroup.Add(&phaser.DisplayObject{group.Object})
 	updateManager.AddUpdateFunc("mouse_debug", func() {
-		screenX := game.Input().X()
-		screenY := game.Input().Y()
+		screenX := game.Input().X() + int(game.Camera().Position().X())
+		screenY := game.Input().Y() + int(game.Camera().Position().Y())
 		x, y := ToGameCoordinates(screenX, screenY)
 		//log.Printf("%v,%v from (%v, %v)", x, y, screenX, screenY)
 		text.SetText(fmt.Sprintf(".(%v,%v)", x, y))
