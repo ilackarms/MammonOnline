@@ -1,0 +1,4 @@
+client/bundle.js
+server/gamestate.json
+go_entrypoint.js
+go_entrypoint.js.map
