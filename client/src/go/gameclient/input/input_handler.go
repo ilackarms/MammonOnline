@@ -1,23 +1,26 @@
 package input
 
 import (
-	"fmt"
 	"github.com/ilackarms/MammonOnline/client/src/go/gameclient/render"
 	"github.com/ilackarms/MammonOnline/client/src/go/gameclient/socket"
 	"github.com/ilackarms/MammonOnline/client/src/go/gameclient/update"
+	"github.com/ilackarms/MammonOnline/server/api"
 	"github.com/ilackarms/MammonOnline/server/enums"
+	"github.com/ilackarms/MammonOnline/server/game"
 	"github.com/thoratou/go-phaser/generated/phaser"
-	"log"
 )
 
-func SetHandlers(updateManager *update.Manager, so *socket.Socket, game *phaser.Game) {
+func SetHandlers(updateManager *update.Manager, so *socket.Socket, phaserGame *phaser.Game) {
 	updateManager.AddUpdateFunc("mouse_handler", func() {
-		if game.Input().ActivePointer().IsDown() {
-			log.Printf("mouse: %d, %d", game.Input().X(), game.Input().Y())
-			x, y := render.ToGameCoordinates(game.Input().X()+int(game.Camera().Position().X()),
-				game.Input().Y()+int(game.Camera().Position().Y()))
-			log.Printf("coords: %d, %d", x, y)
-			so.Emit(enums.SERVER_EVENTS.MOVEMENT_REQUEST.String(), fmt.Sprintf("{x: %v, y: %v}", game.Input().X(), game.Input().Y()))
+		if phaserGame.Input().ActivePointer().IsDown() {
+			x, y := render.ToGameCoordinates(phaserGame.Input().X()+int(phaserGame.Camera().Position().X()),
+				phaserGame.Input().Y()+int(phaserGame.Camera().Position().Y()))
+			so.Emit(enums.SERVER_EVENTS.MOVEMENT_REQUEST, api.MoveRequest{
+				Destination: game.Position{
+					X: uint(x),
+					Y: uint(y),
+				},
+			})
 		}
 	}, false)
 }
