@@ -98,7 +98,7 @@ func NewRenderZone(game *phaser.Game, name string) *RenderZone {
 	}
 }
 
-func (zone *RenderZone) Draw(offsetX, offsetY int, lower bool) {
+func (zone *RenderZone) Draw(lower bool) {
 	for _, layer := range zone.layers {
 		if !layer.visible && !zone.debugMode {
 			continue
@@ -135,7 +135,7 @@ func (zone *RenderZone) Draw(offsetX, offsetY int, lower bool) {
 					finalImage.Context().FillText("*", width/2, height/2, -1)
 				}
 				//fmt.Printf("tile %v,%v: %v\n", x, y, tileset.Name)
-				gameTile := zone.game.Add().Image3O(screenX+offsetX-shiftX+tileset.Tileoffset.X, screenY+offsetY-shiftY+tileset.Tileoffset.Y, finalImage)
+				gameTile := zone.game.Add().Image3O(screenX-shiftX+tileset.Tileoffset.X, screenY-shiftY+tileset.Tileoffset.Y, finalImage)
 				if lower {
 					zone.lowerGroup.Add(&phaser.DisplayObject{gameTile.Object})
 				} else {

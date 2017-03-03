@@ -53,7 +53,7 @@ func DrawWorld(phaserGame *phaser.Game, world *game.World, updateManager *update
 	OffsetX = offsetX
 	phaserGame.World().SetBounds(0, 0, worldX, worldY)
 	DrawDebugGrid(phaserGame, mapW, mapH)
-	rz.Draw(OffsetX, 0, true)
+	//rz.Draw(true)
 	for x := range zone.Tiles {
 		for y := range zone.Tiles[x] {
 			tile := zone.Tiles[x][y]
@@ -68,6 +68,7 @@ func DrawWorld(phaserGame *phaser.Game, world *game.World, updateManager *update
 			}
 		}
 	}
+	//DrawTiles(phaserGame)
 	DebugMouseCoordinates(phaserGame, updateManager)
 }
 

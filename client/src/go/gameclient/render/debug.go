@@ -13,7 +13,6 @@ func DrawDebugGrid(game *phaser.Game, width, length int) {
 		64, 0,
 		128, 32,
 		64, 64,
-		0, 32,
 	}
 	bmd := game.Make().BitmapData2O(Tilewidth, Tileheight)
 	for i := 0; i < len(points)-3; i++ {
@@ -29,7 +28,7 @@ func DrawDebugGrid(game *phaser.Game, width, length int) {
 			debugTile.Copy3O(bmd, 0, 0)
 			debugTile.Text(fmt.Sprintf("%v,%v", x, y), Tilewidth/2, Tileheight/2)
 			debugTile.Text("*", 0, 0)
-			img := game.Add().Image3O(screenX+OffsetX, screenY, debugTile)
+			img := game.Add().Image3O(screenX, screenY, debugTile)
 			group := game.Add().Group()
 			group.Add(&phaser.DisplayObject{img.Object})
 			BackgroundGroup.Add(&phaser.DisplayObject{group.Object})
@@ -43,10 +42,10 @@ func DebugMouseCoordinates(game *phaser.Game, updateManager *update.Manager) {
 	group.Add(&phaser.DisplayObject{text.Object})
 	ForegroundGroup.Add(&phaser.DisplayObject{group.Object})
 	updateManager.AddUpdateFunc("mouse_debug", func() {
-		screenX := game.Input().X() + int(game.Camera().Position().X())
-		screenY := game.Input().Y() + int(game.Camera().Position().Y())
+		screenX := game.Input().X()
+		screenY := game.Input().Y()
 		x, y := ToGameCoordinates(screenX, screenY)
-		log.Printf("%v,%v from (%v, %v)", x, y, screenX, screenY)
+		//log.Printf("%v,%v from (%v, %v)", x, y, screenX, screenY)
 		text.SetText(fmt.Sprintf(".(%v,%v)", x, y))
 		text.Set("x", screenX)
 		text.Set("y", screenY)
