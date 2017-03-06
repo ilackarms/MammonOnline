@@ -20,13 +20,10 @@ type renderLayer struct {
 type RenderZone struct {
 	name            string
 	game            *phaser.Game
-	layers          []*renderLayer
-	tilesets        []tiled.Tileset
-	lowerTileImages []*phaser.BitmapData
-	upperTileImages []*phaser.BitmapData
 	lowerGroup      *phaser.Group
 	upperGroup      *phaser.Group
-	debugMode       bool
+	lowerLayerImage *phaser.BitmapData
+	upperLayerImage *phaser.BitmapData
 	tilewidth       int
 	tileheight      int
 }
@@ -73,8 +70,9 @@ func NewRenderZone(game *phaser.Game, name string) *RenderZone {
 		if !ok {
 			panic("getting the iamge for " + tileset.Name)
 		}
-		lowerTileImages[i] = createTileImage(game, tileset, image, i, true, DebugMode)
-		upperTileImages[i] = createTileImage(game, tileset, image, i, false, DebugMode)
+		lowerTileImages[i] = createTileImage(game, tileset, image, i, true)
+		js.Global.Get("console").Call("log", "lowerimage", " pixel ", lowerTileImages[i].GetPixel(lowerTileImages[i].Width()/2, lowerTileImages[i].Height()-32), lowerTileImages[i].Width(), lowerTileImages[i].Height())
+		upperTileImages[i] = createTileImage(game, tileset, image, i, false)
 	}
 
 	lowerGroup := game.Add().Group()
@@ -83,24 +81,11 @@ func NewRenderZone(game *phaser.Game, name string) *RenderZone {
 	BackgroundGroup.Add(&phaser.DisplayObject{upperGroup.Object})
 	BackgroundGroup.BringToTop(upperGroup)
 
-	return &RenderZone{
-		name:            name,
-		game:            game,
-		layers:          layers,
-		tilesets:        tilesets,
-		lowerTileImages: lowerTileImages,
-		upperTileImages: upperTileImages,
-		lowerGroup:      lowerGroup,
-		upperGroup:      upperGroup,
-		debugMode:       DebugMode,
-		tilewidth:       tilemap.Tilewidth,
-		tileheight:      tilemap.Tileheight,
-	}
-}
-
-func (zone *RenderZone) Draw(lower bool) {
-	for _, layer := range zone.layers {
-		if !layer.visible && !zone.debugMode {
+	tilewidth, tileheight := tilemap.Tilewidth, tilemap.Tileheight
+	lowerLayerImage := game.Make().BitmapData3O(tilemap.Width*tilewidth, tilemap.Height*tileheight, "lower_layer_image_"+name)
+	upperLayerImage := game.Make().BitmapData3O(tilemap.Width*tilewidth, tilemap.Height*tileheight, "upper_layer_image_"+name)
+	for _, layer := range layers {
+		if !layer.visible && !DebugMode {
 			continue
 		}
 		for x := range layer.tiles {
@@ -110,39 +95,67 @@ func (zone *RenderZone) Draw(lower bool) {
 				if gid < 0 {
 					continue
 				}
-				width, height := zone.tilewidth, zone.tileheight
 				screenX, screenY := ToScreenCoordinates(x, y)
-				var baseImage *phaser.BitmapData
-				if lower {
-					baseImage = zone.lowerTileImages[gid]
-				} else {
-					baseImage = zone.upperTileImages[gid]
-					//base image was clipped entirely
-					if baseImage == nil {
-						continue
-					}
-				}
-				tileset := findTileset(zone.tilesets, gid)
-				shiftX := baseImage.Width() - width
-				shiftY := baseImage.Height() - height
-				finalImage := baseImage
-				if zone.debugMode {
-					finalImage = zone.game.Make().BitmapData2O(baseImage.Width(), baseImage.Height())
-					finalImage.Copy1O(baseImage)
-					finalImage.Context().Font = "15px Georgia"
-					finalImage.Context().FillStyle = "white"
-					finalImage.Context().FillText(fmt.Sprintf("%v,%v", x, y), width/2, height*1/3+shiftY, -1)
-					finalImage.Context().FillText("*", width/2, height/2, -1)
-				}
-				//fmt.Printf("tile %v,%v: %v\n", x, y, tileset.Name)
-				gameTile := zone.game.Add().Image3O(screenX-shiftX+tileset.Tileoffset.X, screenY-shiftY+tileset.Tileoffset.Y, finalImage)
-				if lower {
-					zone.lowerGroup.Add(&phaser.DisplayObject{gameTile.Object})
-				} else {
-					zone.upperGroup.Add(&phaser.DisplayObject{gameTile.Object})
+				lowerImage := lowerTileImages[gid]
+				tileset := findTileset(tilesets, gid)
+				//shiftX := lowerImage.Width() - tilewidth
+				//shiftY := lowerImage.Height() - tileheight
+				rect := phaser.NewRectangle(0, 0, lowerImage.Width(), lowerImage.Height())
+				//lowerLayerImage.CopyRect(lowerImage, rect, screenX-shiftX+tileset.Tileoffset.X, screenY-shiftY+tileset.Tileoffset.Y)
+				lowerLayerImage.CopyRect(lowerImage, rect, 0, 0)
+
+				upperImage := upperTileImages[gid]
+				//only if base image was not clipped entirely
+				if upperImage != nil {
+					shiftX := upperImage.Width() - tilewidth
+					shiftY := upperImage.Height() - tileheight
+					rect := phaser.NewRectangle(0, 0, upperImage.Width(), upperImage.Height())
+					upperLayerImage.CopyRect(upperImage, rect, screenX-shiftX+tileset.Tileoffset.X, screenY-shiftY+tileset.Tileoffset.Y)
 				}
 			}
 		}
+	}
+
+	js.Global.Get("console").Call("log", lowerLayerImage)
+	for i := 0; i < lowerLayerImage.Pixels().Get("length").Int(); i++ {
+		px := lowerLayerImage.Pixels().Index(i)
+		if a := px.Int(); a > 0 {
+			js.Global.Get("console").Call("log", "pixel ", i, " is ", a)
+		}
+	}
+	js.Global.Get("console").Call("log", lowerLayerImage.Pixels())
+
+	//remove unneeded bitmap data
+	for _, img := range lowerTileImages {
+		if img != nil {
+			game.Delete(img.Key())
+		}
+	}
+	for _, img := range upperTileImages {
+		if img != nil {
+			game.Delete(img.Key())
+		}
+	}
+
+	return &RenderZone{
+		name:            name,
+		game:            game,
+		lowerGroup:      lowerGroup,
+		upperGroup:      upperGroup,
+		lowerLayerImage: lowerLayerImage,
+		upperLayerImage: upperLayerImage,
+		tilewidth:       tilemap.Tilewidth,
+		tileheight:      tilemap.Tileheight,
+	}
+}
+
+func (zone *RenderZone) Draw(lower bool) {
+	if lower {
+		lowerLayer := zone.game.Add().Image3O(0, 0, zone.lowerLayerImage)
+		zone.lowerGroup.Add(&phaser.DisplayObject{lowerLayer.Object})
+	} else {
+		upperLayer := zone.game.Add().Image3O(0, 0, zone.upperLayerImage)
+		zone.upperGroup.Add(&phaser.DisplayObject{upperLayer.Object})
 	}
 }
 
@@ -150,7 +163,7 @@ func (rz *RenderZone) GetTileDimensions() (int, int) {
 	return rz.tilewidth, rz.tileheight
 }
 
-func createTileImage(game *phaser.Game, tileset tiled.Tileset, image *phaser.Image, gid int, lower, debugMode bool) *phaser.BitmapData {
+func createTileImage(game *phaser.Game, tileset tiled.Tileset, image *phaser.Image, gid int, lower bool) *phaser.BitmapData {
 	width, height := tileset.Tilewidth, tileset.Tileheight
 	//local index into this tileset
 	//-1 because tiled is weird
@@ -170,7 +183,7 @@ func createTileImage(game *phaser.Game, tileset tiled.Tileset, image *phaser.Ima
 		bmd.Context().Clip()
 	}
 	//fmt.Printf("drawing gid: %v (%v) %v [%v, %v] w:%v y:%v \n", gid, tileset.Firstgid, image.Name(), x0, y0, width, height)
-	bmd.Context().DrawImage(image.Object, x0, y0, width, height, 0, 0, width, height)
+	bmd.Draw4O(image.Object, x0, y0, width, height)
 	if !lower {
 		bmd.Context().ClosePath()
 		//sometimes we clipped out the whole image
@@ -178,17 +191,6 @@ func createTileImage(game *phaser.Game, tileset tiled.Tileset, image *phaser.Ima
 		if !isVisible(bmd, width, height) {
 			return nil
 		}
-	}
-	if debugMode {
-		bmd.Context().StrokeStyle = "#FF0000"
-		bmd.Context().BeginPath()
-		bmd.Context().MoveTo(0, height-32)
-		bmd.Context().MoveTo(64, height-64)
-		bmd.Context().MoveTo(128, height-32)
-		bmd.Context().MoveTo(64, height)
-		bmd.Context().MoveTo(0, height-32)
-		bmd.Context().Stroke()
-		bmd.Context().ClosePath()
 	}
 	return bmd
 }

@@ -5,11 +5,6 @@ import (
 	"github.com/ilackarms/MammonOnline/server/enums"
 )
 
-type Position struct {
-	X uint `json:"x"`
-	Y uint `json:"y"`
-}
-
 type Attributes struct {
 	Strength     uint `json:"str"`
 	Dexterity    uint `json:"dex"`

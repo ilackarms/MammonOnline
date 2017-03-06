@@ -9,6 +9,15 @@ type tiles struct {
 	FOREST_PIT    Tile
 }
 
+func (t Tile) Walkable() bool {
+	switch t {
+	case TILES.FOREST_FLOOR:
+		return true
+	default:
+		return false
+	}
+}
+
 var TILES = tiles{
 	INVALID_VALUE: 0,
 	FOREST_WALL:   1,

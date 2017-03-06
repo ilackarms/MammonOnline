@@ -50,7 +50,7 @@ func RegisterHandlers(state *stateful.State, so socketio.Socket) {
 		{
 			enums.SERVER_EVENTS.MOVEMENT_REQUEST,
 			enums.CLIENT_EVENTS.NO_REPLY,
-			playCharacterHandler(state, so),
+			moveRequestHandler(state, so),
 		},
 	}
 
