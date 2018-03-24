@@ -14,6 +14,7 @@ import (
 	"github.com/ilackarms/MammonOnline/server/stateful"
 	"io/ioutil"
 	"time"
+	"os"
 )
 
 func main() {
@@ -44,7 +45,7 @@ func main() {
 	})
 
 	http.Handle("/socket.io/", server)
-	http.Handle("/", http.FileServer(http.Dir("/home/ilackarms/go/src/")))
+	http.Handle("/", http.FileServer(http.Dir(os.Getenv("GOPATH")+ 	"/src/")))
 	log.Println("Serving at localhost:5000...")
 	log.Fatal(http.ListenAndServe(":5000", nil))
 }
